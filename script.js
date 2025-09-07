@@ -223,11 +223,33 @@ function shuffleArray(array) {
 
 // ------------------- ROAD SIGNS DATA -------------------
 const roadSignsData = [
-  { name: "Stop Sign", image: "images/stop-sign.png", description: "You must come to a complete stop and proceed only when safe." },
-  { name: "Yield Sign", image: "images/yield-sign.png", description: "Slow down and give way to traffic on the main road." },
-  { name: "No Entry", image: "images/no-entry.png", description: "Do not enter this road from your direction." },
-  { name: "Speed Limit 30", image: "images/speed-limit-30.png", description: "Maximum speed allowed is 30 mph." },
-  { name: "Roundabout", image: "images/roundabout.png", description: "You must give way to traffic on your right." }
+  // Regulatory
+  { category:"Regulatory", name:"Stop Sign", image:"images/stop-sign.png", description:"You must come to a complete stop and proceed only when safe." },
+  { category:"Regulatory", name:"Yield Sign", image:"images/yield-sign.png", description:"Slow down and give way to traffic on the main road." },
+  { category:"Regulatory", name:"No Entry", image:"images/no-entry.png", description:"Do not enter this road from your direction." },
+  { category:"Regulatory", name:"Speed Limit 30", image:"images/speed-limit-30.png", description:"Maximum speed allowed is 30 mph." },
+  { category:"Regulatory", name:"Speed Limit 50", image:"images/speed-limit-50.png", description:"Maximum speed allowed is 50 mph." },
+  
+  // Warning
+  { category:"Warning", name:"Roundabout", image:"images/roundabout.png", description:"You must give way to traffic on your right." },
+  { category:"Warning", name:"Pedestrian Crossing", image:"images/pedestrian-crossing.png", description:"Be prepared to stop for pedestrians crossing the road." },
+  { category:"Warning", name:"Slippery Road", image:"images/slippery-road.png", description:"The road may be slippery when wet." },
+  { category:"Warning", name:"Road Narrows", image:"images/road-narrows.png", description:"The road ahead narrows." },
+  { category:"Warning", name:"Two-way Traffic", image:"images/two-way-traffic.png", description:"You are entering a road with two-way traffic." },
+
+  // Informational
+  { category:"Informational", name:"Hospital", image:"images/hospital.png", description:"Indicates a hospital nearby." },
+  { category:"Informational", name:"Parking", image:"images/parking.png", description:"Parking available." },
+  { category:"Informational", name:"Bus Stop", image:"images/bus-stop.png", description:"Indicates a bus stop." },
+  { category:"Informational", name:"Motorway", image:"images/motorway.png", description:"Indicates motorway ahead." },
+  { category:"Informational", name:"Bicycle Lane", image:"images/bicycle-lane.png", description:"Dedicated lane for bicycles." },
+
+  // Temporary / Other
+  { category:"Temporary", name:"Roadworks", image:"images/roadworks.png", description:"Temporary roadworks ahead." },
+  { category:"Temporary", name:"Detour", image:"images/detour.png", description:"Follow the detour signs." },
+  { category:"Temporary", name:"Temporary Speed Limit", image:"images/temp-speed-limit.png", description:"Temporary speed limit in force." },
+  { category:"Temporary", name:"Falling Rocks", image:"images/falling-rocks.png", description:"Caution: falling rocks may be present." },
+  { category:"Temporary", name:"School Zone", image:"images/school-zone.png", description:"Slow down; children may be present." }
 ];
 
 // ------------------- DISPLAY ROAD SIGNS -------------------
@@ -251,4 +273,3 @@ function showRoadSigns() {
     container.appendChild(card);
   });
 }
-
