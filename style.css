@@ -31,7 +31,7 @@ header .header-right {
 }
 
 header .logo {
-  height: 50px;
+  height: 55px;
   max-width: 160px;
 }
 
@@ -45,10 +45,20 @@ footer {
   background: #00509E;
   color: white;
   text-align: center;
-  padding: 1rem;
+  padding: 1rem 2rem;
   margin-top: 2rem;
   font-size: 0.9rem;
   box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+footer .footer-logo {
+  height: 35px;
+  max-width: 120px;
 }
 
 /* ----------------- NAV BUTTONS ----------------- */
