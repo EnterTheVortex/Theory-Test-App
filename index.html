@@ -26,7 +26,7 @@
       <nav>
         <button onclick="showTab('home')">Home</button>
         <button onclick="showTab('revision')">Revision</button>
-        <button onclick="showTab('mock')">Mock Test</button>
+        <button onclick="showTab('mockInfo')">Mock Test</button>
       </nav>
     </div>
   </header>
@@ -65,11 +65,9 @@
       <div id="revisionQuestion"></div>
     </section>
 
-    <!-- Mock Test Tab -->
-    <section id="mock" class="tab hidden">
+    <!-- Mock Test Info Section -->
+    <section id="mockInfo" class="tab hidden">
       <h2>Mock Test</h2>
-
-      <!-- Mock Test Info Card -->
       <div class="info-card">
         <h3>Before You Start</h3>
         <ul>
@@ -82,15 +80,15 @@
         </ul>
         <p>Make sure you are ready and focused before starting. Good luck!</p>
       </div>
+      <button onclick="startMockTestPage()">Start Mock Test</button>
+    </section>
 
-      <!-- Start Button -->
-      <button id="startMockBtn" onclick="startMockTest()">Start Mock Test</button>
-
-      <!-- Timer -->
-      <div id="timer" class="hidden">Time Remaining: 57:00</div>
+    <!-- Mock Test Questions Section -->
+    <section id="mockTest" class="tab hidden">
+      <div id="timer">Time Remaining: 57:00</div>
 
       <!-- Progress Indicator -->
-      <div id="progressContainer" class="hidden">
+      <div id="progressContainer">
         <p id="progressText">Q0/50</p>
         <div id="progressBarBackground">
           <div id="progressBarFill"></div>
@@ -110,5 +108,18 @@
 
   <script src="questions.js"></script>
   <script src="script.js"></script>
+  <script>
+    // Show the Mock Info first when Mock Test tab is clicked
+    function showMockInfo() {
+      showTab('mockInfo');
+    }
+
+    // Start the mock test: hide info, show test questions
+    function startMockTestPage() {
+      document.getElementById('mockInfo').classList.add('hidden');
+      document.getElementById('mockTest').classList.remove('hidden');
+      startMockTest(); // your existing function that sets up the test
+    }
+  </script>
 </body>
 </html>
