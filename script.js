@@ -232,17 +232,23 @@ const roadSignsData = [
 
 // ------------------- DISPLAY ROAD SIGNS -------------------
 function showRoadSigns() {
+  const category = document.getElementById('roadSignCategory').value;
   const container = document.getElementById('roadSignsContainer');
   container.innerHTML = '';
 
-  roadSignsData.forEach(sign => {
+  if (!category) return;
+
+  const filteredSigns = roadSignsData.filter(sign => sign.category === category);
+
+  filteredSigns.forEach(sign => {
     const card = document.createElement('div');
-    card.className = 'question-card road-sign-card';
+    card.className = 'road-sign-card';
     card.innerHTML = `
-      <img src="${sign.image}" alt="${sign.name}" class="road-sign-image">
-      <h3>${sign.name}</h3>
+      <img src="${sign.image}" alt="${sign.name}" class="road-sign-img">
+      <h4>${sign.name}</h4>
       <p>${sign.description}</p>
     `;
     container.appendChild(card);
   });
 }
+
