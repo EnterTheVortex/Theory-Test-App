@@ -7,7 +7,7 @@ let mockQuestions = [];
 let mockIndex = 0;
 let mockAnswers = [];
 let timerInterval;
-let timeRemaining = 57 * 60; // 57 minutes
+let timeRemaining = 57 * 60;
 
 // ------------------- TABS -------------------
 function showTab(tabId) {
@@ -36,7 +36,6 @@ function showRevisionQuestion() {
 
   const q = currentRevisionQuestions[revisionIndex];
   let html = `<div class="question-card"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
-
   q.options.forEach((opt, i) => {
     let selectedClass = revisionSelectedAnswers[revisionIndex] === i ? 'selected' : '';
     html += `<button class="option ${selectedClass}" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
@@ -61,16 +60,8 @@ function checkRevisionAnswer(selected) {
 }
 
 // ------------------- MOCK TEST -------------------
-
-// Show mock info section
-function showMockInfo() {
-  showTab('mockInfo');
-}
-
-// Start the actual Mock Test after info
 function startMockTestPage() {
-  document.getElementById('mockInfo').classList.add('hidden');
-  document.getElementById('mockTest').classList.remove('hidden');
+  showTab('mockTest');
   startMockTest();
 }
 
@@ -79,17 +70,15 @@ function startMockTest() {
   timeRemaining = 57 * 60;
   mockAnswers = Array(50).fill(null);
 
-  // Pick 50 random questions
   mockQuestions = shuffleArray([...questionsBank]).slice(0, 50);
 
-  document.getElementById('timer').textContent = formatTime(timeRemaining);
-  document.getElementById('timer').classList.remove('hidden');
-  document.getElementById('progressContainer').classList.remove('hidden');
-
+  document.getElementById('mockQuestion').innerHTML = '';
+  document.getElementById('timer').textContent = 'Time Remaining: 57:00';
   updateProgressBar();
-  showMockQuestion();
-
+  clearInterval(timerInterval);
   timerInterval = setInterval(updateTimer, 1000);
+
+  showMockQuestion();
 }
 
 function updateTimer() {
@@ -99,13 +88,10 @@ function updateTimer() {
     return;
   }
   timeRemaining--;
-  document.getElementById('timer').textContent = formatTime(timeRemaining);
-}
-
-function formatTime(seconds) {
-  let mins = Math.floor(seconds / 60);
-  let secs = seconds % 60;
-  return `Time Remaining: ${mins}:${secs.toString().padStart(2, '0')}`;
+  let minutes = Math.floor(timeRemaining / 60);
+  let seconds = timeRemaining % 60;
+  document.getElementById('timer').textContent =
+    `Time Remaining: ${minutes}:${seconds.toString().padStart(2,'0')}`;
 }
 
 function showMockQuestion() {
@@ -119,46 +105,44 @@ function showMockQuestion() {
   });
   html += `</div>`;
 
-  // Navigation buttons
   html += `<div class="navigation-buttons">
-    ${mockIndex > 0 ? `<button onclick="previousQuestion()">Back</button>` : `<div></div>`}
-    ${mockIndex < total - 1
-      ? `<button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>`
-      : `<button id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
+    ${mockIndex > 0 ? `<button class="back-btn" onclick="previousQuestion()">Back</button>` : `<div></div>`}
+    ${mockIndex < total - 1 
+      ? `<button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>` 
+      : `<button class="finish-btn" id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
   </div>`;
 
   document.getElementById('mockQuestion').innerHTML = html;
   updateProgressBar();
 
-  // Enable next/finish if already answered
   if (mockAnswers[mockIndex] !== null) {
     const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) nextBtn.disabled = false;
+    if(nextBtn) nextBtn.disabled = false;
   }
 }
 
-function selectMockAnswer(selectedIndex) {
-  mockAnswers[mockIndex] = selectedIndex;
+function selectMockAnswer(i) {
+  mockAnswers[mockIndex] = i;
 
   const buttons = document.querySelectorAll('#mockQuestion .option');
-  buttons.forEach((btn, i) => {
+  buttons.forEach((btn, idx) => {
     btn.classList.remove('selected');
-    if (i === selectedIndex) btn.classList.add('selected');
+    if(idx === i) btn.classList.add('selected');
   });
 
   const nextBtn = document.getElementById('nextBtn');
-  if (nextBtn) nextBtn.disabled = false;
+  if(nextBtn) nextBtn.disabled = false;
 }
 
 function nextQuestion() {
-  if (mockIndex < mockQuestions.length - 1) {
+  if(mockIndex < mockQuestions.length - 1){
     mockIndex++;
     showMockQuestion();
   }
 }
 
 function previousQuestion() {
-  if (mockIndex > 0) {
+  if(mockIndex > 0){
     mockIndex--;
     showMockQuestion();
   }
@@ -179,61 +163,54 @@ function confirmFinish() {
   document.body.insertAdjacentHTML('beforeend', popupHTML);
 }
 
-function closePopup() {
+function closePopup(){
   const popup = document.getElementById('finishPopup');
-  if (popup) popup.remove();
+  if(popup) popup.remove();
 }
 
 function endMockTest() {
   clearInterval(timerInterval);
 
-  // Hide timer & progress
-  document.getElementById('timer').classList.add('hidden');
-  document.getElementById('progressContainer').classList.add('hidden');
-
   let score = 0;
   let allQuestionsHTML = '';
 
-  mockQuestions.forEach((q, i) => {
-    const userAnswer = mockAnswers[i];
-    const isCorrect = userAnswer === q.answer;
-    if (isCorrect) score++;
+  mockQuestions.forEach((q,i)=>{
+    const user = mockAnswers[i];
+    const isCorrect = user === q.answer;
+    if(isCorrect) score++;
 
-    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
-      <p><strong>Q${i + 1}:</strong> ${q.question}</p>
-      <p>Your answer: ${userAnswer !== null ? q.options[userAnswer] : '<em>Not answered</em>'}</p>
-      ${!isCorrect ? `<p>Correct answer: ${q.options[q.answer]}</p>` : ''}
+    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct':'incorrect'}">
+      <p><strong>Q${i+1}:</strong> ${q.question}</p>
+      <p>Your answer: ${user!==null?q.options[user]:'<em>Not answered</em>'}</p>
+      ${!isCorrect?`<p>Correct answer: ${q.options[q.answer]}</p>`:''}
     </div>`;
   });
 
-  let passFailText =
-    score >= 43
-      ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>"
-      : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
+  let passFail = score >= 43 
+    ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" 
+    : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
 
-  let summaryHTML = `<div class="question-card">
-    <p>You scored ${score} out of ${mockQuestions.length}.</p>
-    ${passFailText}
-  </div>` + allQuestionsHTML;
+  let summaryHTML = `<div class="question-card"><p>You scored ${score} out of ${mockQuestions.length}.</p>${passFail}</div>` + allQuestionsHTML;
 
   document.getElementById('mockQuestion').innerHTML = summaryHTML;
+  document.getElementById('progressBarFill').style.width = '100%';
+  document.getElementById('progressText').textContent = 'Test Completed';
 }
 
 // ------------------- PROGRESS BAR -------------------
-function updateProgressBar() {
+function updateProgressBar(){
   const total = mockQuestions.length;
-  const percent = ((mockIndex + 1) / total) * 100;
+  const percent = ((mockIndex+1)/total)*100;
   const fill = document.getElementById('progressBarFill');
-  fill.style.transition = 'width 0.5s ease-in-out';
-  fill.style.width = percent + '%';
-  document.getElementById('progressText').textContent = `Q${mockIndex + 1}/${total}`;
+  fill.style.width = percent+'%';
+  document.getElementById('progressText').textContent = `Q${mockIndex+1}/${total}`;
 }
 
 // ------------------- UTILITY -------------------
-function shuffleArray(array) {
+function shuffleArray(array){
   let currentIndex = array.length, randomIndex;
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
+  while(currentIndex !== 0){
+    randomIndex = Math.floor(Math.random()*currentIndex);
     currentIndex--;
     [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
