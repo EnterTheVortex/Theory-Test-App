@@ -5,7 +5,6 @@ let revisionSelectedAnswers = [];
 let mockQuestions = [];
 let mockIndex = 0;
 let mockAnswers = [];
-let mockScore = 0;
 let timerInterval;
 let timeRemaining = 57 * 60;
 
@@ -35,9 +34,8 @@ function showRevisionQuestion() {
   }
 
   const q = currentRevisionQuestions[revisionIndex];
-  let categoryClass = q.category.toLowerCase().replace(/\s+/g, '-');
+  let html = `<div class="question-card"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
 
-  let html = `<div class="question-card ${categoryClass}"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
   q.options.forEach((opt, i) => {
     let selectedClass = revisionSelectedAnswers[revisionIndex] === i ? 'selected' : '';
     html += `<button class="option ${selectedClass}" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
@@ -64,7 +62,6 @@ function checkRevisionAnswer(selected) {
 // ------------------- MOCK TEST -------------------
 function startMockTest() {
   mockIndex = 0;
-  mockScore = 0;
   timeRemaining = 57 * 60;
   mockAnswers = Array(50).fill(null);
 
@@ -88,7 +85,8 @@ function updateTimer() {
   timeRemaining--;
   let minutes = Math.floor(timeRemaining / 60);
   let seconds = timeRemaining % 60;
-  document.getElementById('timer').textContent = `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+  document.getElementById('timer').textContent =
+    `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
 function showMockQuestion() {
@@ -101,18 +99,22 @@ function showMockQuestion() {
   });
   html += `</div>`;
 
+  // Navigation
   html += `
     <div class="navigation-buttons" style="display:flex; justify-content:space-between;">
       ${mockIndex > 0 ? `<button onclick="previousQuestion()">Back</button>` : `<div></div>`}
-      ${mockIndex < 49 ? `<button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>` : `<button id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
+      ${mockIndex < 49
+        ? `<button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>`
+        : `<button id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
     </div>
   `;
 
   document.getElementById('mockQuestion').innerHTML = html;
   updateProgressBar();
 
-  // If already answered, enable the next button
-  if (mockAnswers[mockIndex] !== null) document.getElementById('nextBtn').disabled = false;
+  if (mockAnswers[mockIndex] !== null) {
+    document.getElementById('nextBtn').disabled = false;
+  }
 }
 
 function selectMockAnswer(selectedIndex) {
@@ -124,7 +126,6 @@ function selectMockAnswer(selectedIndex) {
     if (i === selectedIndex) btn.classList.add('selected');
   });
 
-  // Enable the next button
   const nextBtn = document.getElementById('nextBtn');
   if (nextBtn) nextBtn.disabled = false;
 }
@@ -147,9 +148,11 @@ function confirmFinish() {
   const popupHTML = `
     <div id="finishPopup" class="popup-overlay">
       <div class="popup-content">
-        <p>Are you sure you want to finish the test now? You can review previous questions before submitting.</p>
-        <button onclick="closePopup()">Go Back</button>
-        <button onclick="endMockTest()">Finish Test</button>
+        <p>Are you sure you want to finish the test? You can still go back and review your answers before submitting.</p>
+        <div style="display:flex; justify-content:space-between; gap:10px; margin-top:15px;">
+          <button onclick="closePopup()">Go Back</button>
+          <button onclick="endMockTest()">Finish Test</button>
+        </div>
       </div>
     </div>
   `;
@@ -169,24 +172,25 @@ function endMockTest() {
 
   mockQuestions.forEach((q, i) => {
     const userAnswer = mockAnswers[i];
-    const correctAnswer = q.answer;
-    const isCorrect = userAnswer === correctAnswer;
+    const isCorrect = userAnswer === q.answer;
 
     if (isCorrect) score++;
 
-    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}" data-incorrect="${!isCorrect}">
+    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
       <p><strong>Q${i + 1}:</strong> ${q.question}</p>
       <p>Your answer: ${userAnswer !== null ? q.options[userAnswer] : '<em>Not answered</em>'}</p>
-      ${!isCorrect ? `<p>Correct answer: ${q.options[correctAnswer]}</p>` : ''}
+      ${!isCorrect ? `<p>Correct answer: ${q.options[q.answer]}</p>` : ''}
     </div>`;
   });
 
-  let passFailText = score >= 43 ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
+  let passFailText =
+    score >= 43
+      ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>"
+      : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
 
   let summaryHTML = `<div class="question-card">
     <p>You scored ${score} out of ${mockQuestions.length}.</p>
     ${passFailText}
-    <button id="reviewIncorrectBtn" onclick="reviewIncorrect()">Review Incorrect Questions</button>
   </div>` + allQuestionsHTML;
 
   document.getElementById('mockQuestion').innerHTML = summaryHTML;
@@ -194,22 +198,6 @@ function endMockTest() {
   document.getElementById('progressText').textContent = 'Test Completed';
 
   closePopup();
-}
-
-function reviewIncorrect() {
-  const allCards = document.querySelectorAll('#mockQuestion .question-card[data-incorrect]');
-  allCards.forEach(card => {
-    if (card.getAttribute('data-incorrect') === "false") {
-      card.style.display = 'none';
-    } else {
-      card.style.display = 'block';
-    }
-  });
-
-  const btn = document.getElementById('reviewIncorrectBtn');
-  if (btn) btn.style.display = 'none';
-
-  document.getElementById('progressText').textContent = 'Reviewing Incorrect Questions';
 }
 
 // ------------------- PROGRESS BAR -------------------
