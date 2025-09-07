@@ -21,14 +21,21 @@ function startRevision() {
 
 function showRevisionQuestion() {
   if (revisionIndex >= currentRevisionQuestions.length) {
-    document.getElementById('revisionQuestion').innerHTML = "<p>You have completed all revision questions for this category.</p>";
+    document.getElementById('revisionQuestion').innerHTML =
+      "<p>You have completed all revision questions for this category.</p>";
     return;
   }
+
   const q = currentRevisionQuestions[revisionIndex];
-  let html = `<p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
+
+  // Convert category name to CSS class-friendly string
+  let categoryClass = q.category.toLowerCase().replace(/\s+/g, '-');
+
+  let html = `<div class="question-card ${categoryClass}"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
   q.options.forEach((opt, i) => {
     html += `<button class="option" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
   });
+  html += `</div>`;
   document.getElementById('revisionQuestion').innerHTML = html;
 }
 
