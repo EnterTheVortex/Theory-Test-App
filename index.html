@@ -9,22 +9,25 @@
   <link rel="icon" href="data:,">
 </head>
 <body>
-  <!-- Header with Logo Centered -->
+  <!-- Header -->
   <header>
+    <!-- Title on the left -->
     <div class="header-left">
+      <h1>Theory Test App</h1>
+    </div>
+
+    <!-- Logo in the center -->
+    <div class="header-center">
+      <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
+    </div>
+
+    <!-- Tabs on the right -->
+    <div class="header-right">
       <nav>
         <button onclick="showTab('home')">Home</button>
         <button onclick="showTab('revision')">Revision</button>
         <button onclick="showTab('mock')">Mock Test</button>
       </nav>
-    </div>
-
-    <div class="header-center">
-      <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
-    </div>
-
-    <div class="header-right">
-      <!-- Reserved for future options -->
     </div>
   </header>
 
@@ -85,7 +88,8 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Driving Theory Practice. All rights reserved. | Designed for learners, by professionals.</p>
+    <p>&copy; 2025 Theory Test App. Designed for learners, by professionals.</p>
+    <img src="images/logo.png" alt="Footer Logo" class="logo footer-logo">
   </footer>
 
   <script src="questions.js"></script>
