@@ -284,6 +284,39 @@ button.option.selected {
   font-size: 0.9rem;
 }
 
+/* ----------------- MODERN SELECT DROPDOWN ----------------- */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f0f4f8;
+  border: 2px solid #0074D9;
+  border-radius: 25px;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%230074D9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 10px 6px;
+}
+
+select:hover {
+  background-color: #e0ecf8;
+  border-color: #00509E;
+}
+
+select:focus {
+  border-color: #00509E;
+  box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
+}
+
 /* ----------------- POPUP ----------------- */
 .popup-overlay {
   position: fixed;
