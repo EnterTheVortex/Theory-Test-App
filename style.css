@@ -177,6 +177,37 @@ button.option:hover {
   transform: scale(1.05);
 }
 
+/* Timer */
+#timer {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+/* Progress Bar Container */
+#progressContainer {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Progress Bar Background */
+#progressBarBackground {
+  width: 100%;
+  height: 15px;
+  background-color: #d9e2ec;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Progress Bar Fill */
+#progressBarFill {
+  width: 0%;
+  height: 100%;
+  background-color: #0074D9;
+  transition: width 0.5s ease-in-out;
+  border-radius: 8px;
+}
+
 /* Labels and Select */
 label, select {
   font-size: 1rem;
