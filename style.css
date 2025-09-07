@@ -150,6 +150,11 @@ button.option:hover {
   transform: scale(1.02);
 }
 
+button.option.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+
 .correct {
   background-color: #2ECC40 !important;
   color: white;
@@ -160,7 +165,7 @@ button.option:hover {
   color: white;
 }
 
-/* Mock Test Start Button (card-style) */
+/* Mock Test Start Button */
 #mock button {
   background: linear-gradient(to bottom right, #0074D9, #00509E);
   color: white;
@@ -212,4 +217,77 @@ button.option:hover {
 label, select {
   font-size: 1rem;
   margin-top: 1rem;
+}
+
+/* Navigation Buttons (Next/Back in Mock Test) */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.navigation-buttons button {
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(to bottom right, #0074D9, #00509E);
+  color: white;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.navigation-buttons button:hover {
+  background: linear-gradient(to bottom right, #00509E, #003f70);
+  transform: scale(1.05);
+}
+
+/* Finish Test Popup */
+.popup-overlay {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  text-align:center;
+  max-width:400px;
+  width:90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.popup-content button {
+  margin: 5px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.popup-content button:hover {
+  transform: scale(1.05);
+}
+
+.popup-content button:first-child {
+  background-color: #ccc;
+  color: #333;
+}
+
+.popup-content button:last-child {
+  background: linear-gradient(to bottom right, #0074D9, #00509E);
+  color: white;
 }
