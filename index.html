@@ -21,6 +21,7 @@
         <button onclick="showTab('home')">Home</button>
         <button onclick="showTab('revision')">Revision</button>
         <button onclick="showTab('mockInfo')">Mock Test</button>
+        <button onclick="showTab('roadSigns')">Road Signs</button>
       </nav>
     </div>
   </header>
@@ -74,6 +75,12 @@
       <button onclick="startMockTestPage()">Start Mock Test</button>
     </section>
 
+    <!-- ROAD SIGNS TAB -->
+    <section id="roadSigns" class="tab hidden">
+      <h2>Road Signs Reference</h2>
+      <div id="roadSignsContainer" class="road-signs-container"></div>
+    </section>
+
     <!-- MOCK TEST QUESTIONS -->
     <section id="mockTest" class="tab hidden">
       <div id="timer">Time Remaining: 57:00</div>
@@ -93,6 +100,7 @@
     <img src="images/logo.png" alt="Footer Logo" class="logo footer-logo">
   </footer>
 
+  <!-- SCRIPTS -->
   <script src="questions.js"></script>
   <script src="script.js"></script>
 </body>
