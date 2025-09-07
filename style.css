@@ -367,6 +367,22 @@ label, select {
 /* ----------------- SUMMARY PAGE TEXT & HIGHLIGHTS ----------------- */
 #mockQuestion .question-card {
   color: black; /* default text color for all question cards */
+  background-color: #f7f9fb; /* neutral background for readability */
+  padding: 1.5rem 1.8rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: background-color 0.3s;
+}
+
+#mockQuestion .question-card.correct {
+  border-left: 6px solid #2ECC40;
+  background-color: #e6f8ed; /* light green background for correct */
+}
+
+#mockQuestion .question-card.incorrect {
+  border-left: 6px solid #FF4136;
+  background-color: #ffe6e6; /* light red background for incorrect */
 }
 
 #mockQuestion .question-card p {
