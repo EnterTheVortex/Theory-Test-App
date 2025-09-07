@@ -1,440 +1,225 @@
-/* ----------------- GENERAL BODY ----------------- */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to right, #f0f4f8, #d9e2ec);
-  color: #333;
+// ------------------- GLOBAL VARIABLES -------------------
+let currentRevisionQuestions = [];
+let revisionIndex = 0;
+let revisionSelectedAnswers = [];
+
+let mockQuestions = [];
+let mockIndex = 0;
+let mockAnswers = [];
+let timerInterval;
+let timeRemaining = 57 * 60; // 57 minutes
+
+// ------------------- TABS -------------------
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
 }
 
-/* ---------------- HEADER ---------------- */
-header {
-  background: #00509E;
-  color: white;
-  padding: 1rem 2rem;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+// ------------------- REVISION -------------------
+function startRevision() {
+  const category = document.getElementById('categorySelect').value;
+  if (!category) return;
+
+  currentRevisionQuestions = questionsBank.filter(q => q.category === category);
+  revisionIndex = 0;
+  revisionSelectedAnswers = Array(currentRevisionQuestions.length).fill(null);
+
+  showRevisionQuestion();
 }
 
-header .header-left {
-  justify-self: start;
+function showRevisionQuestion() {
+  if (revisionIndex >= currentRevisionQuestions.length) {
+    document.getElementById('revisionQuestion').innerHTML =
+      "<p>You have completed all revision questions for this category.</p>";
+    return;
+  }
+
+  const q = currentRevisionQuestions[revisionIndex];
+  let html = `<div class="question-card"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
+  q.options.forEach((opt, i) => {
+    let selectedClass = revisionSelectedAnswers[revisionIndex] === i ? 'selected' : '';
+    html += `<button class="option ${selectedClass}" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
+  });
+  html += `</div>`;
+  document.getElementById('revisionQuestion').innerHTML = html;
 }
 
-header .header-center {
-  justify-self: center;
+function checkRevisionAnswer(selected) {
+  const q = currentRevisionQuestions[revisionIndex];
+  revisionSelectedAnswers[revisionIndex] = selected;
+
+  const buttons = document.querySelectorAll('#revisionQuestion .option');
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.answer) btn.classList.add('correct');
+    if (i === selected && i !== q.answer) btn.classList.add('incorrect');
+  });
+
+  revisionIndex++;
+  setTimeout(showRevisionQuestion, 1500);
 }
 
-header .header-right {
-  justify-self: end;
+// ------------------- MOCK TEST -------------------
+function startMockTestPage() {
+  // Hide info, show test section
+  document.getElementById('mockInfo').classList.add('hidden');
+  document.getElementById('mockTest').classList.remove('hidden');
+  startMockTest();
 }
 
-header .logo {
-  height: 55px;
-  max-width: 160px;
+function startMockTest() {
+  mockIndex = 0;
+  timeRemaining = 57 * 60;
+  mockAnswers = Array(50).fill(null);
+
+  mockQuestions = shuffleArray([...questionsBank]).slice(0, 50);
+
+  document.getElementById('timer').textContent = "Time Remaining: 57:00";
+  document.getElementById('timer').classList.remove('hidden');
+  document.getElementById('progressContainer').classList.remove('hidden');
+
+  updateProgressBar();
+  timerInterval = setInterval(updateTimer, 1000);
+  showMockQuestion();
 }
 
-header h1 {
-  margin: 0;
-  font-size: 1.8rem;
+function updateTimer() {
+  if (timeRemaining <= 0) {
+    clearInterval(timerInterval);
+    endMockTest();
+    return;
+  }
+  timeRemaining--;
+  let minutes = Math.floor(timeRemaining / 60);
+  let seconds = timeRemaining % 60;
+  document.getElementById('timer').textContent =
+    `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-/* ---------------- FOOTER ---------------- */
-footer {
-  background: #00509E;
-  color: white;
-  text-align: center;
-  padding: 1rem 2rem;
-  margin-top: 2rem;
-  font-size: 0.9rem;
-  box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+function showMockQuestion() {
+  const q = mockQuestions[mockIndex];
+  const total = mockQuestions.length;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  let html = `<div class="question-card"><p><strong>Q${mockIndex + 1}/${total}:</strong> ${q.question}</p>`;
+  q.options.forEach((opt, i) => {
+    let selectedClass = mockAnswers[mockIndex] === i ? 'selected' : '';
+    html += `<button class="option ${selectedClass}" onclick="selectMockAnswer(${i})">${opt}</button>`;
+  });
+  html += `</div>`;
+
+  // Navigation buttons
+  html += `<div class="navigation-buttons">
+    ${mockIndex > 0 ? `<button class="back-btn" onclick="previousQuestion()">Back</button>` : `<div></div>`}
+    ${mockIndex < total - 1
+      ? `<button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>`
+      : `<button class="finish-btn" id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
+  </div>`;
+
+  document.getElementById('mockQuestion').innerHTML = html;
+  updateProgressBar();
+
+  if (mockAnswers[mockIndex] !== null) {
+    document.getElementById('nextBtn').disabled = false;
+  }
 }
 
-footer .footer-logo {
-  height: 35px;
-  max-width: 120px;
+function selectMockAnswer(selectedIndex) {
+  mockAnswers[mockIndex] = selectedIndex;
+
+  const buttons = document.querySelectorAll('#mockQuestion .option');
+  buttons.forEach((btn, i) => {
+    btn.classList.remove('selected');
+    if (i === selectedIndex) btn.classList.add('selected');
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) nextBtn.disabled = false;
 }
 
-/* ----------------- NAV BUTTONS ----------------- */
-nav button {
-  margin-left: 1rem;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background-color: #0074D9;
-  color: white;
-  font-weight: bold;
-  transition: background-color 0.3s, transform 0.2s;
+function nextQuestion() {
+  if (mockIndex < mockQuestions.length - 1) {
+    mockIndex++;
+    showMockQuestion();
+  }
 }
 
-nav button:hover {
-  background-color: #00509E;
-  transform: scale(1.05);
+function previousQuestion() {
+  if (mockIndex > 0) {
+    mockIndex--;
+    showMockQuestion();
+  }
 }
 
-/* ----------------- TABS ----------------- */
-.tab {
-  padding: 2rem;
+function confirmFinish() {
+  const popupHTML = `
+    <div id="finishPopup" class="popup-overlay">
+      <div class="popup-content">
+        <p>Are you sure you want to finish the test? You can still go back and review your answers before submitting.</p>
+        <div style="display:flex; justify-content:space-between; gap:10px; margin-top:15px;">
+          <button onclick="closePopup()">Go Back</button>
+          <button onclick="endMockTest()">Finish Test</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', popupHTML);
 }
 
-.hidden {
-  display: none;
+function closePopup() {
+  const popup = document.getElementById('finishPopup');
+  if (popup) popup.remove();
 }
 
-/* ----------------- HOME PAGE ----------------- */
-#home {
-  position: relative;
-  padding: 3rem 2rem;
-  background: linear-gradient(to right, #f0f4f8, #d9e2ec);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+function endMockTest() {
+  clearInterval(timerInterval);
+  document.getElementById('timer').classList.add('hidden');
+  document.getElementById('progressContainer').classList.add('hidden');
+
+  let score = 0;
+  let allQuestionsHTML = '';
+
+  mockQuestions.forEach((q, i) => {
+    const userAnswer = mockAnswers[i];
+    const isCorrect = userAnswer === q.answer;
+    if (isCorrect) score++;
+
+    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
+      <p><strong>Q${i + 1}:</strong> ${q.question}</p>
+      <p>Your answer: ${userAnswer !== null ? q.options[userAnswer] : '<em>Not answered</em>'}</p>
+      ${!isCorrect ? `<p>Correct answer: ${q.options[q.answer]}</p>` : ''}
+    </div>`;
+  });
+
+  let passFailText =
+    score >= 43
+      ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>"
+      : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
+
+  let summaryHTML = `<div class="question-card">
+    <p>You scored ${score} out of ${mockQuestions.length}.</p>
+    ${passFailText}
+  </div>` + allQuestionsHTML;
+
+  document.getElementById('mockQuestion').innerHTML = summaryHTML;
 }
 
-#home::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url('images/driving-icons.png') no-repeat center;
-  background-size: contain;
-  opacity: 0.05;
-  pointer-events: none;
+// ------------------- PROGRESS BAR -------------------
+function updateProgressBar() {
+  const total = mockQuestions.length;
+  const percent = ((mockIndex + 1) / total) * 100;
+  const fill = document.getElementById('progressBarFill');
+  fill.style.transition = 'width 0.5s ease-in-out';
+  fill.style.width = percent + '%';
+  document.getElementById('progressText').textContent = `Q${mockIndex + 1}/${total}`;
 }
 
-#home h2 {
-  position: relative;
-  z-index: 1;
-}
-
-#home p, #home ul {
-  position: relative;
-  z-index: 1;
-  line-height: 1.6;
-}
-
-#home ul {
-  margin-left: 1.5rem;
-}
-
-/* ----------------- QUESTION CARDS ----------------- */
-#revisionQuestion, #mockQuestion {
-  margin-top: 2rem;
-}
-
-.question-card {
-  background: linear-gradient(to bottom right, #ffffff, #f7f9fb);
-  padding: 1.5rem 1.8rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.question-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-/* Category-specific card colors */
-.question-card.road-signs {
-  background: linear-gradient(to bottom right, #FFF3E0, #FFE0B2);
-}
-
-.question-card.hazard-awareness {
-  background: linear-gradient(to bottom right, #FFFDE7, #FFF59D);
-}
-
-.question-card.rules-of-road {
-  background: linear-gradient(to bottom right, #E3F2FD, #90CAF9);
-}
-
-.question-card.vehicle-handling {
-  background: linear-gradient(to bottom right, #E8F5E9, #A5D6A7);
-}
-
-.question-card.essential-documents {
-  background: linear-gradient(to bottom right, #F3E5F5, #CE93D8);
-}
-
-/* ----------------- OPTION BUTTONS ----------------- */
-button.option {
-  display: block;
-  margin: 0.7rem 0;
-  padding: 0.8rem 1.2rem;
-  width: 100%;
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid #0074D9;
-  background-color: #f0f4f8;
-  font-size: 1rem;
-  transition: background-color 0.3s, color 0.3s, transform 0.2s;
-}
-
-button.option:hover {
-  background-color: #0074D9;
-  color: white;
-  transform: scale(1.02);
-}
-
-/* Selected in Mock Test */
-button.option.selected {
-  background: linear-gradient(to right, #00509E, #003f70) !important;
-  color: #fff !important;
-  border: 3px solid #FFD700 !important; /* gold border for visibility */
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-  transform: scale(1.05);
-}
-
-.correct {
-  background-color: #2ECC40 !important;
-  color: white;
-}
-
-.incorrect {
-  background-color: #FF4136 !important;
-  color: white;
-}
-
-/* ----------------- MOCK TEST START BUTTON ----------------- */
-#mock button {
-  background: linear-gradient(to bottom right, #0074D9, #00509E);
-  color: white;
-  font-weight: bold;
-  padding: 0.9rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
-
-#mock button:hover {
-  background: linear-gradient(to bottom right, #00509E, #003f70);
-  transform: scale(1.05);
-}
-
-/* Info Card for Mock Test Briefing */
-.info-card {
-  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
-  border-left: 6px solid #0074D9;
-  padding: 1.5rem 1.8rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  margin-bottom: 1.5rem;
-}
-
-.info-card h3 {
-  margin-top: 0;
-  margin-bottom: 0.8rem;
-  font-size: 1.2rem;
-  color: #00509E;
-}
-
-.info-card ul {
-  margin: 0.5rem 0 1rem 1.2rem;
-  line-height: 1.6;
-}
-
-.info-card ul li {
-  margin-bottom: 0.5rem;
-}
-
-.info-card p {
-  font-size: 1rem;
-  margin: 0;
-  color: #333;
-}
-
-/* ----------------- TIMER ----------------- */
-#timer {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-top: 1rem;
-}
-
-/* ----------------- PROGRESS BAR ----------------- */
-#progressContainer {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-#progressBarBackground {
-  width: 100%;
-  height: 15px;
-  background-color: #d9e2ec;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-#progressBarFill {
-  width: 0%;
-  height: 100%;
-  background-color: #0074D9;
-  border-radius: 8px;
-  transition: width 0.5s ease-in-out;
-}
-
-#progressText {
-  margin-top: 0.3rem;
-  font-weight: bold;
-  text-align: right;
-  font-size: 0.9rem;
-}
-
-/* ----------------- LABELS & SELECT ----------------- */
-label, select {
-  font-size: 1rem;
-  margin-top: 1rem;
-}
-
-/* ----------------- NAVIGATION BUTTONS ----------------- */
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
-
-.navigation-buttons .back-btn {
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #cccccc;
-  color: #333;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.navigation-buttons .back-btn:hover {
-  background-color: #999999;
-}
-
-.navigation-buttons .next-btn,
-.navigation-buttons .finish-btn {
-  padding: 0.6rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #0074D9;
-  color: white;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.navigation-buttons .next-btn:disabled,
-.navigation-buttons .finish-btn:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-.navigation-buttons .next-btn:hover:not(:disabled),
-.navigation-buttons .finish-btn:hover:not(:disabled) {
-  background-color: #00509E;
-  transform: scale(1.05);
-}
-
-/* ----------------- POPUP OVERLAY ----------------- */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.popup-content {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  max-width: 450px;
-  text-align: center;
-}
-
-.popup-content p {
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-}
-
-.popup-content button {
-  margin: 0 0.5rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  border: none;
-  background-color: #0074D9;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.popup-content button:first-child {
-  background-color: #cccccc;
-  color: #333;
-}
-
-.popup-content button:first-child:hover {
-  background-color: #999999;
-}
-
-.popup-content button:last-child:hover {
-  background-color: #00509E;
-  transform: scale(1.05);
-}
-
-/* ----------------- SUMMARY PAGE TEXT & HIGHLIGHTS ----------------- */
-#mockQuestion .question-card {
-  color: black; /* default text color for all question cards */
-  background-color: #f7f9fb; /* neutral background for readability */
-  padding: 1.5rem 1.8rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: background-color 0.3s;
-}
-
-#mockQuestion .question-card.correct {
-  border-left: 6px solid #2ECC40;
-  background-color: #e6f8ed; /* light green background for correct */
-}
-
-#mockQuestion .question-card.incorrect {
-  border-left: 6px solid #FF4136;
-  background-color: #ffe6e6; /* light red background for incorrect */
-}
-
-#mockQuestion .question-card p {
-  margin: 0.5rem 0;
-  line-height: 1.4;
-}
-
-/* User's answer line */
-#mockQuestion .question-card p:nth-of-type(2) {
-  font-weight: bold;
-  color: inherit; /* default black */
-}
-
-/* Correct answer line for incorrect questions */
-#mockQuestion .question-card p:nth-of-type(3) {
-  color: #2ECC40; /* green for correct answer */
-  font-weight: bold;
-}
-
-/* Highlight user-selected wrong answers */
-#mockQuestion .question-card.incorrect p:nth-of-type(2) {
-  color: #FF4136; /* red for user's incorrect answer */
+// ------------------- UTILITY -------------------
+function shuffleArray(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
 }
