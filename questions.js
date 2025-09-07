@@ -1,5 +1,5 @@
 // DVSA-style Theory Test Questions
-const questionsBank = [ ... ];
+const questionsBank = [
   // ROAD SIGNS
   {
     category: "Road Signs",
