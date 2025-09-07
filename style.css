@@ -222,6 +222,38 @@ button.option.selected {
   transform: scale(1.05);
 }
 
+/* Info Card for Mock Test Briefing */
+.info-card {
+  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+  border-left: 6px solid #0074D9;
+  padding: 1.5rem 1.8rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  margin-bottom: 1.5rem;
+}
+
+.info-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+  color: #00509E;
+}
+
+.info-card ul {
+  margin: 0.5rem 0 1rem 1.2rem;
+  line-height: 1.6;
+}
+
+.info-card ul li {
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  font-size: 1rem;
+  margin: 0;
+  color: #333;
+}
+
 /* ----------------- TIMER ----------------- */
 #timer {
   font-weight: bold;
