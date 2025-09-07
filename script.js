@@ -16,7 +16,8 @@ function startRevision() {
   const category = document.getElementById('categorySelect').value;
   if (!category) return;
 
-  currentRevisionQuestions = questions.filter(q => q.category === category);
+  // Use the full question bank
+  currentRevisionQuestions = questionsBank.filter(q => q.category === category);
   revisionIndex = 0;
   showRevisionQuestion();
 }
@@ -53,7 +54,6 @@ function checkRevisionAnswer(selected) {
 
 // ---------------- MOCK TEST ----------------
 function startMockTest() {
-  // Reset
   mockIndex = 0;
   mockScore = 0;
   timeRemaining = 57 * 60;
