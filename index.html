@@ -78,14 +78,17 @@
     <!-- ROAD SIGNS -->
     <section id="roadSigns" class="tab hidden">
       <h2>Road Signs Reference</h2>
+
+      <!-- Category Filter Dropdown -->
       <label for="roadSignCategory">Choose a category:</label>
       <select id="roadSignCategory" onchange="showRoadSigns()">
-        <option value="">--Select--</option>
+        <option value="">--Select Category--</option>
         <option value="Regulatory">Regulatory</option>
         <option value="Warning">Warning</option>
         <option value="Informational">Informational</option>
         <option value="Temporary">Temporary / Other</option>
       </select>
+
       <div id="roadSignsContainer" class="road-signs-container"></div>
     </section>
 
