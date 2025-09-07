@@ -168,18 +168,39 @@ function closePopup() {
 
 function endMockTest() {
   clearInterval(timerInterval);
+
   let score = 0;
-  mockAnswers.forEach((ans, i) => {
-    if (ans === mockQuestions[i].answer) score++;
+  let summaryHTML = '';
+
+  mockQuestions.forEach((q, i) => {
+    const userAnswer = mockAnswers[i];
+    const correctAnswer = q.answer;
+    const isCorrect = userAnswer === correctAnswer;
+
+    if (isCorrect) score++;
+
+    // Question card
+    summaryHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
+      <p><strong>Q${i + 1}:</strong> ${q.question}</p>
+      <p>Your answer: ${userAnswer !== null ? q.options[userAnswer] : '<em>Not answered</em>'}</p>
+      ${!isCorrect ? `<p>Correct answer: ${q.options[correctAnswer]}</p>` : ''}
+    </div>`;
   });
 
-  let resultText = `<div class="question-card"><p>You scored ${score} out of ${mockQuestions.length}.</p>`;
-  resultText += score >= 43 ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
-  resultText += `</div>`;
-  document.getElementById('mockQuestion').innerHTML = resultText;
+  // Score summary
+  let passFailText = score >= 43 ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
+  summaryHTML = `<div class="question-card">
+    <p>You scored ${score} out of ${mockQuestions.length}.</p>
+    ${passFailText}
+  </div>` + summaryHTML;
 
+  document.getElementById('mockQuestion').innerHTML = summaryHTML;
+
+  // Progress bar
   document.getElementById('progressBarFill').style.width = '100%';
   document.getElementById('progressText').textContent = 'Test Completed';
+
+  // Remove any popup if still open
   closePopup();
 }
 
