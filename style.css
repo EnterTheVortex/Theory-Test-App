@@ -120,3 +120,42 @@ label, select {
   font-size: 1rem;
   margin-top: 1rem;
 }
+
+/* Home Page Background */
+#home {
+  position: relative;
+  padding: 3rem 2rem;
+  background: linear-gradient(to right, #f0f4f8, #d9e2ec);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#home::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://i.ibb.co/0n1L3Qx/driving-icons.png') no-repeat center;
+  background-size: contain;
+  opacity: 0.05; /* very subtle */
+  pointer-events: none;
+}
+
+#home h2 {
+  position: relative;
+  z-index: 1;
+}
+
+#home p, #home ul {
+  position: relative;
+  z-index: 1;
+  line-height: 1.6;
+}
+
+#home ul {
+  margin-left: 1.5rem;
+}
+
