@@ -221,35 +221,64 @@ function shuffleArray(array) {
   return array;
 }
 
-// ------------------- ROAD SIGNS DATA -------------------
+// ------------------- ROAD SIGNS DATA (Fully Updated, No Repeats) -------------------
 const roadSignsData = [
-  // Regulatory
-  { category:"Regulatory", name:"Stop Sign", image:"images/stop-sign.png", description:"You must come to a complete stop and proceed only when safe." },
-  { category:"Regulatory", name:"Yield Sign", image:"images/yield-sign.png", description:"Slow down and give way to traffic on the main road." },
-  { category:"Regulatory", name:"No Entry", image:"images/no-entry.png", description:"Do not enter this road from your direction." },
-  { category:"Regulatory", name:"Speed Limit 30", image:"images/speed-limit-30.png", description:"Maximum speed allowed is 30 mph." },
-  { category:"Regulatory", name:"Speed Limit 50", image:"images/speed-limit-50.png", description:"Maximum speed allowed is 50 mph." },
-  
-  // Warning
-  { category:"Warning", name:"Roundabout", image:"images/roundabout.png", description:"You must give way to traffic on your right." },
-  { category:"Warning", name:"Pedestrian Crossing", image:"images/pedestrian-crossing.png", description:"Be prepared to stop for pedestrians crossing the road." },
-  { category:"Warning", name:"Slippery Road", image:"images/slippery-road.png", description:"The road may be slippery when wet." },
-  { category:"Warning", name:"Road Narrows", image:"images/road-narrows.png", description:"The road ahead narrows." },
-  { category:"Warning", name:"Two-way Traffic", image:"images/two-way-traffic.png", description:"You are entering a road with two-way traffic." },
+  // ---------------- Regulatory (Existing + New) ----------------
+  { name: "No U-Turn", image: "images/no-u-turn.png", description: "U-turns are prohibited.", category: "Regulatory" },
+  { name: "No Overtaking", image: "images/no-overtaking.png", description: "Overtaking is prohibited.", category: "Regulatory" },
+  { name: "No Motor Vehicles", image: "images/no-motor-vehicles.png", description: "Motor vehicles are not allowed.", category: "Regulatory" },
+  { name: "No Parking", image: "images/no-parking.png", description: "Parking is prohibited.", category: "Regulatory" },
+  { name: "No Waiting", image: "images/no-waiting.png", description: "Waiting is prohibited.", category: "Regulatory" },
+  { name: "One Way Traffic", image: "images/one-way.png", description: "Traffic must travel in the indicated direction.", category: "Regulatory" },
+  { name: "No Heavy Goods Vehicles", image: "images/no-hgv.png", description: "Heavy goods vehicles are prohibited.", category: "Regulatory" },
 
-  // Informational
-  { category:"Informational", name:"Hospital", image:"images/hospital.png", description:"Indicates a hospital nearby." },
-  { category:"Informational", name:"Parking", image:"images/parking.png", description:"Parking available." },
-  { category:"Informational", name:"Bus Stop", image:"images/bus-stop.png", description:"Indicates a bus stop." },
-  { category:"Informational", name:"Motorway", image:"images/motorway.png", description:"Indicates motorway ahead." },
-  { category:"Informational", name:"Bicycle Lane", image:"images/bicycle-lane.png", description:"Dedicated lane for bicycles." },
+  // ---------------- New Regulatory Signs ----------------
+  { name: "National Speed Limit", image: "images/national-speed-limit.png", description: "Default speed limit applies: 60 mph on single carriageways, 70 mph on dual carriageways and motorways.", category: "Regulatory" },
+  { name: "End of Speed Limit", image: "images/end-of-speed-limit.png", description: "Previous speed limit restriction has ended; follow the national speed limit.", category: "Regulatory" },
+  { name: "Minimum Speed Limit", image: "images/minimum-speed-limit.png", description: "Vehicles must travel at or above the stated minimum speed.", category: "Regulatory" },
+  { name: "Speed Limit 10 mph", image: "images/speed-limit-10.png", description: "Maximum speed allowed is 10 mph.", category: "Regulatory" },
+  { name: "Speed Limit 20 mph", image: "images/speed-limit-20.png", description: "Maximum speed allowed is 20 mph.", category: "Regulatory" },
+  { name: "Speed Limit 30 mph", image: "images/speed-limit-30.png", description: "Maximum speed allowed is 30 mph.", category: "Regulatory" },
+  { name: "Speed Limit 40 mph", image: "images/speed-limit-40.png", description: "Maximum speed allowed is 40 mph.", category: "Regulatory" },
+  { name: "Speed Limit 50 mph", image: "images/speed-limit-50.png", description: "Maximum speed allowed is 50 mph.", category: "Regulatory" },
+  { name: "Speed Limit 60 mph", image: "images/speed-limit-60.png", description: "Maximum speed allowed is 60 mph.", category: "Regulatory" },
+  { name: "Speed Limit 70 mph", image: "images/speed-limit-70.png", description: "Maximum speed allowed is 70 mph.", category: "Regulatory" },
+  { name: "Height Limit", image: "images/height-limit.png", description: "Vehicles over the indicated height are prohibited.", category: "Regulatory" },
+  { name: "Width Limit", image: "images/width-limit.png", description: "Vehicles over the indicated width are prohibited.", category: "Regulatory" },
+  { name: "Length Limit", image: "images/length-limit.png", description: "Vehicles over the indicated length are prohibited.", category: "Regulatory" },
+  { name: "Weight Limit", image: "images/weight-limit.png", description: "Vehicles over the indicated weight are prohibited.", category: "Regulatory" },
+  { name: "No Horn", image: "images/no-horn.png", description: "Use of horns is prohibited in this area.", category: "Regulatory" },
+  { name: "No Stopping", image: "images/no-stopping.png", description: "Stopping is prohibited at all times.", category: "Regulatory" },
+  { name: "No Bicycles", image: "images/no-bicycles.png", description: "Bicycles are prohibited on this road.", category: "Regulatory" },
 
-  // Temporary / Other
-  { category:"Temporary", name:"Roadworks", image:"images/roadworks.png", description:"Temporary roadworks ahead." },
-  { category:"Temporary", name:"Detour", image:"images/detour.png", description:"Follow the detour signs." },
-  { category:"Temporary", name:"Temporary Speed Limit", image:"images/temp-speed-limit.png", description:"Temporary speed limit in force." },
-  { category:"Temporary", name:"Falling Rocks", image:"images/falling-rocks.png", description:"Caution: falling rocks may be present." },
-  { category:"Temporary", name:"School Zone", image:"images/school-zone.png", description:"Slow down; children may be present." }
+  // ---------------- Warning ----------------
+  { name: "Slippery Road", image: "images/slippery-road.png", description: "Road may be slippery when wet.", category: "Warning" },
+  { name: "Road Narrows", image: "images/road-narrows.png", description: "The road ahead narrows.", category: "Warning" },
+  { name: "Steep Hill", image: "images/steep-hill.png", description: "Steep descent or ascent ahead.", category: "Warning" },
+  { name: "Pedestrian Crossing Ahead", image: "images/pedestrian-crossing.png", description: "Watch for pedestrians crossing.", category: "Warning" },
+  { name: "Children Crossing", image: "images/children-crossing.png", description: "Children may be crossing the road.", category: "Warning" },
+  { name: "Traffic Signals Ahead", image: "images/traffic-signals-ahead.png", description: "Traffic lights are ahead.", category: "Warning" },
+  { name: "Roadworks", image: "images/roadworks.png", description: "Roadworks ahead; slow down.", category: "Warning" },
+  { name: "Falling Rocks", image: "images/falling-rocks.png", description: "Beware of falling rocks.", category: "Warning" },
+  { name: "Slopes / Inclines", image: "images/slopes.png", description: "Steep slopes may affect vehicle control.", category: "Warning" },
+
+  // ---------------- Informational ----------------
+  { name: "Hospital Ahead", image: "images/hospital.png", description: "Hospital nearby; keep noise low.", category: "Informational" },
+  { name: "Parking Area", image: "images/parking-area.png", description: "Parking facilities available.", category: "Informational" },
+  { name: "Motorway Start", image: "images/motorway-start.png", description: "Start of motorway; follow motorway rules.", category: "Informational" },
+  { name: "Motorway End", image: "images/motorway-end.png", description: "End of motorway; normal rules apply.", category: "Informational" },
+  { name: "Bus Lane", image: "images/bus-lane.png", description: "Lane reserved for buses and taxis.", category: "Informational" },
+  { name: "Cycle Lane", image: "images/cycle-lane.png", description: "Lane reserved for cyclists.", category: "Informational" },
+  { name: "One Way Street Info", image: "images/one-way-info.png", description: "Indicates one-way street information.", category: "Informational" },
+
+  // ---------------- Temporary / Other ----------------
+  { name: "Temporary Diversion", image: "images/temporary-diversion.png", description: "Temporary diversion; follow directions.", category: "Temporary" },
+  { name: "Temporary Roadworks", image: "images/temporary-roadworks.png", description: "Temporary roadworks ahead.", category: "Temporary" },
+  { name: "Temporary Speed Limit", image: "images/temporary-speed-limit.png", description: "Temporary speed restriction in effect.", category: "Temporary" },
+  { name: "Temporary Pedestrian Crossing", image: "images/temporary-ped-crossing.png", description: "Temporary pedestrian crossing in use.", category: "Temporary" },
+  { name: "Temporary Lane Closure", image: "images/temporary-lane-closure.png", description: "One or more lanes closed temporarily.", category: "Temporary" },
+  { name: "Temporary Narrow Road", image: "images/temporary-narrow-road.png", description: "Road narrows temporarily; drive carefully.", category: "Temporary" },
+  { name: "Temporary Traffic Lights", image: "images/temporary-traffic-lights.png", description: "Temporary traffic lights ahead.", category: "Temporary" }
 ];
 
 // ------------------- DISPLAY ROAD SIGNS -------------------
