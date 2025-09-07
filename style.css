@@ -7,20 +7,48 @@ body {
   color: #333;
 }
 
-/* ----------------- HEADER ----------------- */
+/* ---------------- HEADER ---------------- */
 header {
   background: #00509E;
   color: white;
   padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header .header-left {
+  justify-self: start;
+}
+
+header .header-center {
+  justify-self: center;
+}
+
+header .header-right {
+  justify-self: end;
+}
+
+header .logo {
+  height: 50px;
+  max-width: 160px;
 }
 
 header h1 {
   margin: 0;
   font-size: 1.8rem;
+}
+
+/* ---------------- FOOTER ---------------- */
+footer {
+  background: #00509E;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
 }
 
 /* ----------------- NAV BUTTONS ----------------- */
@@ -226,37 +254,47 @@ label, select {
 }
 
 /* ----------------- NAVIGATION BUTTONS ----------------- */
-.navigation-buttons button {
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.navigation-buttons .back-btn {
   padding: 0.6rem 1.5rem;
   border-radius: 8px;
   border: none;
   font-weight: bold;
   cursor: pointer;
+  background-color: #cccccc;
+  color: #333;
   transition: background-color 0.3s, transform 0.2s;
 }
 
-/* Back Button */
-.navigation-buttons button:first-child {
-  background-color: #cccccc;
-  color: #333;
-}
-
-.navigation-buttons button:first-child:hover {
+.navigation-buttons .back-btn:hover {
   background-color: #999999;
 }
 
-/* Next / Finish Button */
-.navigation-buttons button:last-child {
+.navigation-buttons .next-btn,
+.navigation-buttons .finish-btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
   background-color: #0074D9;
   color: white;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.navigation-buttons button:last-child:disabled {
+.navigation-buttons .next-btn:disabled,
+.navigation-buttons .finish-btn:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
 
-.navigation-buttons button:last-child:hover:not(:disabled) {
+.navigation-buttons .next-btn:hover:not(:disabled),
+.navigation-buttons .finish-btn:hover:not(:disabled) {
   background-color: #00509E;
   transform: scale(1.05);
 }
