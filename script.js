@@ -187,7 +187,7 @@ function endMockTest(fromPopup = false) {
     const isCorrect = user === q.answer;
     if(isCorrect) score++;
 
-    allQuestionsHTML += `<div class="question-card ${isCorrect?'correct':'incorrect'}" style="color:black;">
+    allQuestionsHTML += `<div class="question-card ${isCorrect?'correct':'incorrect'}" style="color:black; border-left:5px solid ${isCorrect ? 'green' : 'red'}; padding-left:10px; margin-bottom:10px;">
       <p><strong>Q${i+1}:</strong> ${q.question}</p>
       <p>Your answer: ${user!==null?q.options[user]:'<em>Not answered</em>'}</p>
       ${!isCorrect?`<p>Correct answer: ${q.options[q.answer]}</p>`:''}
@@ -198,7 +198,9 @@ function endMockTest(fromPopup = false) {
     ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" 
     : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
 
-  let summaryHTML = `<div class="question-card" style="color:black;"><p>You scored ${score} out of ${mockQuestions.length}.</p>${passFail}</div>` + allQuestionsHTML;
+  let summaryHTML = `<div class="question-card" style="color:black; border-left:5px solid ${score>=43 ? 'green':'red'}; padding-left:10px; margin-bottom:10px;">
+    <p>You scored ${score} out of ${mockQuestions.length}.</p>${passFail}
+  </div>` + allQuestionsHTML;
 
   document.getElementById('mockQuestion').innerHTML = summaryHTML;
   document.getElementById('progressBarFill').style.width = '100%';
