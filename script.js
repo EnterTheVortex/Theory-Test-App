@@ -63,21 +63,24 @@ function startMockTest() {
   showMockQuestion();
 }
 
-// Show the current mock test question
+// Show the current mock test question with card styling
 function showMockQuestion() {
   if (mockIndex >= mockQuestions.length) {
     // Test complete
-    let resultText = `<p>You scored ${mockScore} out of ${mockQuestions.length}.</p>`;
+    let resultText = `<div class="question-card"><p>You scored ${mockScore} out of ${mockQuestions.length}.</p>`;
     if (mockScore >= 43) {
       resultText += "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>";
     } else {
       resultText += "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
     }
+    resultText += "</div>";
     document.getElementById('mockQuestion').innerHTML = resultText;
     return;
   }
 
   const q = mockQuestions[mockIndex];
+
+  // Wrap each question in a .question-card div
   let html = `<div class="question-card"><p><strong>Q${mockIndex + 1}:</strong> ${q.question}</p>`;
   q.options.forEach((opt, i) => {
     html += `<button class="option" onclick="checkMockAnswer(${i})">${opt}</button>`;
