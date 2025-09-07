@@ -1,65 +1,52 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  background: #f4f4f4;
+  padding: 0;
+  background: #f8f8f8;
 }
 
 header {
-  background: #333;
+  background: #0074D9;
   color: white;
-  padding: 10px;
-  text-align: center;
+  padding: 1rem;
+}
+
+header h1 {
+  margin: 0;
 }
 
 nav button {
-  margin: 5px;
-  padding: 10px 15px;
-  background: #555;
-  color: white;
-  border: none;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  border-radius: 5px;
 }
 
-nav button:hover {
-  background: #777;
-}
-
-.page {
-  padding: 20px;
+.tab {
+  padding: 2rem;
 }
 
 .hidden {
   display: none;
 }
 
-#revision-container, #mock-container {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #ccc;
-  margin-top: 15px;
-}
-
-button.answer {
+button.option {
   display: block;
-  margin: 5px 0;
-  padding: 10px;
+  margin: 0.5rem 0;
+  padding: 0.5rem 1rem;
   width: 100%;
-  border: 1px solid #333;
-  border-radius: 5px;
   cursor: pointer;
 }
 
-button.answer.correct {
-  background: lightgreen;
+.correct {
+  background-color: #2ECC40;
+  color: white;
 }
 
-button.answer.wrong {
-  background: salmon;
+.incorrect {
+  background-color: #FF4136;
+  color: white;
 }
 
-#timer {
-  margin-top: 15px;
-  font-weight: bold;
+#mockQuestion, #revisionQuestion {
+  margin-top: 1rem;
 }
