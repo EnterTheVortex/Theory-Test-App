@@ -9,13 +9,23 @@
   <link rel="icon" href="data:,">
 </head>
 <body>
+  <!-- Header with Logo Centered -->
   <header>
-    <h1>Theory Test App</h1>
-    <nav>
-      <button onclick="showTab('home')">Home</button>
-      <button onclick="showTab('revision')">Revision</button>
-      <button onclick="showTab('mock')">Mock Test</button>
-    </nav>
+    <div class="header-left">
+      <nav>
+        <button onclick="showTab('home')">Home</button>
+        <button onclick="showTab('revision')">Revision</button>
+        <button onclick="showTab('mock')">Mock Test</button>
+      </nav>
+    </div>
+
+    <div class="header-center">
+      <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
+    </div>
+
+    <div class="header-right">
+      <!-- Reserved for future options -->
+    </div>
   </header>
 
   <main>
@@ -38,43 +48,47 @@
     </section>
 
     <!-- Revision Tab -->
-<section id="revision" class="tab hidden">
-  <h2>Revision</h2>
-  <label for="categorySelect">Choose a category:</label>
-  <select id="categorySelect" onchange="startRevision()">
-    <option value="">--Select--</option>
-    <option value="Road Signs">Road Signs</option>
-    <option value="Hazard Awareness">Hazard Awareness</option>
-    <option value="Rules of the Road">Rules of the Road</option>
-    <option value="Vehicle Handling">Vehicle Handling</option>
-    <option value="Essential Documents">Essential Documents</option>
-  </select>
-  <div id="revisionQuestion"></div>
-</section>
+    <section id="revision" class="tab hidden">
+      <h2>Revision</h2>
+      <label for="categorySelect">Choose a category:</label>
+      <select id="categorySelect" onchange="startRevision()">
+        <option value="">--Select--</option>
+        <option value="Road Signs">Road Signs</option>
+        <option value="Hazard Awareness">Hazard Awareness</option>
+        <option value="Rules of the Road">Rules of the Road</option>
+        <option value="Vehicle Handling">Vehicle Handling</option>
+        <option value="Essential Documents">Essential Documents</option>
+      </select>
+      <div id="revisionQuestion"></div>
+    </section>
 
-<!-- Mock Test Tab -->
-<section id="mock" class="tab hidden">
-  <h2>Mock Test</h2>
-  <button id="startMockBtn" onclick="startMockTest()">Start Mock Test</button>
+    <!-- Mock Test Tab -->
+    <section id="mock" class="tab hidden">
+      <h2>Mock Test</h2>
+      <button id="startMockBtn" onclick="startMockTest()">Start Mock Test</button>
 
-  <!-- Timer -->
-  <div id="timer" class="hidden">Time Remaining: 57:00</div>
+      <!-- Timer -->
+      <div id="timer" class="hidden">Time Remaining: 57:00</div>
 
-  <!-- Progress Indicator -->
-  <div id="progressContainer" class="hidden">
-    <p id="progressText">Q0/50</p>
-    <div id="progressBarBackground">
-      <div id="progressBarFill"></div>
-    </div>
-  </div>
+      <!-- Progress Indicator -->
+      <div id="progressContainer" class="hidden">
+        <p id="progressText">Q0/50</p>
+        <div id="progressBarBackground">
+          <div id="progressBarFill"></div>
+        </div>
+      </div>
 
-  <!-- Questions -->
-  <div id="mockQuestion"></div>
-</section>
+      <!-- Questions -->
+      <div id="mockQuestion"></div>
+    </section>
+  </main>
 
-    </main>
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Driving Theory Practice. All rights reserved. | Designed for learners, by professionals.</p>
+  </footer>
 
-<script src="questions.js"></script>
-<script src="script.js"></script>
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
