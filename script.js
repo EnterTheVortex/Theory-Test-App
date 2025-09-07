@@ -1,19 +1,21 @@
 let currentRevisionQuestions = [];
-let revisionSelectedAnswers = []; // track selected answers for revision
 let revisionIndex = 0;
+let revisionSelectedAnswers = [];
 
-let mockQuestions = []; // 50-question test
+let mockQuestions = [];
 let mockIndex = 0;
+let mockAnswers = [];
+let mockScore = 0;
 let timerInterval;
-let timeRemaining = 57 * 60; // 57 minutes in seconds
-let mockAnswers = []; // store selected answers for each question
+let timeRemaining = 57 * 60;
 
+// ------------------- TABS -------------------
 function showTab(tabId) {
   document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
   document.getElementById(tabId).classList.remove('hidden');
 }
 
-// ---------------- REVISION ----------------
+// ------------------- REVISION -------------------
 function startRevision() {
   const category = document.getElementById('categorySelect').value;
   if (!category) return;
@@ -21,63 +23,48 @@ function startRevision() {
   currentRevisionQuestions = questionsBank.filter(q => q.category === category);
   revisionIndex = 0;
   revisionSelectedAnswers = Array(currentRevisionQuestions.length).fill(null);
+
   showRevisionQuestion();
 }
 
 function showRevisionQuestion() {
   if (revisionIndex >= currentRevisionQuestions.length) {
     document.getElementById('revisionQuestion').innerHTML =
-      `<div class="question-card"><p>You have completed all revision questions for this category.</p></div>`;
+      "<p>You have completed all revision questions for this category.</p>";
     return;
   }
 
   const q = currentRevisionQuestions[revisionIndex];
   let categoryClass = q.category.toLowerCase().replace(/\s+/g, '-');
 
-  let html = `<div class="question-card ${categoryClass}">
-                <p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
+  let html = `<div class="question-card ${categoryClass}"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
   q.options.forEach((opt, i) => {
-    const selectedClass = revisionSelectedAnswers[revisionIndex] === i ? 'selected' : '';
-    html += `<button class="option ${selectedClass}" onclick="selectRevisionAnswer(${i})">${opt}</button>`;
+    let selectedClass = revisionSelectedAnswers[revisionIndex] === i ? 'selected' : '';
+    html += `<button class="option ${selectedClass}" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
   });
   html += `</div>`;
-
-  html += `<div class="navigation-buttons">
-            ${revisionIndex > 0 ? '<button onclick="prevRevisionQuestion()">Back</button>' : '<div></div>'}
-            <button onclick="nextRevisionQuestion()">${revisionIndex === currentRevisionQuestions.length - 1 ? 'Finish' : 'Next'}</button>
-           </div>`;
-
   document.getElementById('revisionQuestion').innerHTML = html;
 }
 
-function selectRevisionAnswer(selectedIndex) {
-  revisionSelectedAnswers[revisionIndex] = selectedIndex;
+function checkRevisionAnswer(selected) {
+  const q = currentRevisionQuestions[revisionIndex];
+  revisionSelectedAnswers[revisionIndex] = selected;
+
   const buttons = document.querySelectorAll('#revisionQuestion .option');
   buttons.forEach((btn, i) => {
-    btn.classList.remove('selected');
-    if (i === selectedIndex) btn.classList.add('selected');
+    btn.disabled = true;
+    if (i === q.answer) btn.classList.add('correct');
+    if (i === selected && i !== q.answer) btn.classList.add('incorrect');
   });
-}
 
-function nextRevisionQuestion() {
-  if (revisionIndex === currentRevisionQuestions.length - 1) {
-    alert('You have completed the revision for this category!');
-    return;
-  }
   revisionIndex++;
-  showRevisionQuestion();
+  setTimeout(showRevisionQuestion, 1500);
 }
 
-function prevRevisionQuestion() {
-  if (revisionIndex > 0) {
-    revisionIndex--;
-    showRevisionQuestion();
-  }
-}
-
-// ---------------- MOCK TEST ----------------
+// ------------------- MOCK TEST -------------------
 function startMockTest() {
   mockIndex = 0;
+  mockScore = 0;
   timeRemaining = 57 * 60;
   mockAnswers = Array(50).fill(null);
 
@@ -114,14 +101,18 @@ function showMockQuestion() {
   });
   html += `</div>`;
 
-  html += `<div class="navigation-buttons">`;
-  if (mockIndex > 0) html += `<button onclick="previousQuestion()">Back</button>`;
-  if (mockIndex < 49) html += `<button onclick="nextQuestion()">Next</button>`;
-  else html += `<button onclick="confirmFinish()">Finish Test</button>`;
-  html += `</div>`;
+  html += `
+    <div class="navigation-buttons" style="display:flex; justify-content:space-between;">
+      ${mockIndex > 0 ? `<button onclick="previousQuestion()">Back</button>` : `<div></div>`}
+      ${mockIndex < 49 ? `<button id="nextBtn" onclick="nextQuestion()" disabled>Next</button>` : `<button id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
+    </div>
+  `;
 
   document.getElementById('mockQuestion').innerHTML = html;
   updateProgressBar();
+
+  // If already answered, enable the next button
+  if (mockAnswers[mockIndex] !== null) document.getElementById('nextBtn').disabled = false;
 }
 
 function selectMockAnswer(selectedIndex) {
@@ -132,6 +123,10 @@ function selectMockAnswer(selectedIndex) {
     btn.classList.remove('selected');
     if (i === selectedIndex) btn.classList.add('selected');
   });
+
+  // Enable the next button
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) nextBtn.disabled = false;
 }
 
 function nextQuestion() {
@@ -170,7 +165,7 @@ function endMockTest() {
   clearInterval(timerInterval);
 
   let score = 0;
-  let summaryHTML = '';
+  let allQuestionsHTML = '';
 
   mockQuestions.forEach((q, i) => {
     const userAnswer = mockAnswers[i];
@@ -179,41 +174,54 @@ function endMockTest() {
 
     if (isCorrect) score++;
 
-    // Question card
-    summaryHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
+    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}" data-incorrect="${!isCorrect}">
       <p><strong>Q${i + 1}:</strong> ${q.question}</p>
       <p>Your answer: ${userAnswer !== null ? q.options[userAnswer] : '<em>Not answered</em>'}</p>
       ${!isCorrect ? `<p>Correct answer: ${q.options[correctAnswer]}</p>` : ''}
     </div>`;
   });
 
-  // Score summary
   let passFailText = score >= 43 ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
-  summaryHTML = `<div class="question-card">
+
+  let summaryHTML = `<div class="question-card">
     <p>You scored ${score} out of ${mockQuestions.length}.</p>
     ${passFailText}
-  </div>` + summaryHTML;
+    <button id="reviewIncorrectBtn" onclick="reviewIncorrect()">Review Incorrect Questions</button>
+  </div>` + allQuestionsHTML;
 
   document.getElementById('mockQuestion').innerHTML = summaryHTML;
-
-  // Progress bar
   document.getElementById('progressBarFill').style.width = '100%';
   document.getElementById('progressText').textContent = 'Test Completed';
 
-  // Remove any popup if still open
   closePopup();
 }
 
-// Smooth progress bar
+function reviewIncorrect() {
+  const allCards = document.querySelectorAll('#mockQuestion .question-card[data-incorrect]');
+  allCards.forEach(card => {
+    if (card.getAttribute('data-incorrect') === "false") {
+      card.style.display = 'none';
+    } else {
+      card.style.display = 'block';
+    }
+  });
+
+  const btn = document.getElementById('reviewIncorrectBtn');
+  if (btn) btn.style.display = 'none';
+
+  document.getElementById('progressText').textContent = 'Reviewing Incorrect Questions';
+}
+
+// ------------------- PROGRESS BAR -------------------
 function updateProgressBar() {
   const percent = ((mockIndex + 1) / 50) * 100;
   const fill = document.getElementById('progressBarFill');
-  fill.style.transition = 'width 0.5s ease';
+  fill.style.transition = 'width 0.5s ease-in-out';
   fill.style.width = percent + '%';
   document.getElementById('progressText').textContent = `Q${mockIndex + 1}/50`;
 }
 
-// ------------------ Utility ------------------
+// ------------------- UTILITY -------------------
 function shuffleArray(array) {
   let currentIndex = array.length, randomIndex;
   while (currentIndex !== 0) {
