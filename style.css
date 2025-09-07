@@ -109,6 +109,27 @@ nav button:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+/* Category-specific card colors */
+.question-card.road-signs {
+  background: linear-gradient(to bottom right, #FFF3E0, #FFE0B2);
+}
+
+.question-card.hazard-awareness {
+  background: linear-gradient(to bottom right, #FFFDE7, #FFF59D);
+}
+
+.question-card.rules-of-road {
+  background: linear-gradient(to bottom right, #E3F2FD, #90CAF9);
+}
+
+.question-card.vehicle-handling {
+  background: linear-gradient(to bottom right, #E8F5E9, #A5D6A7);
+}
+
+.question-card.essential-documents {
+  background: linear-gradient(to bottom right, #F3E5F5, #CE93D8);
+}
+
 /* Option Buttons inside cards */
 button.option {
   display: block;
