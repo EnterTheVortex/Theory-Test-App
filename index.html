@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Theory Test App</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -9,30 +10,39 @@
   <header>
     <h1>Theory Test App</h1>
     <nav>
-      <button onclick="showPage('home')">Home</button>
-      <button onclick="showPage('revision')">Revision</button>
-      <button onclick="showPage('mock')">Mock Test</button>
+      <button onclick="showTab('home')">Home</button>
+      <button onclick="showTab('revision')">Revision</button>
+      <button onclick="showTab('mock')">Mock Test</button>
     </nav>
   </header>
 
   <main>
-    <!-- Home Page -->
-    <section id="home" class="page">
-      <h2>Welcome</h2>
-      <p>Prepare for your driving theory test. Choose Revision for practice or Mock Test to simulate the real exam.</p>
+    <!-- Home Tab -->
+    <section id="home" class="tab">
+      <h2>Welcome to the Theory Test App</h2>
+      <p>Use the Revision tab to practice questions by category, or the Mock Test tab to take a full randomized test.</p>
     </section>
 
-    <!-- Revision Page -->
-    <section id="revision" class="page hidden">
-      <h2>Revision Questions</h2>
-      <div id="revision-container"></div>
+    <!-- Revision Tab -->
+    <section id="revision" class="tab hidden">
+      <h2>Revision</h2>
+      <label for="categorySelect">Choose a category:</label>
+      <select id="categorySelect" onchange="startRevision()">
+        <option value="">--Select--</option>
+        <option value="Road Signs">Road Signs</option>
+        <option value="Hazard Awareness">Hazard Awareness</option>
+        <option value="Rules of the Road">Rules of the Road</option>
+        <option value="Vehicle Handling">Vehicle Handling</option>
+        <option value="Essential Documents">Essential Documents</option>
+      </select>
+      <div id="revisionQuestion"></div>
     </section>
 
-    <!-- Mock Test Page -->
-    <section id="mock" class="page hidden">
-      <h2>Mock Theory Test</h2>
-      <div id="mock-container"></div>
-      <div id="timer"></div>
+    <!-- Mock Test Tab -->
+    <section id="mock" class="tab hidden">
+      <h2>Mock Test</h2>
+      <button onclick="startMockTest()">Start Mock Test</button>
+      <div id="mockQuestion"></div>
     </section>
   </main>
 
