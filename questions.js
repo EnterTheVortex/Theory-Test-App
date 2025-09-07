@@ -535,5 +535,284 @@ const questions = [
       "Tax payments"
     ],
     answer: 0
+  },
+  {
+    category: "Road Signs",
+    question: "A blue rectangular sign with a white 'P' indicates what?",
+    options: [
+      "Hospital nearby",
+      "Parking area",
+      "Pedestrian crossing",
+      "Police station"
+    ],
+    answer: 1
+  },
+  {
+    category: "Road Signs",
+    question: "A red triangle with a black cross in the centre warns you of:",
+    options: [
+      "Railway crossing without barrier",
+      "Accident-prone area",
+      "Crossroads ahead",
+      "Roadworks"
+    ],
+    answer: 2
+  },
+  {
+    category: "Road Signs",
+    question: "What does a circular blue sign with a white arrow pointing left mean?",
+    options: [
+      "Turn left ahead",
+      "Keep left",
+      "No left turn",
+      "One-way road"
+    ],
+    answer: 1
+  },
+  {
+    category: "Road Signs",
+    question: "A yellow diamond-shaped sign with a black border usually indicates:",
+    options: [
+      "Warning",
+      "Prohibition",
+      "Mandatory instruction",
+      "Information"
+    ],
+    answer: 0
+  },
+  {
+    category: "Road Signs",
+    question: "What does a white rectangular sign with a red circle around a bicycle mean?",
+    options: [
+      "Cyclists prohibited",
+      "Cycle lane ahead",
+      "No parking for bicycles",
+      "Cycle route"
+    ],
+    answer: 0
+  },
+  // ---------------- HAZARD AWARENESS ----------------
+  {
+    category: "Hazard Awareness",
+    question: "You are driving on a wet road. Your vehicle starts to skid. What should you do?",
+    options: [
+      "Brake hard immediately",
+      "Turn the steering wheel sharply",
+      "Ease off the accelerator and steer in the direction of the skid",
+      "Accelerate to regain traction"
+    ],
+    answer: 2
+  },
+  {
+    category: "Hazard Awareness",
+    question: "You notice a vehicle ahead flashing hazard lights. This indicates:",
+    options: [
+      "They want you to overtake",
+      "They have an emergency or hazard",
+      "They are speeding up",
+      "They are stopping at a junction"
+    ],
+    answer: 1
+  },
+  {
+    category: "Hazard Awareness",
+    question: "When driving at night, what should you do if an oncoming vehicle's headlights dazzle you?",
+    options: [
+      "Look straight ahead",
+      "Flash your headlights",
+      "Look to the left and reduce speed",
+      "Honk immediately"
+    ],
+    answer: 2
+  },
+  {
+    category: "Hazard Awareness",
+    question: "In fog, which lights should you use when visibility is seriously reduced?",
+    options: [
+      "Full beam headlights",
+      "Front and rear fog lights",
+      "Parking lights only",
+      "Hazard lights"
+    ],
+    answer: 1
+  },
+  {
+    category: "Hazard Awareness",
+    question: "A pedestrian suddenly steps onto the road. Your immediate action should be:",
+    options: [
+      "Swerve around quickly",
+      "Brake safely and be prepared to stop",
+      "Accelerate past",
+      "Sound horn and continue"
+    ],
+    answer: 1
+  },
+  // ---------------- RULES OF THE ROAD ----------------
+  {
+    category: "Rules of the Road",
+    question: "When entering a motorway, you should:",
+    options: [
+      "Stop at the start of the slip road",
+      "Accelerate to match the speed of traffic",
+      "Drive slowly and merge carefully",
+      "Wait for a traffic signal"
+    ],
+    answer: 1
+  },
+  {
+    category: "Rules of the Road",
+    question: "When approaching a roundabout with no signs or markings, who has priority?",
+    options: [
+      "Traffic already on the roundabout",
+      "Traffic entering from the left",
+      "Pedestrians",
+      "Cyclists only"
+    ],
+    answer: 0
+  },
+  {
+    category: "Rules of the Road",
+    question: "What does a single solid white line down the centre of the road indicate?",
+    options: [
+      "You may overtake freely",
+      "Do not overtake or cross unless safe",
+      "Parking allowed",
+      "Pedestrian crossing ahead"
+    ],
+    answer: 1
+  },
+  {
+    category: "Rules of the Road",
+    question: "You are turning right at a junction. You must:",
+    options: [
+      "Give way to oncoming traffic",
+      "Always go first",
+      "Sound horn to warn oncoming vehicles",
+      "Drive in the left lane"
+    ],
+    answer: 0
+  },
+  {
+    category: "Rules of the Road",
+    question: "When must you stop at a stop sign?",
+    options: [
+      "Only if traffic is present",
+      "Always, before the line",
+      "If pedestrians are crossing",
+      "Only during daylight"
+    ],
+    answer: 1
+  },
+  // ---------------- VEHICLE HANDLING ----------------
+  {
+    category: "Vehicle Handling",
+    question: "What is the correct procedure when approaching a bend on a slippery road?",
+    options: [
+      "Brake while turning",
+      "Slow down before the bend and steer smoothly",
+      "Accelerate into the bend",
+      "Turn sharply to avoid skidding"
+    ],
+    answer: 1
+  },
+  {
+    category: "Vehicle Handling",
+    question: "When driving downhill, you should:",
+    options: [
+      "Use engine braking and lower gears",
+      "Brake continuously",
+      "Shift into neutral",
+      "Brake only at the bottom"
+    ],
+    answer: 0
+  },
+  {
+    category: "Vehicle Handling",
+    question: "What should you check before starting a long journey?",
+    options: [
+      "Tyre pressure, fuel, lights, oil, and coolant",
+      "Only fuel and lights",
+      "Only tyres",
+      "Nothing if the car is new"
+    ],
+    answer: 0
+  },
+  {
+    category: "Vehicle Handling",
+    question: "When turning sharply, the most important consideration is:",
+    options: [
+      "Maintain speed",
+      "Steer smoothly and control the vehicle",
+      "Brake hard",
+      "Accelerate quickly"
+    ],
+    answer: 1
+  },
+  {
+    category: "Vehicle Handling",
+    question: "ABS braking system helps to:",
+    options: [
+      "Increase stopping distance",
+      "Prevent wheels from locking during braking",
+      "Steer off the road",
+      "Reduce tyre pressure"
+    ],
+    answer: 1
+  },
+  // ---------------- ESSENTIAL DOCUMENTS ----------------
+  {
+    category: "Essential Documents",
+    question: "Before driving on public roads, you must have:",
+    options: [
+      "Valid insurance, MOT (if required), and licence",
+      "Only insurance",
+      "Only MOT certificate",
+      "No documents required"
+    ],
+    answer: 0
+  },
+  {
+    category: "Essential Documents",
+    question: "If you change your vehicle’s address, you must update:",
+    options: [
+      "Your MOT certificate",
+      "Your insurance only",
+      "Your V5C registration document",
+      "Your driving licence only"
+    ],
+    answer: 2
+  },
+  {
+    category: "Essential Documents",
+    question: "Driving without insurance can result in:",
+    options: [
+      "A fine and points on licence",
+      "Nothing if careful",
+      "A warning letter only",
+      "Only legal action if an accident occurs"
+    ],
+    answer: 0
+  },
+  {
+    category: "Essential Documents",
+    question: "An MOT certificate is valid for how long?",
+    options: [
+      "1 year",
+      "2 years",
+      "6 months",
+      "Until the next owner"
+    ],
+    answer: 0
+  },
+  {
+    category: "Essential Documents",
+    question: "Which document shows the registered keeper of the vehicle?",
+    options: [
+      "Insurance certificate",
+      "V5C registration document",
+      "Driving licence",
+      "MOT certificate"
+    ],
+    answer: 1
   }
 ];
