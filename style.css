@@ -96,7 +96,7 @@ nav button:hover {
 
 /* Card for each question */
 .question-card {
-  background: linear-gradient(to bottom right, #ffffff, #f7f9fb); /* subtle gradient */
+  background: linear-gradient(to bottom right, #ffffff, #f7f9fb);
   padding: 1.5rem 1.8rem;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
