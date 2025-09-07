@@ -1,102 +1,83 @@
-// Page Navigation
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
-  document.getElementById(pageId).classList.remove("hidden");
-
-  if (pageId === "revision") loadRevision();
-  if (pageId === "mock") startMockTest();
-}
-
-// -------- REVISION MODE --------
-function loadRevision() {
-  const container = document.getElementById("revision-container");
-  container.innerHTML = "";
-  
-  questions.forEach((q, index) => {
-    let div = document.createElement("div");
-    div.innerHTML = `<p><strong>Q${index+1}:</strong> ${q.question}</p>`;
-    
-    q.options.forEach((opt, i) => {
-      let btn = document.createElement("button");
-      btn.textContent = opt;
-      btn.className = "answer";
-      btn.onclick = () => {
-        if (i === q.answer) {
-          btn.classList.add("correct");
-        } else {
-          btn.classList.add("wrong");
-        }
-      };
-      div.appendChild(btn);
-    });
-    
-    container.appendChild(div);
-  });
-}
-
-// -------- MOCK TEST MODE --------
+let currentRevisionQuestions = [];
+let revisionIndex = 0;
 let mockQuestions = [];
-let currentMock = 0;
-let score = 0;
-let timer;
+let mockIndex = 0;
+let mockScore = 0;
 
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
+}
+
+// ---------------- REVISION ----------------
+function startRevision() {
+  const category = document.getElementById('categorySelect').value;
+  if (!category) return;
+  // Filter questions by category
+  currentRevisionQuestions = questions.filter(q => q.category === category);
+  revisionIndex = 0;
+  showRevisionQuestion();
+}
+
+function showRevisionQuestion() {
+  if (revisionIndex >= currentRevisionQuestions.length) {
+    document.getElementById('revisionQuestion').innerHTML = "<p>You have completed all revision questions for this category.</p>";
+    return;
+  }
+  const q = currentRevisionQuestions[revisionIndex];
+  let html = `<p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
+  q.options.forEach((opt, i) => {
+    html += `<button class="option" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
+  });
+  document.getElementById('revisionQuestion').innerHTML = html;
+}
+
+function checkRevisionAnswer(selected) {
+  const q = currentRevisionQuestions[revisionIndex];
+  const buttons = document.querySelectorAll('#revisionQuestion .option');
+  buttons.forEach((btn, i) => {
+    if (i === q.answer) btn.classList.add('correct');
+    if (i === selected && i !== q.answer) btn.classList.add('incorrect');
+    btn.disabled = true;
+  });
+  revisionIndex++;
+  setTimeout(showRevisionQuestion, 1500);
+}
+
+// ---------------- MOCK TEST ----------------
 function startMockTest() {
-  mockQuestions = shuffle([...questions]).slice(0, 2); // pick 2 random Qs for demo
-  currentMock = 0;
-  score = 0;
+  // Pick 50 random questions from all categories
+  mockQuestions = shuffleArray([...questions]).slice(0, 50);
+  mockIndex = 0;
+  mockScore = 0;
   showMockQuestion();
-  startTimer(60); // 60 sec for demo (real test: 57 mins)
 }
 
 function showMockQuestion() {
-  const container = document.getElementById("mock-container");
-  container.innerHTML = "";
-  
-  if (currentMock >= mockQuestions.length) {
-    container.innerHTML = `<h3>Test finished!</h3>
-      <p>You scored ${score} out of ${mockQuestions.length}</p>`;
-    clearInterval(timer);
+  if (mockIndex >= mockQuestions.length) {
+    document.getElementById('mockQuestion').innerHTML = `<p>Test completed! Your score: ${mockScore} / ${mockQuestions.length}</p>`;
     return;
   }
-  
-  let q = mockQuestions[currentMock];
-  let div = document.createElement("div");
-  div.innerHTML = `<p><strong>Q${currentMock+1}:</strong> ${q.question}</p>`;
-  
+  const q = mockQuestions[mockIndex];
+  let html = `<p><strong>Q${mockIndex + 1}:</strong> ${q.question}</p>`;
   q.options.forEach((opt, i) => {
-    let btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.className = "answer";
-    btn.onclick = () => {
-      if (i === q.answer) score++;
-      currentMock++;
-      showMockQuestion();
-    };
-    div.appendChild(btn);
+    html += `<button class="option" onclick="checkMockAnswer(${i})">${opt}</button>`;
   });
-  
-  container.appendChild(div);
+  document.getElementById('mockQuestion').innerHTML = html;
 }
 
-function startTimer(seconds) {
-  const timerEl = document.getElementById("timer");
-  clearInterval(timer);
-  
-  timer = setInterval(() => {
-    let mins = Math.floor(seconds / 60);
-    let secs = seconds % 60;
-    timerEl.textContent = `Time Left: ${mins}:${secs < 10 ? "0"+secs : secs}`;
-    seconds--;
-    
-    if (seconds < 0) {
-      clearInterval(timer);
-      document.getElementById("mock-container").innerHTML =
-        `<h3>Time's up!</h3><p>You scored ${score} out of ${mockQuestions.length}</p>`;
-    }
-  }, 1000);
+function checkMockAnswer(selected) {
+  const q = mockQuestions[mockIndex];
+  if (selected === q.answer) mockScore++;
+  mockIndex++;
+  showMockQuestion();
 }
 
-// -------- HELPER --------
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
+// ---------------- HELPER ----------------
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
