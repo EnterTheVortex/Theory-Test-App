@@ -150,11 +150,14 @@ button.option:hover {
   transform: scale(1.02);
 }
 
+/* Selected Option */
 button.option.selected {
-  background-color: #4CAF50;
+  background-color: #0074D9;
   color: white;
+  font-weight: bold;
 }
 
+/* Correct/Incorrect Answers */
 .correct {
   background-color: #2ECC40 !important;
   color: white;
@@ -165,7 +168,7 @@ button.option.selected {
   color: white;
 }
 
-/* Mock Test Start Button */
+/* Mock Test Start Button (card-style) */
 #mock button {
   background: linear-gradient(to bottom right, #0074D9, #00509E);
   color: white;
@@ -213,13 +216,21 @@ button.option.selected {
   border-radius: 8px;
 }
 
+/* Progress Text */
+#progressText {
+  margin-top: 0.3rem;
+  font-weight: bold;
+  text-align: right;
+  font-size: 0.9rem;
+}
+
 /* Labels and Select */
 label, select {
   font-size: 1rem;
   margin-top: 1rem;
 }
 
-/* Navigation Buttons (Next/Back in Mock Test) */
+/* Navigation Buttons */
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
@@ -227,67 +238,62 @@ label, select {
 }
 
 .navigation-buttons button {
-  padding: 0.8rem 1.5rem;
-  font-weight: bold;
-  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
   border: none;
-  cursor: pointer;
-  background: linear-gradient(to bottom right, #0074D9, #00509E);
+  border-radius: 8px;
+  background-color: #0074D9;
   color: white;
-  transition: background 0.3s, transform 0.2s;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .navigation-buttons button:hover {
-  background: linear-gradient(to bottom right, #00509E, #003f70);
+  background-color: #00509E;
   transform: scale(1.05);
 }
 
-/* Finish Test Popup */
+/* Popup Overlay for Finish Test */
 .popup-overlay {
   position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
 .popup-content {
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  text-align:center;
-  max-width:400px;
-  width:90%;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  max-width: 400px;
+  text-align: center;
 }
 
 .popup-content p {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   font-size: 1rem;
 }
 
 .popup-content button {
-  margin: 5px;
-  padding: 10px 20px;
+  margin: 0 0.5rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 8px;
   border: none;
+  background-color: #0074D9;
+  color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .popup-content button:hover {
+  background-color: #00509E;
   transform: scale(1.05);
-}
-
-.popup-content button:first-child {
-  background-color: #ccc;
-  color: #333;
-}
-
-.popup-content button:last-child {
-  background: linear-gradient(to bottom right, #0074D9, #00509E);
-  color: white;
 }
