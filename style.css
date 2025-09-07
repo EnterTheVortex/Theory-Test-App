@@ -94,36 +94,39 @@ nav button:hover {
   margin-top: 2rem;
 }
 
+/* Card for each question */
 .question-card {
-  background-color: white;
-  padding: 1.5rem;
+  background: linear-gradient(to bottom right, #ffffff, #f7f9fb); /* subtle gradient */
+  padding: 1.5rem 1.8rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .question-card:hover {
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* Option Buttons */
+/* Option Buttons inside cards */
 button.option {
   display: block;
   margin: 0.7rem 0;
-  padding: 0.7rem 1.2rem;
+  padding: 0.8rem 1.2rem;
   width: 100%;
   cursor: pointer;
   border-radius: 8px;
   border: 1px solid #0074D9;
   background-color: #f0f4f8;
   font-size: 1rem;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
 }
 
 button.option:hover {
   background-color: #0074D9;
   color: white;
+  transform: scale(1.02);
 }
 
 .correct {
@@ -136,20 +139,20 @@ button.option:hover {
   color: white;
 }
 
-/* Mock Test Start Button */
+/* Mock Test Start Button (card-style) */
 #mock button {
-  background-color: #0074D9;
+  background: linear-gradient(to bottom right, #0074D9, #00509E);
   color: white;
   font-weight: bold;
-  padding: 0.8rem 1.5rem;
+  padding: 0.9rem 1.5rem;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  transition: background 0.3s, transform 0.2s;
 }
 
 #mock button:hover {
-  background-color: #00509E;
+  background: linear-gradient(to bottom right, #00509E, #003f70);
   transform: scale(1.05);
 }
 
