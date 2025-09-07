@@ -364,15 +364,22 @@ label, select {
   transform: scale(1.05);
 }
 
-/* ----------------- SUMMARY ----------------- */
-#mockQuestion .question-card.correct {
-  border-left: 6px solid #2ECC40;
-}
-
-#mockQuestion .question-card.incorrect {
-  border-left: 6px solid #FF4136;
-}
-
+/* ----------------- SUMMARY PAGE TEXT ----------------- */
 #mockQuestion .question-card p {
   margin: 0.5rem 0;
+  color: black; /* ensures all question and user answer text is readable */
+  line-height: 1.4;
+}
+
+/* User's answer coloring */
+#mockQuestion .question-card p:nth-of-type(2) {
+  /* This targets the "Your answer" line */
+  font-weight: bold;
+}
+
+/* Correct answer line for incorrect questions */
+#mockQuestion .question-card p:nth-of-type(3) {
+  /* This targets the "Correct answer" line if the user was wrong */
+  color: #2ECC40;
+  font-weight: bold;
 }
