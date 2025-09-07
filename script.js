@@ -262,6 +262,11 @@ function showRoadSigns() {
 
   const filteredSigns = roadSignsData.filter(sign => sign.category === category);
 
+  if (filteredSigns.length === 0) {
+    container.innerHTML = "<p>No road signs available for this category.</p>";
+    return;
+  }
+
   filteredSigns.forEach(sign => {
     const card = document.createElement('div');
     card.className = 'road-sign-card';
