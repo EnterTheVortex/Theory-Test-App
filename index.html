@@ -79,14 +79,11 @@
     <section id="roadSigns" class="tab hidden">
       <h2>Road Signs Reference</h2>
 
-      <!-- Category Filter Dropdown -->
+      <!-- Category Filter Dropdown (Dynamic) -->
       <label for="roadSignCategory">Choose a category:</label>
       <select id="roadSignCategory" onchange="showRoadSigns()">
         <option value="">--Select Category--</option>
-        <option value="Regulatory">Regulatory</option>
-        <option value="Warning">Warning</option>
-        <option value="Informational">Informational</option>
-        <option value="Temporary">Temporary / Other</option>
+        <!-- Options will be populated dynamically from script.js -->
       </select>
 
       <div id="roadSignsContainer" class="road-signs-container"></div>
@@ -114,5 +111,20 @@
   <!-- SCRIPTS -->
   <script src="questions.js"></script>
   <script src="script.js"></script>
+
+  <!-- Populate Road Sign Categories Dynamically -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const categorySelect = document.getElementById('roadSignCategory');
+      const categories = [...new Set(roadSignsData.map(sign => sign.category))];
+
+      categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categorySelect.appendChild(option);
+      });
+    });
+  </script>
 </body>
 </html>
