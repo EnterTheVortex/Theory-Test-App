@@ -1,6 +1,6 @@
 let currentRevisionQuestions = [];
 let revisionIndex = 0;
-let mockQuestions = [];
+let mockQuestions = []; // The 50-question test
 let mockIndex = 0;
 let mockScore = 0;
 
@@ -53,38 +53,63 @@ function checkRevisionAnswer(selected) {
 
 // ---------------- MOCK TEST ----------------
 function startMockTest() {
-  // Pick 50 random questions from all categories
-  mockQuestions = shuffleArray([...questions]).slice(0, 50);
+  // Reset
   mockIndex = 0;
   mockScore = 0;
+
+  // Randomly shuffle and pick 50 questions from the full bank
+  mockQuestions = shuffleArray([...questionsBank]).slice(0, 50);
+
   showMockQuestion();
 }
 
+// Show the current mock test question
 function showMockQuestion() {
   if (mockIndex >= mockQuestions.length) {
-    document.getElementById('mockQuestion').innerHTML = `<p>Test completed! Your score: ${mockScore} / ${mockQuestions.length}</p>`;
+    // Test complete
+    let resultText = `<p>You scored ${mockScore} out of ${mockQuestions.length}.</p>`;
+    if (mockScore >= 43) {
+      resultText += "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>";
+    } else {
+      resultText += "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
+    }
+    document.getElementById('mockQuestion').innerHTML = resultText;
     return;
   }
+
   const q = mockQuestions[mockIndex];
-  let html = `<p><strong>Q${mockIndex + 1}:</strong> ${q.question}</p>`;
+  let html = `<div class="question-card"><p><strong>Q${mockIndex + 1}:</strong> ${q.question}</p>`;
   q.options.forEach((opt, i) => {
     html += `<button class="option" onclick="checkMockAnswer(${i})">${opt}</button>`;
   });
+  html += `</div>`;
+
   document.getElementById('mockQuestion').innerHTML = html;
 }
 
-function checkMockAnswer(selected) {
+// Handle mock test answer click
+function checkMockAnswer(selectedIndex) {
   const q = mockQuestions[mockIndex];
-  if (selected === q.answer) mockScore++;
+  if (selectedIndex === q.answer) {
+    mockScore++;
+  }
   mockIndex++;
   showMockQuestion();
 }
 
-// ---------------- HELPER ----------------
+// Utility: shuffle an array
 function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  let currentIndex = array.length, randomIndex;
+
+  // While there remain elements to shuffle
+  while (currentIndex !== 0) {
+    // Pick a remaining element
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // Swap
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
+
   return array;
 }
