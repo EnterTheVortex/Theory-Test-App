@@ -61,28 +61,35 @@ function checkRevisionAnswer(selected) {
 }
 
 // ------------------- MOCK TEST -------------------
-// Show Mock Info page before starting
+
+// Show mock info section
 function showMockInfo() {
-  showTab('mock'); // Ensure mock tab is visible
-  document.getElementById('mockQuestion').innerHTML = ''; // clear previous content
-  document.getElementById('startMockBtn').classList.remove('hidden');
+  showTab('mockInfo');
 }
 
-// Start the actual Mock Test
+// Start the actual Mock Test after info
+function startMockTestPage() {
+  document.getElementById('mockInfo').classList.add('hidden');
+  document.getElementById('mockTest').classList.remove('hidden');
+  startMockTest();
+}
+
 function startMockTest() {
   mockIndex = 0;
-  timeRemaining = 57 * 60; 
-  mockAnswers = Array(50).fill(null); // 50 questions by default
+  timeRemaining = 57 * 60;
+  mockAnswers = Array(50).fill(null);
 
-  document.getElementById('startMockBtn').classList.add('hidden');
+  // Pick 50 random questions
+  mockQuestions = shuffleArray([...questionsBank]).slice(0, 50);
+
+  document.getElementById('timer').textContent = formatTime(timeRemaining);
   document.getElementById('timer').classList.remove('hidden');
   document.getElementById('progressContainer').classList.remove('hidden');
 
-  mockQuestions = shuffleArray([...questionsBank]).slice(0, 50);
-
   updateProgressBar();
-  timerInterval = setInterval(updateTimer, 1000);
   showMockQuestion();
+
+  timerInterval = setInterval(updateTimer, 1000);
 }
 
 function updateTimer() {
@@ -92,10 +99,13 @@ function updateTimer() {
     return;
   }
   timeRemaining--;
-  let minutes = Math.floor(timeRemaining / 60);
-  let seconds = timeRemaining % 60;
-  document.getElementById('timer').textContent =
-    `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+  document.getElementById('timer').textContent = formatTime(timeRemaining);
+}
+
+function formatTime(seconds) {
+  let mins = Math.floor(seconds / 60);
+  let secs = seconds % 60;
+  return `Time Remaining: ${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
 function showMockQuestion() {
@@ -120,7 +130,7 @@ function showMockQuestion() {
   document.getElementById('mockQuestion').innerHTML = html;
   updateProgressBar();
 
-  // Enable Next/Finish if already answered
+  // Enable next/finish if already answered
   if (mockAnswers[mockIndex] !== null) {
     const nextBtn = document.getElementById('nextBtn');
     if (nextBtn) nextBtn.disabled = false;
