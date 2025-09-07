@@ -38,29 +38,43 @@
     </section>
 
     <!-- Revision Tab -->
-    <section id="revision" class="tab hidden">
-      <h2>Revision</h2>
-      <label for="categorySelect">Choose a category:</label>
-      <select id="categorySelect" onchange="startRevision()">
-        <option value="">--Select--</option>
-        <option value="Road Signs">Road Signs</option>
-        <option value="Hazard Awareness">Hazard Awareness</option>
-        <option value="Rules of the Road">Rules of the Road</option>
-        <option value="Vehicle Handling">Vehicle Handling</option>
-        <option value="Essential Documents">Essential Documents</option>
-      </select>
-      <div id="revisionQuestion"></div>
-    </section>
+<section id="revision" class="tab hidden">
+  <h2>Revision</h2>
+  <label for="categorySelect">Choose a category:</label>
+  <select id="categorySelect" onchange="startRevision()">
+    <option value="">--Select--</option>
+    <option value="Road Signs">Road Signs</option>
+    <option value="Hazard Awareness">Hazard Awareness</option>
+    <option value="Rules of the Road">Rules of the Road</option>
+    <option value="Vehicle Handling">Vehicle Handling</option>
+    <option value="Essential Documents">Essential Documents</option>
+  </select>
+  <div id="revisionQuestion"></div>
+</section>
 
-    <!-- Mock Test Tab -->
-    <section id="mock" class="tab hidden">
-      <h2>Mock Test</h2>
-      <button onclick="startMockTest()">Start Mock Test</button>
-      <div id="mockQuestion"></div>
-    </section>
-  </main>
+<!-- Mock Test Tab -->
+<section id="mock" class="tab hidden">
+  <h2>Mock Test</h2>
+  <button id="startMockBtn" onclick="startMockTest()">Start Mock Test</button>
 
-  <script src="questions.js"></script>
-  <script src="script.js"></script>
+  <!-- Timer -->
+  <div id="timer" class="hidden">Time Remaining: 57:00</div>
+
+  <!-- Progress Indicator -->
+  <div id="progressContainer" class="hidden">
+    <p id="progressText">Q0/50</p>
+    <div id="progressBarBackground">
+      <div id="progressBarFill"></div>
+    </div>
+  </div>
+
+  <!-- Questions -->
+  <div id="mockQuestion"></div>
+</section>
+
+    </main>
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
