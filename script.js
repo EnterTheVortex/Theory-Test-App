@@ -157,7 +157,7 @@ function confirmFinish() {
         <p>Are you sure you want to finish the test? You can still go back and review your answers before submitting.</p>
         <div style="display:flex; justify-content:space-between; gap:10px; margin-top:15px;">
           <button onclick="closePopup()">Go Back</button>
-          <button onclick="endMockTest()">Finish Test</button>
+          <button onclick="endMockTest(true)">Finish Test</button>
         </div>
       </div>
     </div>
@@ -170,8 +170,12 @@ function closePopup() {
   if(popup) popup.remove();
 }
 
-function endMockTest() {
+function endMockTest(fromPopup = false) {
   clearInterval(timerInterval);
+
+  // Remove popup if coming from Finish Test button
+  if(fromPopup) closePopup();
+
   document.getElementById('timer').classList.add('hidden');
   document.getElementById('progressContainer').classList.add('hidden');
 
@@ -183,7 +187,7 @@ function endMockTest() {
     const isCorrect = user === q.answer;
     if(isCorrect) score++;
 
-    allQuestionsHTML += `<div class="question-card ${isCorrect?'correct':'incorrect'}">
+    allQuestionsHTML += `<div class="question-card ${isCorrect?'correct':'incorrect'}" style="color:black;">
       <p><strong>Q${i+1}:</strong> ${q.question}</p>
       <p>Your answer: ${user!==null?q.options[user]:'<em>Not answered</em>'}</p>
       ${!isCorrect?`<p>Correct answer: ${q.options[q.answer]}</p>`:''}
@@ -194,7 +198,7 @@ function endMockTest() {
     ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>" 
     : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
 
-  let summaryHTML = `<div class="question-card"><p>You scored ${score} out of ${mockQuestions.length}.</p>${passFail}</div>` + allQuestionsHTML;
+  let summaryHTML = `<div class="question-card" style="color:black;"><p>You scored ${score} out of ${mockQuestions.length}.</p>${passFail}</div>` + allQuestionsHTML;
 
   document.getElementById('mockQuestion').innerHTML = summaryHTML;
   document.getElementById('progressBarFill').style.width = '100%';
