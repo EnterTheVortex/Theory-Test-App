@@ -148,10 +148,12 @@ button.option:hover {
   transform: scale(1.02);
 }
 
+/* Selected in Mock Test */
 button.option.selected {
-  background-color: #0074D9;
-  color: white;
-  border: 1px solid #00509E;
+  background-color: #00509E !important;
+  color: #fff !important;
+  border: 2px solid #003f70 !important;
+  transform: scale(1.03);
 }
 
 .correct {
