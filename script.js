@@ -123,9 +123,12 @@ function selectMockAnswer(selectedIndex) {
   const buttons = document.querySelectorAll('#mockQuestion .option');
   buttons.forEach((btn, i) => {
     btn.classList.remove('selected');
-    if (i === selectedIndex) btn.classList.add('selected');
+    if (i === selectedIndex) {
+      btn.classList.add('selected');
+    }
   });
 
+  // Enable the next/finish button
   const nextBtn = document.getElementById('nextBtn');
   if (nextBtn) nextBtn.disabled = false;
 }
