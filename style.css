@@ -419,8 +419,12 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   font-weight: bold;
   padding: 1rem;
   border-radius: 10px;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: slideFadeIn 0.6s ease forwards;
 }
 
+/* Success & Fail colors */
 .hazard-result.success {
   background: #e9f9ef;
   border-left: 6px solid #2ECC40;
@@ -431,4 +435,16 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   background: #fbecec;
   border-left: 6px solid #FF4136;
   color: #FF4136;
+}
+
+/* Animation keyframes */
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
