@@ -257,121 +257,137 @@ function shuffleArray(array) {
   return array;
 }
 
-// ------------------- ROAD SIGNS DATA (FULLY UPDATED + ADDITIONAL) -------------------
+// ------------------- ROAD SIGNS DATA (FULLY UPDATED + ADDITIONAL, REORDERED) -------------------
 const roadSignsData = [
   // ---------------- Regulatory ----------------
+
+  // --- Access / Vehicle Type Restrictions ---
   { name: "Permit Holders Only", image: "images/permit-holders.png", description: "Only vehicles with a valid permit may enter.", category: "Regulatory" },
   { name: "Cycles Only", image: "images/cycles-only.png", description: "Only bicycles may use this route.", category: "Regulatory" },
   { name: "Buses and Cycles Only", image: "images/buses-cycles.png", description: "Only buses and bicycles are permitted in this lane.", category: "Regulatory" },
-  { name: "No Through Road", image: "images/no-through-road.png", description: "No through traffic; dead end ahead.", category: "Regulatory" },
-  { name: "Priority Over Oncoming Traffic", image: "images/priority-oncoming.png", description: "You have priority over oncoming vehicles.", category: "Regulatory" },
-  { name: "No Stopping", image: "images/no-stopping.png", description: "Stopping is prohibited at all times.", category: "Regulatory" },
-  { name: "No Waiting", image: "images/no-waiting.png", description: "Waiting or parking is prohibited.", category: "Regulatory" },
-  { name: "No Left Turn", image: "images/no-left-turn.png", description: "Left turns are prohibited at this junction.", category: "Regulatory" },
-  { name: "No Right Turn", image: "images/no-right-turn.png", description: "Right turns are prohibited at this junction.", category: "Regulatory" },
   { name: "No Motor Vehicles", image: "images/no-motor-vehicles.png", description: "Motor vehicles are prohibited.", category: "Regulatory" },
   { name: "No Motor Vehicles Except Solo Motorcycles", image: "images/no-motor-except-bike.png", description: "Only solo motorcycles allowed; all other motor vehicles prohibited.", category: "Regulatory" },
   { name: "No Pedestrians", image: "images/no-pedestrians.png", description: "Pedestrians are not allowed on this road.", category: "Regulatory" },
   { name: "No Ridden or Accompanied Horses", image: "images/no-horses.png", description: "Ridden or accompanied horses are prohibited.", category: "Regulatory" },
   { name: "No Solo Motorcycles", image: "images/no-solo-motorcycles.png", description: "Solo motorcycles are prohibited.", category: "Regulatory" },
   { name: "No Towed Caravans", image: "images/no-towed-caravans.png", description: "Towed caravans are not permitted.", category: "Regulatory" },
+  { name: "No Articulated Vehicles", image: "images/no-articulated-vehicles.png", description: "Articulated vehicles (trucks with trailers) are prohibited.", category: "Regulatory" },
+  { name: "No Horse Drawn Vehicles", image: "images/no-horse-drawn.png", description: "Horse drawn vehicles are prohibited.", category: "Regulatory" },
   { name: "No Vehicles Over Max Weight Shown", image: "images/no-vehicles-over-weight.png", description: "Vehicles exceeding maximum weight are prohibited.", category: "Regulatory" },
   { name: "No Vehicles Over Max Length Shown", image: "images/no-vehicles-over-length.png", description: "Vehicles exceeding maximum length are prohibited.", category: "Regulatory" },
+  { name: "No Vehicle Over Max Height", image: "images/no-vehicles-over-height.png", description: "Vehicles exceeding the maximum height are prohibited.", category: "Regulatory" },
+  { name: "No Through Road", image: "images/no-through-road.png", description: "No through traffic; dead end ahead.", category: "Regulatory" },
+
+  // --- Turn / Direction / Lane Controls ---
   { name: "One Way Traffic", image: "images/one-way.png", description: "Traffic must travel in the indicated direction.", category: "Regulatory" },
   { name: "Pass Either Side for Same Destination", image: "images/pass-either-side.png", description: "Vehicles may pass on either side to reach same destination.", category: "Regulatory" },
   { name: "Proceed Left", image: "images/proceed-left.png", description: "Vehicles must proceed left.", category: "Regulatory" },
   { name: "Proceed Right", image: "images/proceed-right.png", description: "Vehicles must proceed right.", category: "Regulatory" },
   { name: "Right Turn Only", image: "images/right-turn-only.png", description: "Only right turns allowed.", category: "Regulatory" },
   { name: "Left Turn Only", image: "images/left-turn-only.png", description: "Only left turns allowed.", category: "Regulatory" },
+  { name: "No Left Turn", image: "images/no-left-turn.png", description: "Left turns are prohibited at this junction.", category: "Regulatory" },
+  { name: "No Right Turn", image: "images/no-right-turn.png", description: "Right turns are prohibited at this junction.", category: "Regulatory" },
+
+  // --- Priority / Give Way / Stop ---
+  { name: "Priority Over Oncoming Traffic", image: "images/priority-oncoming.png", description: "You have priority over oncoming vehicles.", category: "Regulatory" },
+  { name: "Give Way", image: "images/give-way.png", description: "Give way to traffic on the major road; slow down and prepare to stop if necessary.", category: "Regulatory" },
+  { name: "Give Way to Oncoming Traffic", image: "images/give-way-oncoming.png", description: "You must give way to oncoming vehicles.", category: "Regulatory" },
   { name: "Stop", image: "images/stop.png", description: "Stop completely at the line and give way.", category: "Regulatory" },
+
+  // --- Speed / Minimum / Maximum / Enforcement ---
   { name: "Minimum Speed 30mph", image: "images/min-speed-30.png", description: "Vehicles must travel at or above 30 mph.", category: "Regulatory" },
   { name: "Minimum Speed 40mph", image: "images/min-speed-40.png", description: "Vehicles must travel at or above 40 mph.", category: "Regulatory" },
   { name: "End of Minimum Speed 30", image: "images/end-min-speed-30.png", description: "Minimum speed of 30 mph has ended.", category: "Regulatory" },
   { name: "End of Minimum Speed 40", image: "images/end-min-speed-40.png", description: "Minimum speed of 40 mph has ended.", category: "Regulatory" },
   { name: "End of 20mph, Start of 30", image: "images/end-20-start-30.png", description: "Speed limit changes from 20 mph to 30 mph.", category: "Regulatory" },
   { name: "Average Speed Check", image: "images/average-speed-check.png", description: "Average speed of vehicles monitored over a distance; obey speed limits.", category: "Regulatory" },
-  { name: "Give Way", image: "images/give-way.png", description: "Give way to traffic on the major road; slow down and prepare to stop if necessary.", category: "Regulatory" },
-  { name: "Give Way to Oncoming Traffic", image: "images/give-way-oncoming.png", description: "You must give way to oncoming vehicles.", category: "Regulatory" },
-  { name: "No Articulated Vehicles", image: "images/no-articulated-vehicles.png", description: "Articulated vehicles (trucks with trailers) are prohibited.", category: "Regulatory" },
-  { name: "No Entry", image: "images/no-entry.png", description: "No entry for all vehicles in this direction.", category: "Regulatory" },
-  { name: "No Horse Drawn Vehicles", image: "images/no-horse-drawn.png", description: "Horse drawn vehicles are prohibited.", category: "Regulatory" },
-  { name: "No Vehicle Over Max Height", image: "images/no-vehicles-over-height.png", description: "Vehicles exceeding the maximum height are prohibited.", category: "Regulatory" },
+
+  // --- Miscellaneous / Other Restrictions ---
+  { name: "No Stopping", image: "images/no-stopping.png", description: "Stopping is prohibited at all times.", category: "Regulatory" },
+  { name: "No Waiting", image: "images/no-waiting.png", description: "Waiting or parking is prohibited.", category: "Regulatory" }
+];
 
   // ---------------- Warning ----------------
-  { name: "Segregated Pedal Cycle and Pedestrian Route", image: "images/segregated-cycle.png", description: "Separate lanes for cyclists and pedestrians.", category: "Warning" },
-  { name: "Mini Roundabout", image: "images/mini-roundabout.png", description: "A small roundabout ahead.", category: "Warning" },
-  { name: "With-Flow Cycle Lane", image: "images/with-flow-cycle.png", description: "Cycle lane in the same direction as traffic.", category: "Warning" },
-  { name: "Contra-Flow Bus Lane", image: "images/contra-bus.png", description: "Bus lane moving against normal traffic direction.", category: "Warning" },
-  { name: "With-Flow Bus and Cycle Lane", image: "images/with-flow-bus-cycle.png", description: "Lane shared by buses and cyclists in the same direction as traffic.", category: "Warning" },
-  { name: "Distance to Give Way Line Ahead", image: "images/distance-give-way.png", description: "Distance to the upcoming give way line.", category: "Warning" },
-  { name: "Road Narrows on Both Sides", image: "images/road-narrows-both.png", description: "Road narrows ahead on both sides.", category: "Warning" },
-  { name: "Road Narrows on Left", image: "images/road-narrows-left.png", description: "Road narrows ahead on the left side.", category: "Warning" },
-  { name: "Road Narrows on Right", image: "images/road-narrows-right.png", description: "Road narrows ahead on the right side.", category: "Warning" },
-  { name: "Dual Carriageway Ends", image: "images/dual-carriageway-ends.png", description: "Dual carriageway ends; single carriageway ahead.", category: "Warning" },
-  { name: "Distance to Stop Sign Again", image: "images/distance-stop.png", description: "Distance to the next stop sign.", category: "Warning" },
-  { name: "Crossroads", image: "images/crossroads.png", description: "Crossroads junction ahead.", category: "Warning" },
-  { name: "Junction on Bend", image: "images/junction-bend.png", description: "Junction on a bend ahead; reduce speed.", category: "Warning" },
-  { name: "T Junction with Priority Over Traffic on Right", image: "images/t-junction-priority.png", description: "T junction ahead; you have priority over traffic on the right.", category: "Warning" },
-  { name: "Staggered Junction", image: "images/staggered-junction.png", description: "Two junctions slightly offset ahead.", category: "Warning" },
-  { name: "Traffic Merging from the Left Ahead", image: "images/merge-left.png", description: "Traffic will merge from the left.", category: "Warning" },
-  { name: "Uneven Road", image: "images/uneven-road.png", description: "Road surface is uneven; drive with caution.", category: "Warning" },
-  { name: "Roundabout Ahead", image: "images/roundabout-ahead.png", description: "Roundabout ahead; prepare to give way.", category: "Warning" },
-  { name: "Bend to the Left", image: "images/bend-left.png", description: "Road bends to the left ahead.", category: "Warning" },
-  { name: "Bend to the Right", image: "images/bend-right.png", description: "Road bends to the right ahead.", category: "Warning" },
-  { name: "Double Bend", image: "images/double-bend.png", description: "Double bend ahead; first to left, then right.", category: "Warning" },
-  { name: "Falling or Fallen Rocks", image: "images/falling-rocks.png", description: "Beware of falling or fallen rocks on the road.", category: "Warning" },
-  { name: "Level Crossing without Barrier", image: "images/level-crossing-no-barrier.png", description: "Level crossing ahead with no barrier or gate.", category: "Warning" },
-  { name: "Level Crossing with Barrier", image: "images/level-crossing-barrier.png", description: "Level crossing ahead with barrier.", category: "Warning" },
-  { name: "Trams Crossing Ahead", image: "images/trams-crossing.png", description: "Trams may cross the road ahead.", category: "Warning" },
-  { name: "Tunnel Ahead", image: "images/tunnel.png", description: "Tunnel ahead; switch on headlights.", category: "Warning" },
-  { name: "Steep Hill Upwards", image: "images/steep-up.png", description: "Steep ascent ahead; maintain speed.", category: "Warning" },
-  { name: "Steep Hill Downwards", image: "images/steep-down.png", description: "Steep descent ahead; control speed.", category: "Warning" },
-  { name: "Slippery Road", image: "images/slippery-road.png", description: "Road may be slippery when wet.", category: "Warning" },
-  { name: "Traffic Signals Ahead", image: "images/traffic-signals.png", description: "Traffic lights ahead; be prepared to stop.", category: "Warning" },
-  { name: "Traffic Signals Not in Use", image: "images/traffic-signals-off.png", description: "Traffic lights ahead are not in use.", category: "Warning" },
-  { name: "Opening or Swing Bridge Ahead", image: "images/swing-bridge.png", description: "Bridge ahead may open or swing; proceed with caution.", category: "Warning" },
-  { name: "Two Way Traffic Straight Ahead", image: "images/two-way-straight.png", description: "Two-way traffic ahead on the same road.", category: "Warning" },
-  { name: "Two Way Traffic Crossing One Way Road", image: "images/two-way-crossing.png", description: "Two-way traffic crosses one-way road ahead.", category: "Warning" },
-  { name: "Zebra Crossing", image: "images/zebra-crossing.png", description: "Pedestrian crossing ahead; give way to pedestrians.", category: "Warning" },
-  { name: "Pedestrians in Road Ahead", image: "images/pedestrians-road.png", description: "Watch for pedestrians walking on the road.", category: "Warning" },
-  { name: "Frail Pedestrians", image: "images/frail-pedestrians.png", description: "Frail or elderly pedestrians may be crossing.", category: "Warning" },
-  { name: "Sharp Deviation Left", image: "images/sharp-left.png", description: "Road sharply deviates to the left ahead.", category: "Warning" },
-  { name: "Sharp Deviation Right", image: "images/sharp-right.png", description: "Road sharply deviates to the right ahead.", category: "Warning" },
-  { name: "Light Signals Ahead at Level Crossing", image: "images/level-crossing-lights.png", description: "Light signals at level crossing ahead.", category: "Warning" },
-  { name: "Cycle Route Ahead", image: "images/cycle-route.png", description: "Indicates a cycle route ahead.", category: "Warning" },
-  { name: "Cattle", image: "images/cattle.png", description: "Cattle may be on the road; proceed with caution.", category: "Warning" },
-  { name: "Wild Animals", image: "images/wild-animals.png", description: "Wild animals may be on the road; reduce speed.", category: "Warning" },
-  { name: "Risk of Ice", image: "images/risk-ice.png", description: "Road may be icy; drive carefully.", category: "Warning" },
-  { name: "Queues Likely", image: "images/queues.png", description: "Traffic queues are likely ahead.", category: "Warning" },
-  { name: "Humps for Distance Shown", image: "images/humps-distance.png", description: "Road humps ahead; distance shown on sign.", category: "Warning" },
-  { name: "Hidden Dip", image: "images/hidden-dip.png", description: "Road dips ahead which may obscure visibility.", category: "Warning" },
-  { name: "Soft Verges", image: "images/soft-verges.png", description: "Soft verges may cause vehicles to sink; drive carefully.", category: "Warning" },
-  { name: "Risk of Grounding", image: "images/risk-grounding.png", description: "Vehicles may scrape on uneven surface; proceed carefully.", category: "Warning" },
-  { name: "Quayside or River Bank", image: "images/quayside.png", description: "Road runs alongside a quayside or river bank.", category: "Warning" },
-  { name: "Ford", image: "images/ford.png", description: "Water crossing ahead; proceed with caution.", category: "Warning" },
-  { name: "Hump Bridge", image: "images/hump-bridge.png", description: "Bridge has a hump; reduce speed.", category: "Warning" },
-  { name: "Side Winds", image: "images/side-winds.png", description: "Strong side winds may affect vehicle control.", category: "Warning" },
-  { name: "Tourist Attraction", image: "images/tourist-attraction.png", description: "Tourist attraction ahead; watch for pedestrians.", category: "Warning" },
-  { name: "Motorway Ends", image: "images/motorway-end.png", description: "End of motorway; normal road rules apply.", category: "Warning" },
-  { name: "Countdown Markers to Exit on Motorway", image: "images/motorway-exit-countdown.png", description: "Countdown markers to upcoming exit on motorway.", category: "Warning" },
-  { name: "Loose Chippings", image: "images/loose-chippings.png", description: "Loose chippings on road; reduce speed.", category: "Warning" },
 
-  // ---------------- Informational ----------------
-  { name: "Bus Lane", image: "images/bus-lane.png", description: "Lane reserved for buses.", category: "Informational" },
-  { name: "Cycle Lane", image: "images/cycle-lane.png", description: "Lane reserved for cyclists.", category: "Informational" },
-  { name: "Motorway Starts", image: "images/motorway-start.png", description: "Start of motorway; follow motorway rules.", category: "Informational" },
-  { name: "National Speed Limit", image: "images/national-speed-limit.png", description: "Default speed limit applies.", category: "Informational" },
-  { name: "New Speed Limit in Force", image: "images/new-speed-limit.png", description: "New speed limit is in effect; obey limit.", category: "Informational" },
-  { name: "Roadworks", image: "images/roadworks.png", description: "Roadworks ahead; proceed with caution.", category: "Informational" },
-  { name: "Speed Cameras", image: "images/speed-camera.png", description: "Speed cameras ahead; obey speed limit.", category: "Informational" },
-  { name: "Speed Camera with Speed Limit", image: "images/speed-camera-limit.png", description: "Speed camera ahead with enforced speed limit.", category: "Informational" },
+// --- Road Layout / Geometry Hazards ---
+{ name: "Road Narrows on Both Sides", image: "images/road-narrows-both.png", description: "Road narrows ahead on both sides.", category: "Warning" },
+{ name: "Road Narrows on Left", image: "images/road-narrows-left.png", description: "Road narrows ahead on the left side.", category: "Warning" },
+{ name: "Road Narrows on Right", image: "images/road-narrows-right.png", description: "Road narrows ahead on the right side.", category: "Warning" },
+{ name: "Dual Carriageway Ends", image: "images/dual-carriageway-ends.png", description: "Dual carriageway ends; single carriageway ahead.", category: "Warning" },
+{ name: "Mini Roundabout", image: "images/mini-roundabout.png", description: "A small roundabout ahead.", category: "Warning" },
+{ name: "Roundabout Ahead", image: "images/roundabout-ahead.png", description: "Roundabout ahead; prepare to give way.", category: "Warning" },
+{ name: "Bend to the Left", image: "images/bend-left.png", description: "Road bends to the left ahead.", category: "Warning" },
+{ name: "Bend to the Right", image: "images/bend-right.png", description: "Road bends to the right ahead.", category: "Warning" },
+{ name: "Double Bend", image: "images/double-bend.png", description: "Double bend ahead; first to left, then right.", category: "Warning" },
+{ name: "Sharp Deviation Left", image: "images/sharp-left.png", description: "Road sharply deviates to the left ahead.", category: "Warning" },
+{ name: "Sharp Deviation Right", image: "images/sharp-right.png", description: "Road sharply deviates to the right ahead.", category: "Warning" },
+{ name: "Junction on Bend", image: "images/junction-bend.png", description: "Junction on a bend ahead; reduce speed.", category: "Warning" },
+{ name: "Crossroads", image: "images/crossroads.png", description: "Crossroads junction ahead.", category: "Warning" },
+{ name: "T Junction with Priority Over Traffic on Right", image: "images/t-junction-priority.png", description: "T junction ahead; you have priority over traffic on the right.", category: "Warning" },
+{ name: "Staggered Junction", image: "images/staggered-junction.png", description: "Two junctions slightly offset ahead.", category: "Warning" },
+{ name: "Distance to Give Way Line Ahead", image: "images/distance-give-way.png", description: "Distance to the upcoming give way line.", category: "Warning" },
+{ name: "Distance to Stop Sign Again", image: "images/distance-stop.png", description: "Distance to the next stop sign.", category: "Warning" },
+{ name: "Hidden Dip", image: "images/hidden-dip.png", description: "Road dips ahead which may obscure visibility.", category: "Warning" },
 
-  // ---------------- Temporary / Other ----------------
-  { name: "Temporary Diversion", image: "images/temporary-diversion.png", description: "Temporary diversion; follow directions.", category: "Temporary" },
-  { name: "Temporary Speed Limit", image: "images/temporary-speed-limit.png", description: "Temporary speed restriction in effect.", category: "Temporary" },
-  { name: "Temporary Pedestrian Crossing", image: "images/temporary-ped-crossing.png", description: "Temporary pedestrian crossing in use.", category: "Temporary" },
-  { name: "Temporary Lane Closure", image: "images/temporary-lane-closure.png", description: "One or more lanes closed temporarily.", category: "Temporary" },
-  { name: "Temporary Traffic Lights", image: "images/temporary-traffic-lights.png", description: "Temporary traffic lights ahead.", category: "Temporary" }
+// --- Surface / Driving Conditions ---
+{ name: "Slippery Road", image: "images/slippery-road.png", description: "Road may be slippery when wet.", category: "Warning" },
+{ name: "Uneven Road", image: "images/uneven-road.png", description: "Road surface is uneven; drive with caution.", category: "Warning" },
+{ name: "Loose Chippings", image: "images/loose-chippings.png", description: "Loose chippings on road; reduce speed.", category: "Warning" },
+{ name: "Soft Verges", image: "images/soft-verges.png", description: "Soft verges may cause vehicles to sink; drive carefully.", category: "Warning" },
+{ name: "Humps for Distance Shown", image: "images/humps-distance.png", description: "Road humps ahead; distance shown on sign.", category: "Warning" },
+{ name: "Risk of Grounding", image: "images/risk-grounding.png", description: "Vehicles may scrape on uneven surface; proceed carefully.", category: "Warning" },
+
+// --- Traffic / Vehicle Hazards ---
+{ name: "Traffic Merging from the Left Ahead", image: "images/merge-left.png", description: "Traffic will merge from the left.", category: "Warning" },
+{ name: "Two Way Traffic Straight Ahead", image: "images/two-way-straight.png", description: "Two-way traffic ahead on the same road.", category: "Warning" },
+{ name: "Two Way Traffic Crossing One Way Road", image: "images/two-way-crossing.png", description: "Two-way traffic crosses one-way road ahead.", category: "Warning" },
+{ name: "Traffic Signals Ahead", image: "images/traffic-signals.png", description: "Traffic lights ahead; be prepared to stop.", category: "Warning" },
+{ name: "Traffic Signals Not in Use", image: "images/traffic-signals-off.png", description: "Traffic lights ahead are not in use.", category: "Warning" },
+{ name: "Countdown Markers to Exit on Motorway", image: "images/motorway-exit-countdown.png", description: "Countdown markers to upcoming exit on motorway.", category: "Warning" },
+
+// --- Level Crossings / Bridges / Tunnels ---
+{ name: "Level Crossing without Barrier", image: "images/level-crossing-no-barrier.png", description: "Level crossing ahead with no barrier or gate.", category: "Warning" },
+{ name: "Level Crossing with Barrier", image: "images/level-crossing-barrier.png", description: "Level crossing ahead with barrier.", category: "Warning" },
+{ name: "Light Signals Ahead at Level Crossing", image: "images/level-crossing-lights.png", description: "Light signals at level crossing ahead.", category: "Warning" },
+{ name: "Opening or Swing Bridge Ahead", image: "images/swing-bridge.png", description: "Bridge ahead may open or swing; proceed with caution.", category: "Warning" },
+{ name: "Hump Bridge", image: "images/hump-bridge.png", description: "Bridge has a hump; reduce speed.", category: "Warning" },
+{ name: "Tunnel Ahead", image: "images/tunnel.png", description: "Tunnel ahead; switch on headlights.", category: "Warning" },
+
+// --- Pedestrian / Animal / Cycle Hazards ---
+{ name: "Segregated Pedal Cycle and Pedestrian Route", image: "images/segregated-cycle.png", description: "Separate lanes for cyclists and pedestrians.", category: "Warning" },
+{ name: "Cycle Route Ahead", image: "images/cycle-route.png", description: "Indicates a cycle route ahead.", category: "Warning" },
+{ name: "Zebra Crossing", image: "images/zebra-crossing.png", description: "Pedestrian crossing ahead; give way to pedestrians.", category: "Warning" },
+{ name: "Pedestrians in Road Ahead", image: "images/pedestrians-road.png", description: "Watch for pedestrians walking on the road.", category: "Warning" },
+{ name: "Frail Pedestrians", image: "images/frail-pedestrians.png", description: "Frail or elderly pedestrians may be crossing.", category: "Warning" },
+{ name: "Cattle", image: "images/cattle.png", description: "Cattle may be on the road; proceed with caution.", category: "Warning" },
+{ name: "Wild Animals", image: "images/wild-animals.png", description: "Wild animals may be on the road; reduce speed.", category: "Warning" },
+
+// --- Environmental / Other Hazards ---
+{ name: "Falling or Fallen Rocks", image: "images/falling-rocks.png", description: "Beware of falling or fallen rocks on the road.", category: "Warning" },
+{ name: "Quayside or River Bank", image: "images/quayside.png", description: "Road runs alongside a quayside or river bank.", category: "Warning" },
+{ name: "Risk of Ice", image: "images/risk-ice.png", description: "Road may be icy; drive carefully.", category: "Warning" },
+{ name: "Side Winds", image: "images/side-winds.png", description: "Strong side winds may affect vehicle control.", category: "Warning" },
+{ name: "Tourist Attraction", image: "images/tourist-attraction.png", description: "Tourist attraction ahead; watch for pedestrians.", category: "Warning" },
+
+// --- Motorway / Special Cases ---
+{ name: "Motorway Ends", image: "images/motorway-end.png", description: "End of motorway; normal road rules apply.", category: "Warning" }
+
+// ---------------- Informational ----------------
+{ name: "Bus Lane", image: "images/bus-lane.png", description: "Lane reserved for buses.", category: "Informational" },
+{ name: "Cycle Lane", image: "images/cycle-lane.png", description: "Lane reserved for cyclists.", category: "Informational" },
+{ name: "Motorway Starts", image: "images/motorway-start.png", description: "Start of motorway; follow motorway rules.", category: "Informational" },
+{ name: "National Speed Limit", image: "images/national-speed-limit.png", description: "Default speed limit applies.", category: "Informational" },
+{ name: "New Speed Limit in Force", image: "images/new-speed-limit.png", description: "New speed limit is in effect; obey limit.", category: "Informational" },
+{ name: "Roadworks", image: "images/roadworks.png", description: "Roadworks ahead; proceed with caution.", category: "Informational" },
+{ name: "Speed Cameras", image: "images/speed-camera.png", description: "Speed cameras ahead; obey speed limit.", category: "Informational" },
+{ name: "Speed Camera with Speed Limit", image: "images/speed-camera-limit.png", description: "Speed camera ahead with enforced speed limit.", category: "Informational" },
+
+// ---------------- Temporary / Other ----------------
+{ name: "Temporary Diversion", image: "images/temporary-diversion.png", description: "Temporary diversion; follow directions.", category: "Temporary" },
+{ name: "Temporary Speed Limit", image: "images/temporary-speed-limit.png", description: "Temporary speed restriction in effect.", category: "Temporary" },
+{ name: "Temporary Pedestrian Crossing", image: "images/temporary-ped-crossing.png", description: "Temporary pedestrian crossing in use.", category: "Temporary" },
+{ name: "Temporary Lane Closure", image: "images/temporary-lane-closure.png", description: "One or more lanes closed temporarily.", category: "Temporary" },
+{ name: "Temporary Traffic Lights", image: "images/temporary-traffic-lights.png", description: "Temporary traffic lights ahead.", category: "Temporary" }
 ];
 
 // ------------------- DISPLAY ROAD SIGNS -------------------
