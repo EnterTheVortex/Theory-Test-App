@@ -397,40 +397,112 @@ function showRoadSigns() {
 
 // ------------------- HAZARD PERCEPTION -------------------
 const hazardClips = [
-  { src: "videos/hazard1.mp4", hazardStart: 8, hazardEnd: 13 },
-  { src: "videos/hazard2.mp4", hazardStart: 12, hazardEnd: 17 },
-  { src: "videos/hazard3.mp4", hazardStart: 5, hazardEnd: 10 }
+  { src: "videos/hazard1.mp4", hazardStart: 18, hazardEnd: 23 },
+  { src: "videos/hazard2.mp4", hazardStart: 18, hazardEnd: 23 },
+  { src: "videos/hazard3.mp4", hazardStart: 18, hazardEnd: 23 }
 ];
+
 let currentHazardIndex = 0;
 let hazardScore = 0;
 let hazardClicks = [];
+let clipScore = 0; // best score for current clip
+
+// Anti-spam / pattern detection settings
+const MAX_CLICKS_IN_WINDOW = 5; // max allowed clicks in time window
+const CLICK_WINDOW_MS = 2000;   // 2 seconds window
+const MAX_OUTSIDE_HAZARD = 3;   // max clicks outside hazard before restart
 
 function setupHazardPerception() {
   currentHazardIndex = 0;
   hazardScore = 0;
   hazardClicks = [];
+  clipScore = 0;
   loadHazardClip();
 }
 
 function loadHazardClip() {
-  if (currentHazardIndex >= hazardClips.length) { showHazardSummary(); return; }
+  if (currentHazardIndex >= hazardClips.length) {
+    showHazardSummary();
+    return;
+  }
+
+  hazardClicks = [];
+  clipScore = 0; // reset per clip
   const clip = hazardClips[currentHazardIndex];
   const container = document.getElementById("hazardContainer");
-  container.innerHTML = `<video id="hazardVideo" width="640" height="360" controls autoplay onended="nextHazardClip()">
-      <source src="${clip.src}" type="video/mp4">Your browser does not support the video tag.
+
+  container.innerHTML = `
+    <video id="hazardVideo" width="640" height="360" controls autoplay onended="endClipScoring()">
+      <source src="${clip.src}" type="video/mp4">
+      Your browser does not support the video tag.
     </video>
     <p>Click when you see a developing hazard!</p>
-    <button onclick="registerHazardClick()">Click Hazard</button>`;
+    <button id="hazardClickBtn" onclick="registerHazardClick()">Click Hazard</button>
+    <p id="clickWarning" style="color:red; font-weight:bold; display:none;"></p>
+    <p id="clickCounter">Clicks: 0</p>
+  `;
 }
 
 function registerHazardClick() {
   const video = document.getElementById("hazardVideo");
+  const warning = document.getElementById("clickWarning");
+  const counter = document.getElementById("clickCounter");
   if (!video) return;
+
   const time = video.currentTime;
-  hazardClicks.push(time);
+  const now = Date.now();
+
+  hazardClicks.push({ videoTime: time, timestamp: now });
+
+  // Remove old clicks outside time window
+  hazardClicks = hazardClicks.filter(c => now - c.timestamp <= CLICK_WINDOW_MS);
+  counter.textContent = `Clicks: ${hazardClicks.length}`;
 
   const clip = hazardClips[currentHazardIndex];
-  if (time >= clip.hazardStart && time <= clip.hazardEnd) hazardScore += 5;
+
+  // Rapid clicks detection
+  if (hazardClicks.length > MAX_CLICKS_IN_WINDOW) {
+    warning.textContent = "Too many rapid clicks! Restarting clip...";
+    warning.style.display = "block";
+    hazardClicks = [];
+    clipScore = 0;
+    video.currentTime = 0;
+    video.play();
+    setTimeout(() => warning.style.display = "none", 2000);
+    return;
+  }
+
+  // Suspicious clicks outside hazard window
+  const outsideHazardClicks = hazardClicks.filter(c => c.videoTime < clip.hazardStart || c.videoTime > clip.hazardEnd).length;
+  if (outsideHazardClicks > MAX_OUTSIDE_HAZARD) {
+    warning.textContent = "Suspicious click pattern detected! Restarting clip...";
+    warning.style.display = "block";
+    hazardClicks = [];
+    clipScore = 0;
+    video.currentTime = 0;
+    video.play();
+    setTimeout(() => warning.style.display = "none", 2000);
+    return;
+  }
+
+  // Award points based on time zone
+  let points = 0;
+  if (time >= 18 && time < 19) points = 5;
+  else if (time >= 19 && time < 20) points = 4;
+  else if (time >= 20 && time < 21) points = 3;
+  else if (time >= 21 && time < 22) points = 2;
+  else if (time >= 22 && time < 23) points = 1;
+
+  // Keep only the best score for this clip
+  if (points > clipScore) {
+    clipScore = points;
+  }
+}
+
+// Called when video ends — lock in clip score
+function endClipScoring() {
+  hazardScore += clipScore;
+  nextHazardClip();
 }
 
 function nextHazardClip() {
@@ -440,8 +512,10 @@ function nextHazardClip() {
 
 function showHazardSummary() {
   const container = document.getElementById("hazardContainer");
-  container.innerHTML = `<div class="question-card">
-    <p>You scored ${hazardScore} points in the Hazard Perception test.</p>
-    <p>Clips completed: ${hazardClips.length}</p>
-  </div>`;
+  container.innerHTML = `
+    <div class="question-card">
+      <p>You scored ${hazardScore} points in the Hazard Perception test.</p>
+      <p>Clips completed: ${hazardClips.length}</p>
+    </div>
+  `;
 }
