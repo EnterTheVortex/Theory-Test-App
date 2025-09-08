@@ -5,6 +5,7 @@ body {
   padding: 0;
   background: linear-gradient(to right, #f0f4f8, #d9e2ec);
   color: #333;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* ---------------- HEADER ---------------- */
@@ -16,6 +17,7 @@ header {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 header .header-left {
@@ -473,5 +475,43 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ----------------- RESPONSIVE NAVIGATION ----------------- */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .header-left {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .header-nav {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  .header-nav.show {
+    display: flex;
+  }
+
+  .header-nav button {
+    width: 100%;
+    text-align: center;
   }
 }
