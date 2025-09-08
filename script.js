@@ -263,7 +263,6 @@ const roadSignsData = [
   { name: "No U-Turn", image: "images/no-u-turn.png", description: "U-turns are prohibited.", category: "Regulatory" },
   { name: "No Overtaking", image: "images/no-overtaking.png", description: "Overtaking is prohibited.", category: "Regulatory" },
   { name: "No Motor Vehicles", image: "images/no-motor-vehicles.png", description: "Motor vehicles are not allowed.", category: "Regulatory" },
-  { name: "No Parking", image: "images/no-parking.png", description: "Parking is prohibited.", category: "Regulatory" },
   { name: "No Waiting", image: "images/no-waiting.png", description: "Waiting is prohibited.", category: "Regulatory" },
   { name: "One Way Traffic", image: "images/one-way.png", description: "Traffic must travel in the indicated direction.", category: "Regulatory" },
   { name: "No Heavy Goods Vehicles", image: "images/no-hgv.png", description: "Heavy goods vehicles are prohibited.", category: "Regulatory" },
