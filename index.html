@@ -73,16 +73,28 @@
       <button onclick="startMockTestPage()">Start Mock Test</button>
     </section>
 
-    <!-- ROAD SIGNS -->
-    <section id="roadSigns" class="tab hidden">
-      <h2>Road Signs Reference</h2>
-      <label for="roadSignCategory">Choose a category:</label>
-      <select id="roadSignCategory" onchange="showRoadSigns()">
-        <option value="">--Select Category--</option>
-        <!-- Options will be populated dynamically -->
-      </select>
-      <div id="roadSignsContainer" class="road-signs-container"></div>
-    </section>
+   <!-- ROAD SIGNS -->
+<section id="roadSigns" class="tab hidden">
+  <h2>Road Signs Reference</h2>
+
+  <!-- Introductory Description -->
+  <p>Welcome to the Road Signs Reference section! Here you can explore official UK driving theory road signs. Use the dropdown below to filter signs by category. Each card provides:</p>
+  <ul>
+    <li><strong>Sign Image:</strong> A clear visual of the road sign.</li>
+    <li><strong>Sign Name:</strong> The official name of the sign.</li>
+    <li><strong>Description:</strong> A brief explanation of what the sign indicates and how to respond on the road.</li>
+  </ul>
+  <p>Use this section to familiarise yourself with warning signs, regulatory signs, informational signs, and more—perfect for revision and memorisation before your test.</p>
+
+  <!-- Category Filter Dropdown (Dynamic) -->
+  <label for="roadSignCategory">Choose a category:</label>
+  <select id="roadSignCategory" onchange="showRoadSigns()">
+    <option value="">--Select Category--</option>
+    <!-- Options will be populated dynamically from script.js -->
+  </select>
+
+  <div id="roadSignsContainer" class="road-signs-container"></div>
+</section>
 
     <!-- MOCK TEST QUESTIONS -->
     <section id="mockTest" class="tab hidden">
