@@ -123,6 +123,17 @@ nav button:hover {
   background: #fbecec;
 }
 
+/* Highlight answer text */
+.question-card p.your-answer.correct {
+  color: #2ECC40;
+  font-weight: bold;
+}
+
+.question-card p.your-answer.incorrect {
+  color: #FF4136;
+  font-weight: bold;
+}
+
 /* ----------------- OPTION BUTTONS ----------------- */
 button.option {
   display: block;
@@ -335,31 +346,4 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
 
 .popup-content p { margin-bottom: 1.5rem; font-size: 1rem; }
 
-.popup-content button {
-  margin: 0 0.5rem;
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.popup-content button:first-child {
-  background-color: #cccccc; color: #333;
-}
-.popup-content button:first-child:hover {
-  background-color: #999999;
-  transform: scale(1.05);
-}
-
-.popup-content button:last-child {
-  background-color: #0074D9; color: white;
-}
-.popup-content button:last-child:hover {
-  background-color: #00509E;
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-}
+.po
