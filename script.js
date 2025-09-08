@@ -16,29 +16,21 @@ function showTab(tabId) {
 
   // Load road signs if that tab is active
   if (tabId === 'roadSigns') showRoadSigns();
+
+  // Load hazard perception setup if that tab is active
+  if (tabId === 'hazardPerception') setupHazardPerception();
 }
 
 // ------------------- ANSWER RANDOMISATION -------------------
-/**
- * Returns a NEW question object with:
- *  - displayOptions: shuffled copy of q.options
- *  - displayAnswerIndex: index of the correct answer within displayOptions
- * Original q.options/q.answer are untouched.
- */
 function withShuffledOptions(q) {
   const idxs = q.options.map((_, i) => i);
-  // Fisher–Yates shuffle
   for (let i = idxs.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
   }
   const displayOptions = idxs.map(i => q.options[i]);
   const displayAnswerIndex = idxs.indexOf(q.answer);
-  return {
-    ...q,
-    displayOptions,
-    displayAnswerIndex
-  };
+  return { ...q, displayOptions, displayAnswerIndex };
 }
 
 // ------------------- REVISION -------------------
@@ -46,7 +38,6 @@ function startRevision() {
   const category = document.getElementById('categorySelect').value;
   if (!category) return;
 
-  // Prepare questions for this category with per-question shuffled answers
   currentRevisionQuestions = questionsBank
     .filter(q => q.category === category)
     .map(withShuffledOptions);
@@ -100,7 +91,6 @@ function startMockTest() {
   timeRemaining = 57 * 60;
   mockAnswers = Array(50).fill(null);
 
-  // Shuffle order of questions, pick 50, then shuffle the answers within each question
   mockQuestions = shuffleArray([...questionsBank]).slice(0, 50).map(withShuffledOptions);
 
   document.getElementById('mockQuestion').innerHTML = '';
@@ -202,7 +192,6 @@ function closePopup() {
 }
 
 function endMockTest() {
-  // Ensure popup is removed so the summary is fully visible
   closePopup();
 
   clearInterval(timerInterval);
@@ -239,10 +228,9 @@ function endMockTest() {
 
 // ------------------- PROGRESS BAR -------------------
 function updateProgressBar() {
-  const total = mockQuestions.length || 50; // default visual if not started
+  const total = mockQuestions.length || 50;
   const percent = total ? ((mockIndex + 1) / total) * 100 : 0;
-  const fill = document.getElementById('progressBarFill');
-  fill.style.width = percent + '%';
+  document.getElementById('progressBarFill').style.width = percent + '%';
   document.getElementById('progressText').textContent = `Q${Math.min(mockIndex + 1, total)}/${total}`;
 }
 
@@ -389,6 +377,271 @@ const roadSignsData = [
   { name: "Temporary Traffic Lights", image: "images/temporary-traffic-lights.png", description: "Temporary traffic lights ahead.", category: "Temporary" }
 ];
 
+ChatGPT said:
+
+Perfect 👍 Thanks for pasting your full script.js.
+What we’ll do now is extend it with hazard perception functionality. This means adding:
+
+A hazard perception tab (hazardPerception) that can load/display clips.
+
+Basic video player controls.
+
+A simple clicking system to register when the user spots a hazard.
+
+A score calculator (points for clicking during the hazard window).
+
+Here’s an updated script.js with a clean hazard perception module added, without breaking your revision, mock test, or road signs logic:
+
+// ------------------- GLOBAL VARIABLES -------------------
+let currentRevisionQuestions = [];
+let revisionIndex = 0;
+let revisionSelectedAnswers = [];
+
+let mockQuestions = [];
+let mockIndex = 0;
+let mockAnswers = [];
+let timerInterval;
+let timeRemaining = 57 * 60; // 57 minutes
+
+// ------------------- TABS -------------------
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
+  document.getElementById(tabId).classList.remove('hidden');
+
+  // Load road signs if that tab is active
+  if (tabId === 'roadSigns') showRoadSigns();
+
+  // Load hazard perception setup if that tab is active
+  if (tabId === 'hazardPerception') setupHazardPerception();
+}
+
+// ------------------- ANSWER RANDOMISATION -------------------
+function withShuffledOptions(q) {
+  const idxs = q.options.map((_, i) => i);
+  for (let i = idxs.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+  }
+  const displayOptions = idxs.map(i => q.options[i]);
+  const displayAnswerIndex = idxs.indexOf(q.answer);
+  return { ...q, displayOptions, displayAnswerIndex };
+}
+
+// ------------------- REVISION -------------------
+function startRevision() {
+  const category = document.getElementById('categorySelect').value;
+  if (!category) return;
+
+  currentRevisionQuestions = questionsBank
+    .filter(q => q.category === category)
+    .map(withShuffledOptions);
+
+  revisionIndex = 0;
+  revisionSelectedAnswers = Array(currentRevisionQuestions.length).fill(null);
+
+  showRevisionQuestion();
+}
+
+function showRevisionQuestion() {
+  if (revisionIndex >= currentRevisionQuestions.length) {
+    document.getElementById('revisionQuestion').innerHTML =
+      "<div class='question-card'><p>You have completed all revision questions for this category.</p></div>";
+    return;
+  }
+
+  const q = currentRevisionQuestions[revisionIndex];
+  let html = `<div class="question-card"><p><strong>Q${revisionIndex + 1}:</strong> ${q.question}</p>`;
+  q.displayOptions.forEach((opt, i) => {
+    const selectedClass = revisionSelectedAnswers[revisionIndex] === i ? 'selected' : '';
+    html += `<button class="option ${selectedClass}" onclick="checkRevisionAnswer(${i})">${opt}</button>`;
+  });
+  html += `</div>`;
+  document.getElementById('revisionQuestion').innerHTML = html;
+}
+
+function checkRevisionAnswer(selected) {
+  const q = currentRevisionQuestions[revisionIndex];
+  revisionSelectedAnswers[revisionIndex] = selected;
+
+  const buttons = document.querySelectorAll('#revisionQuestion .option');
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.displayAnswerIndex) btn.classList.add('correct');
+    if (i === selected && i !== q.displayAnswerIndex) btn.classList.add('incorrect');
+  });
+
+  revisionIndex++;
+  setTimeout(showRevisionQuestion, 1500);
+}
+
+// ------------------- MOCK TEST -------------------
+function startMockTestPage() {
+  showTab('mockTest');
+  startMockTest();
+}
+
+function startMockTest() {
+  mockIndex = 0;
+  timeRemaining = 57 * 60;
+  mockAnswers = Array(50).fill(null);
+
+  mockQuestions = shuffleArray([...questionsBank]).slice(0, 50).map(withShuffledOptions);
+
+  document.getElementById('mockQuestion').innerHTML = '';
+  document.getElementById('timer').textContent = 'Time Remaining: 57:00';
+  document.getElementById('timer').classList.remove('hidden');
+  document.getElementById('progressContainer').classList.remove('hidden');
+  updateProgressBar();
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
+
+  showMockQuestion();
+}
+
+function updateTimer() {
+  if (timeRemaining <= 0) {
+    clearInterval(timerInterval);
+    endMockTest();
+    return;
+  }
+  timeRemaining--;
+  const minutes = Math.floor(timeRemaining / 60);
+  const seconds = timeRemaining % 60;
+  document.getElementById('timer').textContent = `Time Remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function showMockQuestion() {
+  const q = mockQuestions[mockIndex];
+  const total = mockQuestions.length;
+
+  let html = `<div class="question-card"><p><strong>Q${mockIndex + 1}/${total}:</strong> ${q.question}</p>`;
+  q.displayOptions.forEach((opt, i) => {
+    const selectedClass = mockAnswers[mockIndex] === i ? 'selected' : '';
+    html += `<button class="option ${selectedClass}" onclick="selectMockAnswer(${i})">${opt}</button>`;
+  });
+  html += `</div>`;
+
+  html += `<div class="navigation-buttons">
+    ${mockIndex > 0 ? `<button class="back-btn" onclick="previousQuestion()">Back</button>` : `<div></div>`}
+    ${mockIndex < total - 1
+      ? `<button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next</button>`
+      : `<button class="finish-btn" id="nextBtn" onclick="confirmFinish()" disabled>Finish Test</button>`}
+  </div>`;
+
+  document.getElementById('mockQuestion').innerHTML = html;
+  updateProgressBar();
+
+  if (mockAnswers[mockIndex] !== null) {
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) nextBtn.disabled = false;
+  }
+}
+
+function selectMockAnswer(i) {
+  mockAnswers[mockIndex] = i;
+
+  const buttons = document.querySelectorAll('#mockQuestion .option');
+  buttons.forEach((btn, idx) => {
+    btn.classList.remove('selected');
+    if (idx === i) btn.classList.add('selected');
+  });
+
+  const nextBtn = document.getElementById('nextBtn');
+  if (nextBtn) nextBtn.disabled = false;
+}
+
+function nextQuestion() {
+  if (mockIndex < mockQuestions.length - 1) {
+    mockIndex++;
+    showMockQuestion();
+  }
+}
+
+function previousQuestion() {
+  if (mockIndex > 0) {
+    mockIndex--;
+    showMockQuestion();
+  }
+}
+
+function confirmFinish() {
+  const popupHTML = `
+    <div id="finishPopup" class="popup-overlay">
+      <div class="popup-content">
+        <p>Are you sure you want to finish the test? You can still go back and review your answers before submitting.</p>
+        <div style="display:flex; justify-content:space-between; gap:10px; margin-top:15px;">
+          <button onclick="closePopup()">Go Back</button>
+          <button onclick="endMockTest()">Finish Test</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', popupHTML);
+}
+
+function closePopup() {
+  const popup = document.getElementById('finishPopup');
+  if (popup) popup.remove();
+}
+
+function endMockTest() {
+  closePopup();
+
+  clearInterval(timerInterval);
+  document.getElementById('timer').classList.add('hidden');
+  document.getElementById('progressContainer').classList.add('hidden');
+
+  let score = 0;
+  let allQuestionsHTML = '';
+
+  mockQuestions.forEach((q, i) => {
+    const user = mockAnswers[i];
+    const isCorrect = user === q.displayAnswerIndex;
+    if (isCorrect) score++;
+
+    allQuestionsHTML += `<div class="question-card">
+      <p><strong>Q${i + 1}:</strong> ${q.question}</p>
+      <p class="${isCorrect ? 'correct' : 'incorrect'}">
+        Your answer: ${user !== null ? q.displayOptions[user] : '<em>Not answered</em>'}
+      </p>
+      <p class="correct">Correct answer: ${q.displayOptions[q.displayAnswerIndex]}</p>
+    </div>`;
+  });
+
+  const passFail = score >= 43
+    ? "<p style='color:green; font-weight:bold;'>🎉 Pass!</p>"
+    : "<p style='color:red; font-weight:bold;'>❌ Fail</p>";
+
+  const summaryHTML = `<div class="question-card"><p>You scored ${score} out of ${mockQuestions.length}.</p>${passFail}</div>` + allQuestionsHTML;
+
+  document.getElementById('mockQuestion').innerHTML = summaryHTML;
+  document.getElementById('progressBarFill').style.width = '100%';
+  document.getElementById('progressText').textContent = 'Test Completed';
+}
+
+// ------------------- PROGRESS BAR -------------------
+function updateProgressBar() {
+  const total = mockQuestions.length || 50;
+  const percent = total ? ((mockIndex + 1) / total) * 100 : 0;
+  document.getElementById('progressBarFill').style.width = percent + '%';
+  document.getElementById('progressText').textContent = `Q${Math.min(mockIndex + 1, total)}/${total}`;
+}
+
+// ------------------- UTILITY -------------------
+function shuffleArray(array) {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+// ------------------- ROAD SIGNS DATA -------------------
+/* ... your roadSignsData from before ... */
+
 // ------------------- DISPLAY ROAD SIGNS -------------------
 function showRoadSigns() {
   const category = document.getElementById('roadSignCategory').value;
@@ -414,4 +667,68 @@ function showRoadSigns() {
     `;
     container.appendChild(card);
   });
+}
+
+// ------------------- HAZARD PERCEPTION -------------------
+const hazardClips = [
+  { src: "videos/hazard1.mp4", hazardStart: 8, hazardEnd: 13 },
+  { src: "videos/hazard2.mp4", hazardStart: 12, hazardEnd: 17 },
+  { src: "videos/hazard3.mp4", hazardStart: 5, hazardEnd: 10 }
+];
+
+let currentHazardIndex = 0;
+let hazardScore = 0;
+let hazardClicks = [];
+
+function setupHazardPerception() {
+  currentHazardIndex = 0;
+  hazardScore = 0;
+  hazardClicks = [];
+  loadHazardClip();
+}
+
+function loadHazardClip() {
+  if (currentHazardIndex >= hazardClips.length) {
+    showHazardSummary();
+    return;
+  }
+  const clip = hazardClips[currentHazardIndex];
+  const container = document.getElementById("hazardContainer");
+  container.innerHTML = `
+    <video id="hazardVideo" width="640" height="360" controls autoplay>
+      <source src="${clip.src}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p>Click when you see a developing hazard!</p>
+    <button onclick="registerHazardClick()">Click Hazard</button>
+  `;
+}
+
+function registerHazardClick() {
+  const video = document.getElementById("hazardVideo");
+  if (!video) return;
+  const time = video.currentTime;
+  hazardClicks.push(time);
+
+  const clip = hazardClips[currentHazardIndex];
+  if (time >= clip.hazardStart && time <= clip.hazardEnd) {
+    hazardScore += 5; // Simple scoring: full points if in window
+  } else {
+    hazardScore += 0; // no points
+  }
+}
+
+function nextHazardClip() {
+  currentHazardIndex++;
+  loadHazardClip();
+}
+
+function showHazardSummary() {
+  const container = document.getElementById("hazardContainer");
+  container.innerHTML = `
+    <div class="question-card">
+      <p>You scored ${hazardScore} points in the Hazard Perception test.</p>
+      <p>Clips completed: ${hazardClips.length}</p>
+    </div>
+  `;
 }
