@@ -22,6 +22,7 @@
         <button onclick="showTab('revision')">Revision</button>
         <button onclick="showTab('mockInfo')">Mock Test</button>
         <button onclick="showTab('roadSigns')">Road Signs</button>
+        <button onclick="showTab('hazardPerception')">Hazard Perception</button>
       </nav>
     </div>
   </header>
@@ -36,7 +37,8 @@
       <ul>
         <li><strong>Revision Mode:</strong> Pick a category, practice questions, and immediately see which answers are correct or incorrect. Learn as you go—no surprises!</li>
         <li><strong>Mock Test:</strong> Take a full, randomized mock test that mimics the real DVSA experience. Each test is unique!</li>
-        <li><strong>Track Your Progress:</strong> Challenge yourself and discover areas to improve before the big day.</li>
+        <li><strong>Road Signs:</strong> Browse and learn UK road signs by category.</li>
+        <li><strong>Hazard Perception:</strong> Practise spotting developing hazards using video clips.</li>
       </ul>
       <p>Whether you’re brushing up on road signs, hazard awareness, rules of the road, vehicle handling, or essential documents, this app has you covered. Think of it as your friendly driving mentor—strict on rules, but with a hint of charm. 🚦😉</p>
       <p>Ready to start? Navigate to <strong>Revision</strong> or jump straight into <strong>Mock Test</strong>!</p>
@@ -78,14 +80,11 @@
     <!-- ROAD SIGNS -->
     <section id="roadSigns" class="tab hidden">
       <h2>Road Signs Reference</h2>
-
-      <!-- Category Filter Dropdown (Dynamic) -->
       <label for="roadSignCategory">Choose a category:</label>
       <select id="roadSignCategory" onchange="showRoadSigns()">
         <option value="">--Select Category--</option>
-        <!-- Options will be populated dynamically from script.js -->
+        <!-- Options will be populated dynamically -->
       </select>
-
       <div id="roadSignsContainer" class="road-signs-container"></div>
     </section>
 
@@ -100,23 +99,14 @@
       </div>
       <div id="mockQuestion"></div>
     </section>
+
+    <!-- HAZARD PERCEPTION -->
+    <section id="hazardPerception" class="tab hidden">
+      <h2>Hazard Perception</h2>
+      <p>Watch the video clips and click the button when you spot a developing hazard.</p>
+      <div id="hazardContainer"></div>
+    </section>
   </main>
-
-  <!-- HAZARD PERCEPTION TAB -->
-<section id="hazardPerception" class="tab hidden">
-  <h2>Hazard Perception</h2>
-  <p>In this section you can learn about developing hazards and practise spotting them.</p>
-
-  <!-- Example Hazard Video -->
-  <video id="hazardVideo" width="600" controls>
-    <source src="videos/sample-hazard.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <button id="hazardClickBtn">Click When You See a Hazard</button>
-
-  <div id="hazardResult" class="hazard-result"></div>
-</section>
 
   <!-- FOOTER -->
   <footer>
@@ -128,18 +118,19 @@
   <script src="questions.js"></script>
   <script src="script.js"></script>
 
-  <!-- Populate Road Sign Categories Dynamically -->
+  <!-- Populate Road Sign Categories -->
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const categorySelect = document.getElementById('roadSignCategory');
-      const categories = [...new Set(roadSignsData.map(sign => sign.category))];
-
-      categories.forEach(cat => {
-        const option = document.createElement('option');
-        option.value = cat;
-        option.textContent = cat;
-        categorySelect.appendChild(option);
-      });
+      if (typeof roadSignsData !== 'undefined') {
+        const categories = [...new Set(roadSignsData.map(sign => sign.category))];
+        categories.forEach(cat => {
+          const option = document.createElement('option');
+          option.value = cat;
+          option.textContent = cat;
+          categorySelect.appendChild(option);
+        });
+      }
     });
   </script>
 </body>
