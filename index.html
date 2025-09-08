@@ -105,12 +105,29 @@
       <div id="mockQuestion"></div>
     </section>
 
-    <!-- HAZARD PERCEPTION -->
-    <section id="hazardPerception" class="tab hidden">
-      <h2>Hazard Perception</h2>
-      <p>Watch the video clips and click the button when you spot a developing hazard.</p>
-      <div id="hazardContainer"></div>
-    </section>
+    <!-- ----------------- HAZARD PERCEPTION TAB ----------------- -->
+  <div id="hazardPerception" class="tab hidden">
+
+    <!-- Introductory YouTube Video -->
+    <div class="hazard-intro-video">
+      <iframe width="100%" height="315" 
+              src="https://www.youtube.com/embed/SdQRkmdhwJs" 
+              title="How the Hazard Perception Test Works" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- Interactive Hazard Test Container -->
+    <div id="hazardContainer">
+      <!-- Hazard perception videos and interactive buttons go here -->
+      <!-- Example structure: -->
+      <!-- <video src="hazard1.mp4" controls></video> -->
+      <!-- <button onclick="registerHazardClick()">Click Hazard</button> -->
+    </div>
+
+  </div>
 
     <!-- SUMMARY PAGE -->
     <section id="summary" class="tab hidden">
