@@ -112,6 +112,17 @@ nav button:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+/* Styling for summary cards */
+.question-card.correct {
+  border-left: 6px solid #2ECC40;
+  background: #e9f9ef;
+}
+
+.question-card.incorrect {
+  border-left: 6px solid #FF4136;
+  background: #fbecec;
+}
+
 /* ----------------- OPTION BUTTONS ----------------- */
 button.option {
   display: block;
