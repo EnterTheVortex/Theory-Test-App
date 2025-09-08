@@ -257,7 +257,7 @@ function shuffleArray(array) {
   return array;
 }
 
-// ------------------- ROAD SIGNS DATA (FULLY UPDATED) -------------------
+// ------------------- ROAD SIGNS DATA (FULLY UPDATED + ADDITIONAL) -------------------
 const roadSignsData = [
   // ---------------- Regulatory ----------------
   { name: "Permit Holders Only", image: "images/permit-holders.png", description: "Only vehicles with a valid permit may enter.", category: "Regulatory" },
@@ -289,6 +289,13 @@ const roadSignsData = [
   { name: "End of Minimum Speed 30", image: "images/end-min-speed-30.png", description: "Minimum speed of 30 mph has ended.", category: "Regulatory" },
   { name: "End of Minimum Speed 40", image: "images/end-min-speed-40.png", description: "Minimum speed of 40 mph has ended.", category: "Regulatory" },
   { name: "End of 20mph, Start of 30", image: "images/end-20-start-30.png", description: "Speed limit changes from 20 mph to 30 mph.", category: "Regulatory" },
+  { name: "Average Speed Check", image: "images/average-speed-check.png", description: "Average speed of vehicles monitored over a distance; obey speed limits.", category: "Regulatory" },
+  { name: "Give Way", image: "images/give-way.png", description: "Give way to traffic on the major road; slow down and prepare to stop if necessary.", category: "Regulatory" },
+  { name: "Give Way to Oncoming Traffic", image: "images/give-way-oncoming.png", description: "You must give way to oncoming vehicles.", category: "Regulatory" },
+  { name: "No Articulated Vehicles", image: "images/no-articulated-vehicles.png", description: "Articulated vehicles (trucks with trailers) are prohibited.", category: "Regulatory" },
+  { name: "No Entry", image: "images/no-entry.png", description: "No entry for all vehicles in this direction.", category: "Regulatory" },
+  { name: "No Horse Drawn Vehicles", image: "images/no-horse-drawn.png", description: "Horse drawn vehicles are prohibited.", category: "Regulatory" },
+  { name: "No Vehicle Over Max Height", image: "images/no-vehicles-over-height.png", description: "Vehicles exceeding the maximum height are prohibited.", category: "Regulatory" },
 
   // ---------------- Warning ----------------
   { name: "Segregated Pedal Cycle and Pedestrian Route", image: "images/segregated-cycle.png", description: "Separate lanes for cyclists and pedestrians.", category: "Warning" },
@@ -361,11 +368,9 @@ const roadSignsData = [
 
   // ---------------- Temporary / Other ----------------
   { name: "Temporary Diversion", image: "images/temporary-diversion.png", description: "Temporary diversion; follow directions.", category: "Temporary" },
-  { name: "Temporary Roadworks", image: "images/temporary-roadworks.png", description: "Temporary roadworks ahead.", category: "Temporary" },
   { name: "Temporary Speed Limit", image: "images/temporary-speed-limit.png", description: "Temporary speed restriction in effect.", category: "Temporary" },
   { name: "Temporary Pedestrian Crossing", image: "images/temporary-ped-crossing.png", description: "Temporary pedestrian crossing in use.", category: "Temporary" },
   { name: "Temporary Lane Closure", image: "images/temporary-lane-closure.png", description: "One or more lanes closed temporarily.", category: "Temporary" },
-  { name: "Temporary Narrow Road", image: "images/temporary-narrow-road.png", description: "Road narrows temporarily; drive carefully.", category: "Temporary" },
   { name: "Temporary Traffic Lights", image: "images/temporary-traffic-lights.png", description: "Temporary traffic lights ahead.", category: "Temporary" }
 ];
 
