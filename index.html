@@ -9,19 +9,19 @@
 </head>
 <body>
   <!-- HEADER -->
-<header>
-  <div class="header-left">
-    <h1>DriveWize</h1>
-    <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
-  </div>
-  <nav class="header-nav">
-    <button onclick="showTab('home')">Home</button>
-    <button onclick="showTab('revision')">Revision</button>
-    <button onclick="showTab('mockInfo')">Mock Test</button>
-    <button onclick="showTab('roadSigns')">Road Signs</button>
-    <button onclick="showTab('hazardPerception')">Hazard Perception</button>
-  </nav>
-</header>
+  <header>
+    <div class="header-left">
+      <h1>DriveWize</h1>
+      <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
+    </div>
+    <nav class="header-nav">
+      <button onclick="showTab('home')">Home</button>
+      <button onclick="showTab('revision')">Revision</button>
+      <button onclick="showTab('mockInfo')">Mock Test</button>
+      <button onclick="showTab('roadSigns')">Road Signs</button>
+      <button onclick="showTab('hazardPerception')">Hazard Perception</button>
+    </nav>
+  </header>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -73,28 +73,25 @@
       <button onclick="startMockTestPage()">Start Mock Test</button>
     </section>
 
-   <!-- ROAD SIGNS -->
-<section id="roadSigns" class="tab hidden">
-  <h2>Road Signs Reference</h2>
+    <!-- ROAD SIGNS -->
+    <section id="roadSigns" class="tab hidden">
+      <h2>Road Signs Reference</h2>
+      <p>Welcome to the Road Signs Reference section! Here you can explore lots of official UK driving theory road signs. Use the dropdown below to filter signs by category. Each card provides:</p>
+      <ul>
+        <li><strong>Sign Image:</strong> A clear visual of the road sign.</li>
+        <li><strong>Sign Name:</strong> The official name of the sign.</li>
+        <li><strong>Description:</strong> A brief explanation of what the sign indicates and how to respond on the road.</li>
+      </ul>
+      <p>Use this section to familiarise yourself with warning signs, regulatory signs, informational signs, and more—perfect for revision and memorisation before your test.</p>
 
-  <!-- Introductory Description -->
-  <p>Welcome to the Road Signs Reference section! Here you can explore lots of official UK driving theory road signs. Use the dropdown below to filter signs by category. Each card provides:</p>
-  <ul>
-    <li><strong>Sign Image:</strong> A clear visual of the road sign.</li>
-    <li><strong>Sign Name:</strong> The official name of the sign.</li>
-    <li><strong>Description:</strong> A brief explanation of what the sign indicates and how to respond on the road.</li>
-  </ul>
-  <p>Use this section to familiarise yourself with warning signs, regulatory signs, informational signs, and more—perfect for revision and memorisation before your test.</p>
+      <label for="roadSignCategory">Choose a category:</label>
+      <select id="roadSignCategory" onchange="showRoadSigns()">
+        <option value="">--Select Category--</option>
+        <!-- Options populated dynamically -->
+      </select>
 
-  <!-- Category Filter Dropdown (Dynamic) -->
-  <label for="roadSignCategory">Choose a category:</label>
-  <select id="roadSignCategory" onchange="showRoadSigns()">
-    <option value="">--Select Category--</option>
-    <!-- Options will be populated dynamically from script.js -->
-  </select>
-
-  <div id="roadSignsContainer" class="road-signs-container"></div>
-</section>
+      <div id="roadSignsContainer" class="road-signs-container"></div>
+    </section>
 
     <!-- MOCK TEST QUESTIONS -->
     <section id="mockTest" class="tab hidden">
@@ -113,6 +110,17 @@
       <h2>Hazard Perception</h2>
       <p>Watch the video clips and click the button when you spot a developing hazard.</p>
       <div id="hazardContainer"></div>
+    </section>
+
+    <!-- SUMMARY PAGE -->
+    <section id="summary" class="tab hidden">
+      <!-- SCORE SUMMARY -->
+      <div id="scoreSummary" class="score-summary">
+        <p id="scoreText">You answered 0/50 questions correctly</p>
+        <p id="passFailText" class="pass">Pass</p>
+      </div>
+      <!-- QUESTIONS LIST -->
+      <div id="summaryQuestions"></div>
     </section>
   </main>
 
