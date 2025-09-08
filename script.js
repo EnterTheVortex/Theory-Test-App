@@ -408,9 +408,9 @@ let hazardClicks = [];
 let clipScore = 0; // best score for current clip
 
 // Anti-spam / pattern detection settings
-const MAX_CLICKS_IN_WINDOW = 5; // max allowed clicks in time window
-const CLICK_WINDOW_MS = 2000;   // 2 seconds window
-const MAX_OUTSIDE_HAZARD = 3;   // max clicks outside hazard before restart
+const MAX_CLICKS_IN_WINDOW = 5;
+const CLICK_WINDOW_MS = 2000;
+const MAX_OUTSIDE_HAZARD = 3;
 
 function setupHazardPerception() {
   currentHazardIndex = 0;
@@ -427,7 +427,7 @@ function loadHazardClip() {
   }
 
   hazardClicks = [];
-  clipScore = 0; // reset per clip
+  clipScore = 0;
   const clip = hazardClips[currentHazardIndex];
   const container = document.getElementById("hazardContainer");
 
@@ -502,7 +502,15 @@ function registerHazardClick() {
 // Called when video ends — lock in clip score
 function endClipScoring() {
   hazardScore += clipScore;
-  nextHazardClip();
+
+  const container = document.getElementById("hazardContainer");
+  container.innerHTML = `
+    <div class="question-card">
+      <p>Clip ${currentHazardIndex + 1} finished!</p>
+      <p>Your score for this clip: <strong>${clipScore}/5</strong></p>
+      <button onclick="nextHazardClip()">Next Clip</button>
+    </div>
+  `;
 }
 
 function nextHazardClip() {
@@ -514,7 +522,8 @@ function showHazardSummary() {
   const container = document.getElementById("hazardContainer");
   container.innerHTML = `
     <div class="question-card">
-      <p>You scored ${hazardScore} points in the Hazard Perception test.</p>
+      <h3>Hazard Perception Summary</h3>
+      <p>Total Score: ${hazardScore} out of ${hazardClips.length * 5}</p>
       <p>Clips completed: ${hazardClips.length}</p>
     </div>
   `;
