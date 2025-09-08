@@ -217,10 +217,12 @@ function endMockTest() {
     const isCorrect = user === q.displayAnswerIndex;
     if (isCorrect) score++;
 
-    allQuestionsHTML += `<div class="question-card ${isCorrect ? 'correct' : 'incorrect'}">
+    allQuestionsHTML += `<div class="question-card">
       <p><strong>Q${i + 1}:</strong> ${q.question}</p>
-      <p>Your answer: ${user !== null ? q.displayOptions[user] : '<em>Not answered</em>'}</p>
-      ${!isCorrect ? `<p>Correct answer: ${q.displayOptions[q.displayAnswerIndex]}</p>` : ''}
+      <p class="${isCorrect ? 'correct' : 'incorrect'}">
+        Your answer: ${user !== null ? q.displayOptions[user] : '<em>Not answered</em>'}
+      </p>
+      <p class="correct">Correct answer: ${q.displayOptions[q.displayAnswerIndex]}</p>
     </div>`;
   });
 
