@@ -47,21 +47,45 @@ header .logo {
   gap: 0.8rem;
 }
 
-.header-nav button {
-  padding: 0.6rem 1.2rem;
+/* ----------------- TAB NAVIGATION BUTTONS ----------------- */
+.header-nav button,
+nav button {
+  padding: 0.8rem 1.6rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 25px;
   cursor: pointer;
-  background-color: #0074D9;
-  color: white;
-  font-weight: bold;
-  transition: background-color 0.3s, transform 0.2s;
   font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  background: linear-gradient(to right, #0074D9, #00509E);
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-.header-nav button:hover {
-  background-color: #003f70;
-  transform: scale(1.05);
+/* Hover state */
+.header-nav button:hover,
+nav button:hover {
+  background: linear-gradient(to right, #00509E, #003f70);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* Pressed (active click) state */
+.header-nav button:active,
+nav button:active {
+  transform: scale(0.95);
+  background: linear-gradient(to right, #003f70, #002a4d);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3) inset;
+}
+
+/* Selected (current tab) state */
+.header-nav button.active,
+nav button.active {
+  background: linear-gradient(to right, #FFD700, #FFA500);
+  color: #333;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+  transform: none;
 }
 
 /* ---------------- FOOTER ---------------- */
