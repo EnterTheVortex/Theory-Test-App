@@ -6,27 +6,30 @@
   <title>DriveWize</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:,">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- HEADER -->
   <header>
-  <div class="header-left">
-    <h1>DriveWize</h1>
-    <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
-  </div>
+    <div class="header-left">
+      <h1>DriveWize</h1>
+      <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
+    </div>
 
-  <!-- Hamburger Menu (mobile only) -->
-  <button class="hamburger" onclick="toggleMenu()">☰</button>
+    <!-- Hamburger Menu (mobile only) -->
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
 
-  <!-- Navigation -->
-  <nav class="header-nav">
-    <button onclick="showTab('home')">Home</button>
-    <button onclick="showTab('revision')">Revision</button>
-    <button onclick="showTab('mockInfo')">Mock Test</button>
-    <button onclick="showTab('roadSigns')">Road Signs</button>
-    <button onclick="showTab('hazardPerception')">Hazard Perception</button>
-  </nav>
-</header>
+    <!-- Navigation -->
+    <nav class="header-nav">
+      <button onclick="showTab('home')">Home</button>
+      <button onclick="showTab('revision')">Revision</button>
+      <button onclick="showTab('mockInfo')">Mock Test</button>
+      <button onclick="showTab('roadSigns')">Road Signs</button>
+      <button onclick="showTab('hazardPerception')">Hazard Perception</button>
+    </nav>
+  </header>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -111,28 +114,23 @@
     </section>
 
     <!-- ----------------- HAZARD PERCEPTION TAB ----------------- -->
-  <div id="hazardPerception" class="tab hidden">
+    <div id="hazardPerception" class="tab hidden">
+      <!-- Introductory YouTube Video -->
+      <div class="hazard-intro-video">
+        <iframe width="100%" height="315" 
+                src="https://www.youtube.com/embed/SdQRkmdhwJs" 
+                title="How the Hazard Perception Test Works" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+        </iframe>
+      </div>
 
-    <!-- Introductory YouTube Video -->
-    <div class="hazard-intro-video">
-      <iframe width="100%" height="315" 
-              src="https://www.youtube.com/embed/SdQRkmdhwJs" 
-              title="How the Hazard Perception Test Works" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-              allowfullscreen>
-      </iframe>
+      <!-- Interactive Hazard Test Container -->
+      <div id="hazardContainer">
+        <!-- Hazard perception videos and interactive buttons go here -->
+      </div>
     </div>
-
-    <!-- Interactive Hazard Test Container -->
-    <div id="hazardContainer">
-      <!-- Hazard perception videos and interactive buttons go here -->
-      <!-- Example structure: -->
-      <!-- <video src="hazard1.mp4" controls></video> -->
-      <!-- <button onclick="registerHazardClick()">Click Hazard</button> -->
-    </div>
-
-  </div>
 
     <!-- SUMMARY PAGE -->
     <section id="summary" class="tab hidden">
