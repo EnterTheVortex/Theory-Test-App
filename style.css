@@ -452,6 +452,7 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   font-family: 'Inter', sans-serif;
+  padding: 1.5rem;
 }
 
 #hazardContainer {
@@ -463,8 +464,41 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   max-width: 100%;
   border-radius: 12px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  display: block;
+  margin: 0 auto;
 }
 
+/* Video wrapper for flags */
+.hazard-video-wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Flag marker container */
+.flag-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  width: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Each click flag */
+.flag-marker {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 8px;
+  background: red;
+  border-radius: 2px;
+}
+
+/* Hazard button styling */
 #hazardContainer button {
   margin-top: 1.5rem;
   background: linear-gradient(to right, #FF4136, #c70000);
@@ -486,6 +520,11 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   box-shadow: 0 6px 18px rgba(0,0,0,0.35);
 }
 
+#hazardContainer button:active {
+  transform: scale(0.97);
+}
+
+/* Results card */
 .hazard-result {
   margin-top: 1.5rem;
   font-size: 1.1rem;
