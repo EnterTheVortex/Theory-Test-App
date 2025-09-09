@@ -1,11 +1,16 @@
 /* ----------------- GENERAL BODY ----------------- */
 body {
-  font-family: 'Poppins', sans-serif; /* Default = body font */
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   background: linear-gradient(to right, #f0f4f8, #d9e2ec);
   color: #333;
   overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* ---------------- FONT RULES ---------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif; /* Headings use Poppins */
 }
 
 /* ---------------- HEADER ---------------- */
@@ -29,7 +34,6 @@ header .header-left {
 header h1 {
   margin: 0;
   font-size: 1.8rem;
-  font-family: 'Inter', sans-serif; /* Heading font */
 }
 
 header .logo {
@@ -50,7 +54,7 @@ header .logo {
   cursor: pointer;
   background-color: #0074D9;
   color: white;
-  font-weight: 600;
+  font-weight: bold;
   transition: background-color 0.3s, transform 0.2s;
   font-family: 'Inter', sans-serif;
 }
@@ -73,7 +77,7 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 footer .footer-logo {
@@ -90,7 +94,7 @@ nav button {
   cursor: pointer;
   background-color: #0074D9;
   color: white;
-  font-weight: 600;
+  font-weight: bold;
   transition: background-color 0.3s, transform 0.2s;
   font-family: 'Inter', sans-serif;
 }
@@ -101,7 +105,7 @@ nav button:hover {
 }
 
 /* ----------------- TABS ----------------- */
-.tab { padding: 2rem; }
+.tab { padding: 2rem; font-family: 'Inter', sans-serif; }
 .hidden { display: none; }
 
 /* ----------------- HOME PAGE ----------------- */
@@ -125,8 +129,7 @@ nav button:hover {
   pointer-events: none;
 }
 
-#home h2 { font-family: 'Inter', sans-serif; }
-#home p, #home ul { font-family: 'Poppins', sans-serif; line-height: 1.6; }
+#home p, #home ul { font-family: 'Inter', sans-serif; line-height: 1.6; }
 #home ul { margin-left: 1.5rem; }
 
 /* ----------------- QUESTION CARDS ----------------- */
@@ -139,7 +142,7 @@ nav button:hover {
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
   transition: transform 0.2s, box-shadow 0.2s;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .question-card:hover {
@@ -147,6 +150,7 @@ nav button:hover {
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
+/* Styling for summary cards */
 .question-card.correct {
   border-left: 6px solid #2ECC40;
   background: #e9f9ef;
@@ -157,6 +161,7 @@ nav button:hover {
   background: #fbecec;
 }
 
+/* Highlight “Your answer” text in summary */
 .question-card.correct p:nth-child(3) {
   color: #2ECC40;
   font-weight: bold;
@@ -179,7 +184,7 @@ button.option {
   background-color: #f0f4f8;
   font-size: 1rem;
   transition: background-color 0.3s, color 0.3s, transform 0.2s;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 button.option:hover {
@@ -211,7 +216,7 @@ button.option.selected {
   font-size: 1.1rem;
   transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 #mockInfo button:hover {
@@ -273,7 +278,7 @@ button.option.selected {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .road-sign-card {
@@ -303,7 +308,7 @@ button.option.selected {
   font-weight: bold;
   font-size: 1.2rem;
   margin-top: 1rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* ----------------- PROGRESS BAR ----------------- */
@@ -357,7 +362,7 @@ select {
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 10px 6px;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 select:hover { background-color: #e0ecf8; border-color: #00509E; }
@@ -382,7 +387,7 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   box-shadow: 0 6px 20px rgba(0,0,0,0.2);
   max-width: 450px;
   text-align: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .popup-content p { margin-bottom: 1.5rem; font-size: 1rem; }
@@ -422,7 +427,7 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   background: linear-gradient(to bottom right, #ffffff, #f7f9fb);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 #hazardContainer {
@@ -448,7 +453,7 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   font-size: 1.1rem;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 #hazardContainer button:hover {
@@ -466,9 +471,9 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   opacity: 0;
   transform: translateY(15px);
   animation: slideFadeIn 0.6s ease forwards;
-  font-family: 'Inter', sans-serif;
 }
 
+/* Success & Fail colors */
 .hazard-result.success {
   background: #e9f9ef;
   border-left: 6px solid #2ECC40;
@@ -481,6 +486,7 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   color: #FF4136;
 }
 
+/* Animation keyframes */
 @keyframes slideFadeIn {
   from {
     opacity: 0;
