@@ -22,14 +22,13 @@
     <button class="hamburger" onclick="toggleMenu()">☰</button>
 
     <!-- Navigation -->
-    <nav class="header-nav">
-      <button onclick="showTab('home')">Home</button>
-      <button onclick="showTab('revision')">Revision</button>
-      <button onclick="showTab('mockInfo')">Mock Test</button>
-      <button onclick="showTab('roadSigns')">Road Signs</button>
-      <button onclick="showTab('hazardPerception')">Hazard Perception</button>
-    </nav>
-  </header>
+<nav class="header-nav">
+  <button onclick="showTab('home', event)" class="active">Home</button>
+  <button onclick="showTab('revision', event)">Revision</button>
+  <button onclick="showTab('mockInfo', event)">Mock Test</button>
+  <button onclick="showTab('roadSigns', event)">Road Signs</button>
+  <button onclick="showTab('hazardPerception', event)">Hazard Perception</button>
+</nav>
 
   <!-- MAIN CONTENT -->
   <main>
