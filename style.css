@@ -8,8 +8,12 @@ body {
   overflow-x: hidden;
 }
 
-/* ---------------- HEADER ---------------- */
+/* ----------------- HEADER ----------------- */
 header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   background: #00509E;
   color: white;
   padding: 0.8rem 2rem;
@@ -17,7 +21,7 @@ header {
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  position: relative;
+  z-index: 1000;
 }
 
 header .header-left {
@@ -65,7 +69,14 @@ header .logo {
   background-color: #00509E;
 }
 
-/* ---------------- FOOTER ---------------- */
+/* ----------------- MAIN CONTENT ----------------- */
+main {
+  margin-top: 90px; /* space for fixed header */
+  padding: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ----------------- FOOTER ----------------- */
 footer {
   background: #00509E;
   color: white;
@@ -104,7 +115,7 @@ footer .footer-logo {
 }
 
 #home h2 { font-family: 'Poppins', sans-serif; }
-#home p, #home ul { font-family: 'Inter', sans-serif'; line-height: 1.6; }
+#home p, #home ul { font-family: 'Inter', sans-serif; line-height: 1.6; }
 #home ul { margin-left: 1.5rem; }
 
 /* ----------------- QUESTION CARDS ----------------- */
@@ -115,6 +126,7 @@ footer .footer-logo {
   box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
   transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'Inter', sans-serif;
 }
 
 .question-card:hover {
@@ -183,6 +195,7 @@ button.option.selected {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+  font-family: 'Inter', sans-serif;
 }
 
 .road-sign-card {
@@ -258,6 +271,7 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   background: linear-gradient(to bottom right, #ffffff, #f7f9fb);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2rem;
 }
 
 .hazard-video-wrapper { position: relative; margin-bottom: 2rem; }
@@ -275,8 +289,17 @@ select:focus { border-color: #00509E; box-shadow: 0 0 8px rgba(0, 84, 217, 0.5);
   transition: all 0.3s ease;
 }
 .hazard-video-wrapper button:hover { transform: scale(1.05); box-shadow: 0 6px 18px rgba(0,0,0,0.35); }
+.hazard-video-wrapper button:active { transform: scale(0.95); }
 
-.hazard-flag { position: absolute; bottom: 0; height: 6px; background: red; }
+.hazard-flag {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  background: red;
+  width: 0%;
+  transition: width 0.3s ease;
+}
 
 /* ----------------- RESPONSIVE NAVIGATION ----------------- */
 .hamburger { display: none; font-size: 2rem; background: none; border: none; color: white; cursor: pointer; }
