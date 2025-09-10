@@ -14,11 +14,17 @@ function showTab(tabId, ev) {
   document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
   const target = document.getElementById(tabId);
   if (target) target.classList.remove('hidden');
+
+  // Nav button active state
   const navButtons = document.querySelectorAll('.header-nav button');
   navButtons.forEach(b => b.classList.remove('active'));
   if (ev && ev.currentTarget) ev.currentTarget.classList.add('active');
+
+  // Close mobile nav if open
   const nav = document.querySelector('.header-nav');
   if (nav) nav.classList.remove('show');
+
+  // Special setups
   if (tabId === 'roadSigns') showRoadSigns();
   if (tabId === 'hazardPerception') setupHazardPerception();
 }
@@ -190,7 +196,15 @@ function updateProgressBar() {
   if (text) text.textContent=`Q${Math.min(mockIndex+1,total)}/${total}`;
 }
 
-function shuffleArray(array){ let currentIndex=array.length,randomIndex; while(currentIndex!==0){ randomI
+function shuffleArray(array){
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
 
 // ------------------- ROAD SIGNS DATA (FULLY UPDATED + COMPLETE) -------------------
 const roadSignsData = [
@@ -325,8 +339,6 @@ const roadSignsData = [
 ];
 
 // ------------------- ROAD SIGNS -------------------
-const roadSignsData=[ /* All your road signs data from Regulatory, Warning, Informational, Temporary included exactly as above */ ];
-
 function showRoadSigns() {
   const category=document.getElementById('roadSignCategory').value;
   const container=document.getElementById('roadSignsContainer');
@@ -348,290 +360,45 @@ function showRoadSigns() {
   });
 }
 
-// ------------------- HAZARD PERCEPTION (FULL FEATURED) -------------------
-
-// Settings for anti-spam / misuse detection
-const MAX_CLICKS_IN_WINDOW = 5; // allowed clicks in CLICK_WINDOW_MS before restart
-const CLICK_WINDOW_MS = 2000; // sliding window for rapid-click detection
-const MAX_OUTSIDE_HAZARD = 3; // allowed clicks outside hazard windows for a clip before restart
-
-// hazardClips: supports either .hazards = [{start,end}, ...] for multi-hazard clips
-// or single hazardStart/hazardEnd for legacy entries.
-const hazardClips = [
-  // Example clips (replace with your real local file paths)
-  { src: "videos/hazard1.mp4", hazardStart: 18, hazardEnd: 23 },
-  { src: "videos/hazard2.mp4", hazardStart: 18, hazardEnd: 23 },
-  { src: "videos/hazard3.mp4", hazardStart: 18, hazardEnd: 23 }
-];
-
-let currentHazardIndex = 0;
-let hazardScore = 0;
-let allClicksForClip = []; // persistent clicks for current clip
-let clipBestScores = []; // best score per hazard for current clip
+// ------------------- HAZARD PERCEPTION -------------------
+let hazardClickTimes = [];
 
 function setupHazardPerception() {
-  currentHazardIndex = 0;
-  hazardScore = 0;
-  allClicksForClip = [];
-  clipBestScores = [];
-  loadHazardClip();
-}
-
-function normalizeHazards(clip) {
-  // returns array of {start, end}
-  if (Array.isArray(clip.hazards)) return clip.hazards.map(h => ({ start: h.start, end: h.end }));
-  if (clip.hazardStart !== undefined && clip.hazardEnd !== undefined) return [{ start: clip.hazardStart, end: clip.hazardEnd }];
-  return []; // none
-}
-
-function loadHazardClip() {
-  if (currentHazardIndex >= hazardClips.length) {
-    showHazardSummary();
-    return;
-  }
-
-  allClicksForClip = [];
-  clipBestScores = [];
-
-  const clip = hazardClips[currentHazardIndex];
-  const container = document.getElementById("hazardContainer");
+  const container = document.getElementById('hazardContainer');
   if (!container) return;
 
-  const hazards = normalizeHazards(clip);
-  // initialize clipBestScores to zeros (one per hazard)
-  clipBestScores = new Array(hazards.length).fill(0);
-
   container.innerHTML = `
-    <div class="video-wrapper" style="position:relative; display:inline-block; width:100%; max-width:900px;">
-      <video id="hazardVideo" width="100%" controls preload="metadata">
-        <source src="${clip.src}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <div id="clickOverlay" style="
-          position:absolute;
-          left:0; right:0; bottom:0;
-          height:48px;
-          display:none;
-          align-items:center;
-          justify-content:center;
-          background:rgba(200,0,0,0.92);
-          color:white;
-          font-weight:700;
-          z-index:10;
-          border-bottom-left-radius:12px;
-          border-bottom-right-radius:12px;
-          pointer-events:none;
-          ">
-        CLICK
-      </div>
+    <video id="hazardVideo" width="640" height="360" controls>
+      <source src="videos/hazard1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div style="margin-top: 1rem;">
+      <button onclick="registerHazardClick()">Click When You See a Hazard</button>
     </div>
-
-    <div style="margin-top:12px;">
-      <p style="margin:8px 0 6px 0; font-weight:600;">Click when you see a developing hazard!</p>
-      <button id="hazardClickBtn" class="option" style="display:inline-block;">Click Hazard</button>
-      <p id="clickWarning" style="color:red; font-weight:bold; display:none; margin-top:8px;"></p>
-      <p id="clickCounter" style="margin-top:6px;">Clicks: 0</p>
-    </div>
+    <div id="hazardFlags" class="hazard-flags"></div>
+    <div id="hazardResult" class="hazard-result"></div>
   `;
 
-  const video = document.getElementById('hazardVideo');
-  const btn = document.getElementById('hazardClickBtn');
-
-  // Attach event listeners
-  if (btn) {
-    btn.onclick = () => registerHazardClick();
-  }
-
-  if (video) {
-    // don't autoplay - respects user's request
-    video.currentTime = 0;
-    video.removeAttribute('autoplay');
-    // When video ends, score the clip
-    video.onended = () => endClipScoring();
-  }
-}
-
-// helper: return array of hazard windows for the current clip
-function currentClipHazards() {
-  const clip = hazardClips[currentHazardIndex];
-  return normalizeHazards(clip);
-}
-
-function isInAnyHazardWindow(time) {
-  const hazards = currentClipHazards();
-  return hazards.some(h => time >= h.start && time <= h.end);
-}
-
-// compute points for a click relative to a given hazard window (5..1 or 0)
-function getPointsForTime(time, start, end) {
-  if (time < start || time > end) return 0;
-  const totalLen = (end - start);
-  if (totalLen <= 0) return 5;
-  const segment = totalLen / 5; // five equal segments
-  // index 0 => best (5 points), index 4 => worst (1 point)
-  let idx = Math.floor((time - start) / segment);
-  if (idx < 0) idx = 0;
-  if (idx > 4) idx = 4;
-  return 5 - idx;
+  hazardClickTimes = [];
 }
 
 function registerHazardClick() {
-  const video = document.getElementById("hazardVideo");
-  const warning = document.getElementById("clickWarning");
-  const counter = document.getElementById("clickCounter");
-  const overlay = document.getElementById("clickOverlay");
-  const clip = hazardClips[currentHazardIndex];
+  const video = document.getElementById('hazardVideo');
+  if (!video) return;
 
-  if (!video || !counter) return;
+  const clickTime = video.currentTime;
+  hazardClickTimes.push(clickTime);
 
-  const time = video.currentTime;
-  const now = Date.now();
+  // Add visual red flag
+  const flagsContainer = document.getElementById('hazardFlags');
+  const flag = document.createElement('div');
+  flag.className = 'hazard-flag';
+  flag.style.left = `${(clickTime / video.duration) * 100}%`;
+  flagsContainer.appendChild(flag);
 
-  // record persistent click for this clip
-  allClicksForClip.push({ videoTime: time, timestamp: now });
-
-  // update click counter display (persistent across clip)
-  counter.textContent = `Clicks: ${allClicksForClip.length}`;
-
-  // check recent clicks for spam (sliding window)
-  const recentClicks = allClicksForClip.filter(c => now - c.timestamp <= CLICK_WINDOW_MS).length;
-  if (recentClicks > MAX_CLICKS_IN_WINDOW) {
-    // too many rapid clicks -> restart clip
-    if (warning) {
-      warning.textContent = "Too many rapid clicks! Restarting clip...";
-      warning.style.display = "block";
-    }
-    restartCurrentClip(video);
-    return;
-  }
-
-  // suspicious pattern: too many clicks outside hazard windows during this clip
-  const hazards = currentClipHazards();
-  const outsideClicksCount = allClicksForClip.filter(c => {
-    // click outside all hazard windows
-    return !hazards.some(h => c.videoTime >= h.start && c.videoTime <= h.end);
-  }).length;
-
-  if (outsideClicksCount > MAX_OUTSIDE_HAZARD) {
-    if (warning) {
-      warning.textContent = "Suspicious click pattern detected! Restarting clip...";
-      warning.style.display = "block";
-    }
-    restartCurrentClip(video);
-    return;
-  }
-
-  // Award points for any hazard window(s) this click intersects; keep best per hazard
-  hazards.forEach((h, i) => {
-    const pts = getPointsForTime(time, h.start, h.end);
-    if (pts > (clipBestScores[i] || 0)) {
-      clipBestScores[i] = pts;
-    }
-  });
-
-  // Show overlay for user feedback (brief red flag at bottom)
-  if (overlay) {
-    // show points if inside hazard, otherwise show "MISS"
-    const ptsForThisClick = hazards.reduce((acc, h) => {
-      return Math.max(acc, getPointsForTime(time, h.start, h.end));
-    }, 0);
-    overlay.textContent = ptsForThisClick > 0 ? `+${ptsForThisClick}` : 'MISS';
-    overlay.style.display = 'flex';
-    // fade after short delay
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 700);
-  }
-
-  // clear warning after a short time if present
-  if (warning) {
-    setTimeout(() => {
-      warning.style.display = 'none';
-    }, 1500);
-  }
-}
-
-function restartCurrentClip(video) {
-  // reset clip state and replay from start
-  allClicksForClip = [];
-  clipBestScores = new Array(currentClipHazards().length).fill(0);
-  // update UI
-  const counter = document.getElementById("clickCounter");
-  if (counter) counter.textContent = `Clicks: 0`;
-  const overlay = document.getElementById("clickOverlay");
-  if (overlay) overlay.style.display = 'none';
-  // rewind and play
-  if (video) {
-    try {
-      video.currentTime = 0;
-      video.play();
-    } catch (e) {
-      // some browsers block autoplay - that's ok
-      // user can press play manually
-    }
-  }
-}
-
-function endClipScoring() {
-  // sum clip best scores
-  const clipSum = clipBestScores.reduce((s, v) => s + (v || 0), 0);
-  hazardScore += clipSum;
-
-  const container = document.getElementById("hazardContainer");
-  if (!container) return;
-
-  // compute max for this clip
-  const maxForClip = (currentClipHazards().length) * 5;
-
-  // Build list of best scores per hazard for info
-  let detailHtml = '';
-  if (clipBestScores.length > 0) {
-    clipBestScores.forEach((s, i) => {
-      detailHtml += `<p> Hazard ${i+1}: ${s || 0} / 5</p>`;
-    });
-  }
-
-  container.innerHTML = `
-    <div class="question-card">
-      <p>Clip ${currentHazardIndex + 1} finished!</p>
-      <p>Your score for this clip: <strong>${clipSum}/${maxForClip}</strong></p>
-      ${detailHtml}
-      <div style="margin-top:12px;">
-        <button class="next-btn" onclick="nextHazardClip()">Next Clip</button>
-        <button class="back-btn" onclick="replayCurrentClip()">Replay Clip</button>
-      </div>
-    </div>
-  `;
-}
-
-function replayCurrentClip() {
-  // simply reload same clip
-  loadHazardClip();
-}
-
-function nextHazardClip() {
-  currentHazardIndex++;
-  loadHazardClip();
-}
-
-function showHazardSummary() {
-  const container = document.getElementById("hazardContainer");
-  if (!container) return;
-  const totalPossible = hazardClips.reduce((acc, clip) => {
-    const hazards = normalizeHazards(clip);
-    return acc + hazards.length * 5;
-  }, 0);
-
-  container.innerHTML = `
-    <div class="question-card">
-      <h3>Hazard Perception Summary</h3>
-      <p>Total Score: <strong>${hazardScore}</strong> out of <strong>${totalPossible}</strong></p>
-      <p>Clips completed: ${hazardClips.length}</p>
-      <div style="margin-top:12px;">
-        <button onclick="setupHazardPerception()" class="next-btn">Try Again</button>
-      </div>
-    </div>
-  `;
+  const result = document.getElementById('hazardResult');
+  result.textContent = `Hazard clicked at ${clickTime.toFixed(1)}s`;
+  result.className = 'hazard-result success';
 }
 
 // ------------------- INITIALISATION -------------------
@@ -648,34 +415,20 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // make nav buttons behave even if inline onclick is used:
+  // make nav buttons behave even if inline onclick is used
   document.querySelectorAll('.header-nav button').forEach(btn => {
-    // if button has an inline onclick already, safe to also attach a listener because showTab is idempotent
     const onclickAttr = btn.getAttribute('onclick') || '';
-    // try to parse tab id used inline: showTab('tabId')
     const match = onclickAttr.match(/showTab\((['"])(.*?)\1/);
     if (match) {
       const tabId = match[2];
       btn.addEventListener('click', (ev) => showTab(tabId, ev));
-    } else {
-      // fallback - attempt to map by text content (lowercase)
-      const txt = (btn.textContent || '').trim().toLowerCase().replace(/\s+/g, '');
-      btn.addEventListener('click', (ev) => {
-        // try map
-        if (txt === 'home') showTab('home', ev);
-        else if (txt === 'revision') showTab('revision', ev);
-        else if (txt === 'mocktest' || txt === 'mocktest') showTab('mockInfo', ev);
-        else if (txt === 'roadsigns') showTab('roadSigns', ev);
-        else if (txt === 'hazardperception') showTab('hazardPerception', ev);
-        else showTab('home', ev);
-      });
     }
   });
 
-  // set default active tab (Home)
+  // default tab
   showTab('home');
 
-  // hamburger toggle (if present)
+  // hamburger toggle
   const hamburger = document.querySelector('.hamburger');
   if (hamburger) hamburger.addEventListener('click', toggleMenu);
 });
