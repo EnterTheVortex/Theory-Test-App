@@ -4,9 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DriveWize</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
   <link rel="icon" href="data:,">
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
@@ -14,8 +13,8 @@
   <!-- HEADER -->
   <header>
     <div class="header-left">
-      <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
       <h1>DriveWize</h1>
+      <img src="./images/logo.png" alt="Driving Theory Logo" class="logo">
     </div>
 
     <!-- Hamburger Menu (mobile only) -->
@@ -44,7 +43,7 @@
         <li><strong>Road Signs:</strong> Browse and learn UK road signs by category.</li>
         <li><strong>Hazard Perception:</strong> Practise spotting developing hazards using video clips.</li>
       </ul>
-      <p>Whether you’re brushing up on road signs, hazard awareness, rules of the road, vehicle handling, or essential documents, this app has you covered. 🚦😉</p>
+      <p>Whether you’re brushing up on road signs, hazard awareness, rules of the road, vehicle handling, or essential documents, this app has you covered.</p>
       <p>Ready to start? Navigate to <strong>Revision</strong> or jump straight into <strong>Mock Test</strong>!</p>
     </section>
 
@@ -69,13 +68,23 @@
       <div class="info-card">
         <h3>Before You Start</h3>
         <ul>
-          <li>The mock test consists of <strong>50 questions</strong>.</li>
-          <li>You must answer within <strong>57 minutes</strong>, similar to the official DVSA test.</li>
+          <li>The mock test consists of <strong>50 questions</strong> randomly selected from all categories.</li>
+          <li>You must answer all questions within <strong>57 minutes</strong>, similar to the official DVSA test.</li>
           <li>A passing score is <strong>43/50</strong> (86%).</li>
+          <li>You can navigate back to previous questions before submitting.</li>
         </ul>
-        <p>Good luck!</p>
       </div>
       <button onclick="startMockTestPage()">Start Mock Test</button>
+    </section>
+
+    <!-- ROAD SIGNS -->
+    <section id="roadSigns" class="tab hidden">
+      <h2>Road Signs Reference</h2>
+      <label for="roadSignCategory">Choose a category:</label>
+      <select id="roadSignCategory" onchange="showRoadSigns()">
+        <option value="">--Select Category--</option>
+      </select>
+      <div id="roadSignsContainer" class="road-signs-container"></div>
     </section>
 
     <!-- MOCK TEST QUESTIONS -->
@@ -90,29 +99,18 @@
       <div id="mockQuestion"></div>
     </section>
 
-    <!-- ROAD SIGNS -->
-    <section id="roadSigns" class="tab hidden">
-      <h2>Road Signs Reference</h2>
-      <p>Explore official UK driving theory road signs.</p>
-      <label for="roadSignCategory">Choose a category:</label>
-      <select id="roadSignCategory" onchange="showRoadSigns()">
-        <option value="">--Select Category--</option>
-      </select>
-      <div id="roadSignsContainer" class="road-signs-container"></div>
-    </section>
-
     <!-- HAZARD PERCEPTION -->
     <section id="hazardPerception" class="tab hidden">
       <div class="hazard-intro-video">
-        <iframe width="100%" height="315" 
-                src="https://www.youtube.com/embed/SdQRkmdhwJs" 
-                title="How the Hazard Perception Test Works" 
-                frameborder="0" allowfullscreen></iframe>
+        <video width="100%" height="315" controls>
+          <source src="./videos/hazard1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
       <div id="hazardContainer"></div>
     </section>
 
-    <!-- SUMMARY -->
+    <!-- SUMMARY PAGE -->
     <section id="summary" class="tab hidden">
       <div id="scoreSummary" class="score-summary">
         <p id="scoreText">You answered 0/50 questions correctly</p>
@@ -125,15 +123,15 @@
   <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Theory Test App. Designed for learners, by professionals.</p>
-    <img src="images/logo.png" alt="Footer Logo" class="logo footer-logo">
+    <img src="./images/logo.png" alt="Footer Logo" class="logo footer-logo">
   </footer>
 
   <!-- SCRIPTS -->
-  <script src="questions.js"></script>
-  <script src="script.js"></script>
+  <script src="./questions.js"></script>
+  <script src="./script.js"></script>
 
-  <!-- Populate Road Sign Categories -->
   <script>
+    // Populate Road Sign Categories
     window.addEventListener('DOMContentLoaded', () => {
       const categorySelect = document.getElementById('roadSignCategory');
       if (typeof roadSignsData !== 'undefined') {
