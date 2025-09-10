@@ -4,31 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DriveWize</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" href="data:,">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- HEADER -->
   <header>
-    <div class="header-left">
-      <h1>DriveWize</h1>
-      <img src="./images/logo.png" alt="Driving Theory Logo" class="logo">
-    </div>
+  <div class="header-left">
+    <h1>DriveWize</h1>
+    <img src="images/logo.png" alt="Driving Theory Logo" class="logo">
+  </div>
 
-    <!-- Hamburger Menu (mobile only) -->
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
+  <!-- Hamburger Menu (mobile only) -->
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
 
-    <!-- Navigation -->
-    <nav class="header-nav">
-      <button onclick="showTab('home')" class="active">Home</button>
-      <button onclick="showTab('revision')">Revision</button>
-      <button onclick="showTab('mockInfo')">Mock Test</button>
-      <button onclick="showTab('roadSigns')">Road Signs</button>
-      <button onclick="showTab('hazardPerception')">Hazard Perception</button>
-    </nav>
-  </header>
+  <!-- Navigation -->
+  <nav class="header-nav">
+    <button onclick="showTab('home')">Home</button>
+    <button onclick="showTab('revision')">Revision</button>
+    <button onclick="showTab('mockInfo')">Mock Test</button>
+    <button onclick="showTab('roadSigns')">Road Signs</button>
+    <button onclick="showTab('hazardPerception')">Hazard Perception</button>
+  </nav>
+</header>
 
   <!-- MAIN CONTENT -->
   <main>
@@ -38,12 +36,12 @@
       <p>Prepare to conquer your driving theory test with confidence! 🚗💨</p>
       <p>This app is your one-stop digital companion for mastering the UK driving theory test. Here’s what you can do:</p>
       <ul>
-        <li><strong>Revision Mode:</strong> Pick a category, practice questions, and immediately see which answers are correct or incorrect.</li>
-        <li><strong>Mock Test:</strong> Take a full, randomized mock test that mimics the real DVSA experience.</li>
+        <li><strong>Revision Mode:</strong> Pick a category, practice questions, and immediately see which answers are correct or incorrect. Learn as you go—no surprises!</li>
+        <li><strong>Mock Test:</strong> Take a full, randomized mock test that mimics the real DVSA experience. Each test is unique!</li>
         <li><strong>Road Signs:</strong> Browse and learn UK road signs by category.</li>
         <li><strong>Hazard Perception:</strong> Practise spotting developing hazards using video clips.</li>
       </ul>
-      <p>Whether you’re brushing up on road signs, hazard awareness, rules of the road, vehicle handling, or essential documents, this app has you covered.</p>
+      <p>Whether you’re brushing up on road signs, hazard awareness, rules of the road, vehicle handling, or essential documents, this app has you covered. Think of it as your friendly driving mentor—strict on rules, but with a hint of charm. 🚦😉</p>
       <p>Ready to start? Navigate to <strong>Revision</strong> or jump straight into <strong>Mock Test</strong>!</p>
     </section>
 
@@ -72,7 +70,10 @@
           <li>You must answer all questions within <strong>57 minutes</strong>, similar to the official DVSA test.</li>
           <li>A passing score is <strong>43/50</strong> (86%).</li>
           <li>You can navigate back to previous questions before submitting.</li>
+          <li>Select the most appropriate answer for each question.</li>
+          <li>Answers are highlighted after submission for self-assessment.</li>
         </ul>
+        <p>Make sure you are ready and focused. Good luck!</p>
       </div>
       <button onclick="startMockTestPage()">Start Mock Test</button>
     </section>
@@ -80,10 +81,20 @@
     <!-- ROAD SIGNS -->
     <section id="roadSigns" class="tab hidden">
       <h2>Road Signs Reference</h2>
+      <p>Welcome to the Road Signs Reference section! Here you can explore lots of official UK driving theory road signs. Use the dropdown below to filter signs by category. Each card provides:</p>
+      <ul>
+        <li><strong>Sign Image:</strong> A clear visual of the road sign.</li>
+        <li><strong>Sign Name:</strong> The official name of the sign.</li>
+        <li><strong>Description:</strong> A brief explanation of what the sign indicates and how to respond on the road.</li>
+      </ul>
+      <p>Use this section to familiarise yourself with warning signs, regulatory signs, informational signs, and more—perfect for revision and memorisation before your test.</p>
+
       <label for="roadSignCategory">Choose a category:</label>
       <select id="roadSignCategory" onchange="showRoadSigns()">
         <option value="">--Select Category--</option>
+        <!-- Options populated dynamically -->
       </select>
+
       <div id="roadSignsContainer" class="road-signs-container"></div>
     </section>
 
@@ -99,17 +110,38 @@
       <div id="mockQuestion"></div>
     </section>
 
-    <!-- HAZARD PERCEPTION -->
-    <section id="hazardPerception" class="tab hidden">
-      <div id="hazardContainer"></div>
-    </section>
+    <!-- ----------------- HAZARD PERCEPTION TAB ----------------- -->
+  <div id="hazardPerception" class="tab hidden">
+
+    <!-- Introductory YouTube Video -->
+    <div class="hazard-intro-video">
+      <iframe width="100%" height="315" 
+              src="https://www.youtube.com/embed/SdQRkmdhwJs" 
+              title="How the Hazard Perception Test Works" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- Interactive Hazard Test Container -->
+    <div id="hazardContainer">
+      <!-- Hazard perception videos and interactive buttons go here -->
+      <!-- Example structure: -->
+      <!-- <video src="hazard1.mp4" controls></video> -->
+      <!-- <button onclick="registerHazardClick()">Click Hazard</button> -->
+    </div>
+
+  </div>
 
     <!-- SUMMARY PAGE -->
     <section id="summary" class="tab hidden">
+      <!-- SCORE SUMMARY -->
       <div id="scoreSummary" class="score-summary">
         <p id="scoreText">You answered 0/50 questions correctly</p>
         <p id="passFailText" class="pass">Pass</p>
       </div>
+      <!-- QUESTIONS LIST -->
       <div id="summaryQuestions"></div>
     </section>
   </main>
@@ -117,15 +149,15 @@
   <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Theory Test App. Designed for learners, by professionals.</p>
-    <img src="./images/logo.png" alt="Footer Logo" class="logo footer-logo">
+    <img src="images/logo.png" alt="Footer Logo" class="logo footer-logo">
   </footer>
 
   <!-- SCRIPTS -->
-  <script src="./questions.js"></script>
-  <script src="./script.js"></script>
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
 
+  <!-- Populate Road Sign Categories -->
   <script>
-    // Populate Road Sign Categories
     window.addEventListener('DOMContentLoaded', () => {
       const categorySelect = document.getElementById('roadSignCategory');
       if (typeof roadSignsData !== 'undefined') {
