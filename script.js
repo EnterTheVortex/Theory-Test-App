@@ -143,7 +143,7 @@ const roadSignsData = [
   { name: "Temporary Traffic Lights", image: "images/temporary-traffic-lights.png", description: "Temporary traffic lights ahead.", category: "Temporary" }
 ];
 
-// ------------------- UTILITIES -------------------
+// ------------------- UTILITY FUNCTIONS -------------------
 function shuffleArray(array) {
   let currentIndex = array.length, randomIndex;
   while (currentIndex !== 0) {
@@ -168,11 +168,17 @@ function withShuffledOptions(q) {
 // ------------------- NAV & TABS -------------------
 function showTab(tabId) {
   document.querySelectorAll('.tab').forEach(tab => tab.classList.add('hidden'));
-  const target = document.getElementById(tabId);
-  if (target) target.classList.remove('hidden');
+  document.getElementById(tabId)?.classList.remove('hidden');
+  document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`nav button[onclick="showTab('${tabId}')"]`)?.classList.add('active');
 
-  // Initialize Hazard Perception when showing its tab
-  if(tabId === 'hazardPerception') setupHazardPerception();
+  if (tabId === 'hazardPerception') setupHazardPerception();
+  if (tabId === 'mockTest') startMockTestPage();
+}
+
+// Hamburger toggle for mobile
+function toggleMenu() {
+  document.querySelector('nav.header-nav')?.classList.toggle('open');
 }
 
 // ------------------- REVISION -------------------
@@ -225,7 +231,6 @@ function checkRevisionAnswer(selected) {
 function showRoadSigns() {
   const category = document.getElementById('roadSignCategory').value;
   const container = document.getElementById('roadSignsContainer');
-  if (!container) return;
   container.innerHTML = '';
 
   if (!category) return;
@@ -248,95 +253,9 @@ function showRoadSigns() {
   });
 }
 
-// ------------------- MOCK TEST -------------------
-function startMockTestPage() {
-  if(!questionsBank || !questionsBank.length) return;
-  appState.mockQuestions = shuffleArray([...questionsBank]).slice(0,50).map(withShuffledOptions);
-  appState.mockIndex = 0;
-  appState.mockAnswers = Array(appState.mockQuestions.length).fill(null);
-  appState.timeRemaining = 57 * 60;
-  clearInterval(appState.timerInterval);
-  appState.timerInterval = setInterval(updateMockTimer, 1000);
-  showTab('mockTest');
-  showMockQuestion();
-}
-
-function updateMockTimer() {
-  if(appState.timeRemaining <= 0){
-    clearInterval(appState.timerInterval);
-    finishMockTest();
-    return;
-  }
-  appState.timeRemaining--;
-  const minutes = Math.floor(appState.timeRemaining / 60);
-  const seconds = appState.timeRemaining % 60;
-  document.getElementById('timer').textContent = `Time Remaining: ${minutes}:${seconds.toString().padStart(2,'0')}`;
-}
-
-function showMockQuestion() {
-  if(appState.mockIndex >= appState.mockQuestions.length) {
-    finishMockTest();
-    return;
-  }
-
-  const q = appState.mockQuestions[appState.mockIndex];
-  const progressText = `Q${appState.mockIndex + 1}/50`;
-  document.getElementById('progressText').textContent = progressText;
-  const progressFill = (appState.mockIndex / 50) * 100;
-  document.getElementById('progressBarFill').style.width = `${progressFill}%`;
-
-  let html = `<div class="question-card"><p><strong>Q${appState.mockIndex + 1}:</strong> ${q.question}</p>`;
-  q.displayOptions.forEach((opt, i) => {
-    html += `<button class="option" onclick="checkMockAnswer(${i})">${opt}</button>`;
-  });
-  html += `</div>`;
-  document.getElementById('mockQuestion').innerHTML = html;
-}
-
-function checkMockAnswer(selected) {
-  const q = appState.mockQuestions[appState.mockIndex];
-  appState.mockAnswers[appState.mockIndex] = selected;
-
-  document.querySelectorAll('#mockQuestion .option').forEach((btn, i) => {
-    btn.disabled = true;
-    if(i === q.displayAnswerIndex) btn.classList.add('correct');
-    if(i === selected && i !== q.displayAnswerIndex) btn.classList.add('incorrect');
-  });
-
-  appState.mockIndex++;
-  setTimeout(showMockQuestion, 1500);
-}
-
-function finishMockTest() {
-  clearInterval(appState.timerInterval);
-  showTab('summary');
-
-  const correctCount = appState.mockQuestions.reduce((acc, q, idx) => {
-    return acc + (appState.mockAnswers[idx] === q.displayAnswerIndex ? 1 : 0);
-  },0);
-
-  document.getElementById('scoreText').textContent = `You answered ${correctCount}/50 questions correctly`;
-  const passFail = correctCount >= 43 ? 'Pass' : 'Fail';
-  document.getElementById('passFailText').textContent = passFail;
-  document.getElementById('passFailText').className = passFail === 'Pass' ? 'pass' : 'fail';
-
-  const summaryContainer = document.getElementById('summaryQuestions');
-  summaryContainer.innerHTML = '';
-  appState.mockQuestions.forEach((q, idx) => {
-    const div = document.createElement('div');
-    div.className = 'question-card';
-    const yourAnswer = appState.mockAnswers[idx] !== null ? q.displayOptions[appState.mockAnswers[idx]] : 'No Answer';
-    div.innerHTML = `<p><strong>Q${idx+1}:</strong> ${q.question}</p>
-                     <p><strong>Your Answer:</strong> ${yourAnswer}</p>
-                     <p><strong>Correct Answer:</strong> ${q.displayOptions[q.displayAnswerIndex]}</p>`;
-    summaryContainer.appendChild(div);
-  });
-}
-
 // ------------------- HAZARD PERCEPTION -------------------
 function setupHazardPerception() {
   const container = document.getElementById('hazardContainer');
-  if(!container) return;
   container.innerHTML = `
     <video id="hazardVideo" width="640" height="360" controls>
       <source src="videos/hazard1.mp4" type="video/mp4">
@@ -353,7 +272,7 @@ function setupHazardPerception() {
 
 function registerHazardClick() {
   const video = document.getElementById('hazardVideo');
-  if(!video) return;
+  if (!video) return;
   const clickTime = video.currentTime;
   appState.hazardClickTimes.push(clickTime);
 
@@ -366,4 +285,90 @@ function registerHazardClick() {
   const result = document.getElementById('hazardResult');
   result.textContent = `Hazard clicked at ${clickTime.toFixed(1)}s`;
   result.className = 'hazard-result success';
+}
+
+// ------------------- MOCK TEST -------------------
+function startMockTestPage() {
+  appState.mockQuestions = shuffleArray(questionsBank).slice(0, 50).map(withShuffledOptions);
+  appState.mockIndex = 0;
+  appState.mockAnswers = Array(appState.mockQuestions.length).fill(null);
+  appState.timeRemaining = 57 * 60;
+  showMockQuestion();
+  startTimer();
+  showTab('mockTest');
+}
+
+function showMockQuestion() {
+  if (appState.mockIndex >= appState.mockQuestions.length) {
+    endMockTest();
+    return;
+  }
+
+  const q = appState.mockQuestions[appState.mockIndex];
+  let html = `<div class="question-card"><p><strong>Q${appState.mockIndex + 1}:</strong> ${q.question}</p>`;
+  q.displayOptions.forEach((opt, i) => {
+    html += `<button class="option" onclick="selectMockAnswer(${i})">${opt}</button>`;
+  });
+  html += `</div>`;
+  document.getElementById('mockQuestion').innerHTML = html;
+
+  updateProgress();
+}
+
+function selectMockAnswer(selected) {
+  appState.mockAnswers[appState.mockIndex] = selected;
+  appState.mockIndex++;
+  showMockQuestion();
+}
+
+function updateProgress() {
+  const progressText = document.getElementById('progressText');
+  const fill = document.getElementById('progressBarFill');
+  progressText.textContent = `Q${appState.mockIndex}/${appState.mockQuestions.length}`;
+  fill.style.width = `${(appState.mockIndex / appState.mockQuestions.length) * 100}%`;
+}
+
+// Timer for mock test
+function startTimer() {
+  clearInterval(appState.timerInterval);
+  const timerEl = document.getElementById('timer');
+  appState.timerInterval = setInterval(() => {
+    if (appState.timeRemaining <= 0) {
+      clearInterval(appState.timerInterval);
+      endMockTest();
+      return;
+    }
+    appState.timeRemaining--;
+    const mins = Math.floor(appState.timeRemaining / 60);
+    const secs = appState.timeRemaining % 60;
+    timerEl.textContent = `Time Remaining: ${mins}:${secs.toString().padStart(2,'0')}`;
+  }, 1000);
+}
+
+// End of mock test
+function endMockTest() {
+  clearInterval(appState.timerInterval);
+  let correctCount = 0;
+  appState.mockQuestions.forEach((q, i) => {
+    if (appState.mockAnswers[i] === q.displayAnswerIndex) correctCount++;
+  });
+
+  const passFail = correctCount >= 43 ? 'Pass' : 'Fail';
+  document.getElementById('scoreText').textContent = `You answered ${correctCount}/${appState.mockQuestions.length} questions correctly`;
+  const passFailEl = document.getElementById('passFailText');
+  passFailEl.textContent = passFail;
+  passFailEl.className = passFail.toLowerCase();
+
+  const summaryContainer = document.getElementById('summaryQuestions');
+  summaryContainer.innerHTML = '';
+  appState.mockQuestions.forEach((q, i) => {
+    const div = document.createElement('div');
+    div.className = 'question-card';
+    div.innerHTML = `<p><strong>Q${i+1}:</strong> ${q.question}</p>
+      <p>Correct Answer: ${q.displayOptions[q.displayAnswerIndex]}</p>
+      <p>Your Answer: ${q.displayOptions[appState.mockAnswers[i]] || 'No Answer'}</p>`;
+    summaryContainer.appendChild(div);
+  });
+
+  showTab('summary');
 }
